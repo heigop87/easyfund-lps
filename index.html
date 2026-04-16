@@ -4,791 +4,877 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EasyFund LPS — YachtWay</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy: #0B1E3E;
-  --navy2: #152A52;
-  --teal: #0FA88C;
-  --teal-dim: #0D7C66;
-  --teal-bg: #E0F5F1;
-  --gold: #B8892A;
-  --gold-bg: #FDF3DC;
-  --purple: #5B21B6;
-  --purple-bg: #F5F3FF;
-  --red: #B91C1C;
-  --red-bg: #FEF2F2;
-  --amber: #D97706;
-  --amber-bg: #FFFBEB;
-  --sidebar-w: 200px;
-  --header-h: 52px;
-  --bg-primary: #ffffff;
-  --bg-secondary: #F8FAFC;
-  --bg-tertiary: #F1F5F9;
-  --text-primary: #0F172A;
-  --text-secondary: #64748B;
-  --border: rgba(15,23,42,0.12);
-  --border-md: rgba(15,23,42,0.22);
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  /* YachtWay brand colors — exact spec */
+  --brand-800:#260754;
+  --brand-900:#2B0033;
+  --brand-700:#4B0EA3;
+  --brand-600:#6430B0;
+  --brand-500:#7E528E;
+  --grad-a:linear-gradient(254.25deg,#8729FA,#2B0075);
+  --grad-b:linear-gradient(304.46deg,#8334DA,#4409D7);
+  /* secondary */
+  --teal:#0FA88C;
+  --teal-d:#0D7C66;
+  --teal-bg:#E0F5F1;
+  --red:#F97066;
+  --red-bg:#FFF1F0;
+  --amber:#FDB022;
+  --amber-bg:#FFFAEB;
+  --green:#32D583;
+  --green-bg:#ECFDF5;
+  /* grays */
+  --g10:#F9FAFB;
+  --g25:#F6F6F7;
+  --g50:#F1F1F2;
+  --g100:#DCDCDE;
+  --g200:#C1C1C4;
+  --g300:#A6A6AB;
+  --white:#FFFFFF;
+  --black:#000000;
+  /* surfaces */
+  --bg:#F9F9F9;
+  --surface:#FFFFFF;
+  --text:#000000;
+  --muted:#A6A6AB;
+  --border:rgba(0,0,0,0.08);
+  --border2:rgba(0,0,0,0.14);
+  /* radii */
+  --r:8px; --rl:12px; --rxl:16px;
+  --font-head:'Poppins',sans-serif;
+  --font-body:'Figtree',sans-serif;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; }
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
-  font-size: 13px;
-  line-height: 1.5;
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;}
 
-.app { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+/* ── TOPNAV ── */
+.topnav{height:56px;background:var(--brand-800);display:flex;align-items:center;padding:0 20px;gap:14px;flex-shrink:0;z-index:20;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:34px;height:34px;border-radius:8px;background:var(--grad-a);display:flex;align-items:center;justify-content:center;}
+.logo-mark svg{width:20px;height:20px;fill:white;}
+.logo-name{font-family:var(--font-head);font-size:16px;font-weight:700;color:white;letter-spacing:-0.3px;}
+.logo-name span{background:var(--grad-a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.logo-div{width:1px;height:20px;background:rgba(255,255,255,0.2);margin:0 6px;}
+.logo-prod{font-family:var(--font-body);font-size:11px;font-weight:500;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.1em;}
+.nav-space{flex:1;}
+.role-switcher{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.15);border-radius:10px;padding:4px;}
+.role-label{font-size:10px;font-weight:500;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.1em;padding:0 6px;font-family:var(--font-body);}
+.role-btn{padding:5px 12px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;color:rgba(255,255,255,0.5);border:none;background:transparent;font-family:var(--font-body);transition:all 0.15s;}
+.role-btn:hover{color:rgba(255,255,255,0.9);}
+.role-btn.active{background:var(--grad-a);color:white;}
+.nav-avatar{width:32px;height:32px;border-radius:50%;background:var(--grad-a);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:white;cursor:pointer;font-family:var(--font-head);}
 
-/* TOP NAV */
-.topnav {
-  height: var(--header-h);
-  background: var(--navy);
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  gap: 16px;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 10;
-}
-.logo { display: flex; align-items: center; gap: 8px; }
-.logo-mark {
-  width: 28px; height: 28px; border-radius: 6px;
-  background: var(--teal); display: flex; align-items: center; justify-content: center;
-}
-.logo-mark svg { width: 16px; height: 16px; fill: white; }
-.logo-text { font-size: 14px; font-weight: 500; color: white; letter-spacing: -0.2px; }
-.logo-text span { color: var(--teal); }
-.logo-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.15); margin: 0 4px; }
-.logo-product { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; }
-.nav-spacer { flex: 1; }
-.nav-pill {
-  height: 28px; padding: 0 10px; border-radius: 6px;
-  background: rgba(255,255,255,0.08); border: 0.5px solid rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.7); font-size: 11px; cursor: pointer;
-  display: flex; align-items: center; gap: 6px;
-}
-.nav-pill:hover { background: rgba(255,255,255,0.13); }
-.nav-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); }
+/* ── LAYOUT ── */
+.app{display:flex;flex-direction:column;height:100vh;}
+.layout{display:flex;flex:1;overflow:hidden;}
 
-/* LAYOUT */
-.layout { display: flex; flex: 1; overflow: hidden; }
+/* ── SIDEBAR ── */
+.sidebar{width:204px;background:var(--brand-800);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;}
+.sb-logo-space{height:1px;background:rgba(255,255,255,0.08);margin:8px 16px 4px;}
+.sb-section{padding:10px 10px 4px;}
+.sb-label{font-family:var(--font-head);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.3);padding:0 8px;margin-bottom:4px;}
+.sb-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;color:rgba(255,255,255,0.5);font-size:13px;font-weight:400;transition:all 0.12s;font-family:var(--font-body);}
+.sb-item:hover{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.9);}
+.sb-item.active{background:var(--grad-a);color:white;font-weight:500;}
+.sb-icon{width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sb-badge{margin-left:auto;background:var(--brand-700);color:white;font-size:10px;font-weight:600;border-radius:10px;padding:1px 7px;font-family:var(--font-head);}
+.sb-badge.warn{background:var(--amber);color:#7A2E0E;}
+.sb-badge.ok{background:var(--teal);}
+.sb-div{height:1px;background:rgba(255,255,255,0.07);margin:5px 10px;}
 
-/* SIDEBAR */
-.sidebar {
-  width: var(--sidebar-w); background: var(--navy2);
-  display: flex; flex-direction: column; flex-shrink: 0;
-  border-right: 1px solid rgba(255,255,255,0.06);
-  overflow-y: auto;
-}
-.sidebar-section { padding: 12px 10px 6px; }
-.sidebar-label { font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.3); padding: 0 6px; margin-bottom: 4px; }
-.nav-item {
-  display: flex; align-items: center; gap: 8px; padding: 7px 8px;
-  border-radius: 6px; cursor: pointer; color: rgba(255,255,255,0.55);
-  font-size: 12px; font-weight: 400; transition: all 0.1s;
-}
-.nav-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.85); }
-.nav-item.active { background: rgba(15,168,140,0.18); color: var(--teal); }
-.nav-icon { width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.nav-badge {
-  margin-left: auto; background: var(--teal); color: white;
-  font-size: 9px; font-weight: 500; border-radius: 10px; padding: 1px 5px;
-}
-.sidebar-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 6px 10px; }
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+.view{display:none;flex-direction:column;flex:1;overflow:hidden;}
+.view.active{display:flex;}
 
-/* MAIN */
-.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+/* ── PAGE HEADER ── */
+.ph{padding:16px 24px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--surface);flex-shrink:0;}
+.ph-title{font-family:var(--font-head);font-size:16px;font-weight:600;color:var(--brand-800);}
+.ph-sub{font-size:13px;color:var(--g300);margin-top:2px;}
+.ph-space{flex:1;}
 
-/* VIEWS */
-.view { display: none; flex-direction: column; flex: 1; overflow-y: auto; }
-.view.active { display: flex; }
+/* BUTTONS */
+.btn{height:34px;padding:0 16px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:var(--font-body);transition:all 0.12s;}
+.btn:hover{background:var(--g10);}
+.btn-brand{background:var(--grad-a);color:white;border:none;}
+.btn-brand:hover{opacity:0.9;}
+.btn-outline{background:transparent;border:1px solid rgba(38,7,84,0.25);color:var(--brand-800);}
+.btn-outline:hover{background:rgba(38,7,84,0.04);}
+.btn-sm{height:28px;font-size:12px;padding:0 12px;}
+.btn-xs{height:24px;font-size:11px;padding:0 9px;}
 
-/* PAGE HEADER */
-.page-header {
-  padding: 16px 20px 12px;
-  border-bottom: 0.5px solid var(--border);
-  display: flex; align-items: center; gap: 12px;
-  background: var(--bg-primary);
-  flex-shrink: 0;
-}
-.page-title { font-size: 16px; font-weight: 500; }
-.page-sub { font-size: 12px; color: var(--text-secondary); margin-top: 1px; }
-.header-spacer { flex: 1; }
-.btn {
-  height: 32px; padding: 0 14px; border-radius: var(--radius-md);
-  font-size: 12px; font-weight: 500; cursor: pointer;
-  display: inline-flex; align-items: center; gap: 6px;
-  border: 0.5px solid var(--border-md);
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  transition: all 0.1s;
-}
-.btn:hover { background: var(--bg-secondary); }
-.btn-teal { background: var(--teal); color: white; border-color: var(--teal-dim); }
-.btn-teal:hover { background: var(--teal-dim); }
+/* ── STATS ROW ── */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:16px 24px 0;flex-shrink:0;}
+.stat-card{background:var(--surface);border-radius:var(--rl);border:1px solid var(--border);padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.stat-label{font-family:var(--font-head);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--g300);}
+.stat-val{font-family:var(--font-head);font-size:22px;font-weight:700;color:var(--brand-800);margin-top:4px;}
+.stat-sub{font-size:12px;margin-top:2px;}
 
-/* PIPELINE VIEW */
-.pipeline-wrap { padding: 16px 20px; flex: 1; overflow-y: auto; }
-.pipeline-stages { display: grid; grid-template-columns: repeat(11, minmax(110px,1fr)); gap: 6px; margin-bottom: 16px; }
-.stage-col {
-  background: var(--bg-primary);
-  border-radius: var(--radius-md);
-  border: 0.5px solid var(--border);
-  min-height: 360px;
-  display: flex; flex-direction: column;
-}
-.stage-head {
-  padding: 8px 7px 7px;
-  border-bottom: 0.5px solid var(--border);
-  flex-shrink: 0;
-}
-.stage-name { font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-secondary); line-height: 1.3; }
-.stage-count { font-size: 16px; font-weight: 500; margin-top: 3px; }
-.stage-bar { height: 3px; border-radius: 2px; margin-top: 6px; }
-.stage-cards { padding: 6px; display: flex; flex-direction: column; gap: 5px; flex: 1; }
-.loan-card {
-  background: var(--bg-secondary);
-  border-radius: 5px; padding: 7px 8px;
-  border: 0.5px solid var(--border);
-  cursor: pointer; transition: all 0.1s;
-}
-.loan-card:hover { border-color: var(--teal); background: var(--teal-bg); }
-.lc-name { font-size: 11px; font-weight: 500; }
-.lc-vessel { font-size: 10px; color: var(--text-secondary); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.lc-amount { font-size: 11px; font-weight: 500; color: var(--teal-dim); margin-top: 4px; }
-.lc-meta { display: flex; align-items: center; gap: 5px; margin-top: 4px; }
-.lc-badge { font-size: 9px; font-weight: 500; padding: 1px 5px; border-radius: 3px; }
-.lc-days { font-size: 9px; color: var(--text-secondary); margin-left: auto; }
+/* ── PIPELINE ── */
+.pipeline-body{flex:1;overflow-y:auto;padding:14px 24px 24px;}
+.flags-row{display:flex;gap:14px;padding:10px 24px 4px;flex-shrink:0;}
+.fl-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--g300);}
+.fl-dot{width:8px;height:8px;border-radius:50%;}
 
-/* STATS ROW */
-.stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 16px; }
-.stat-card {
-  background: var(--bg-primary);
-  border-radius: var(--radius-md);
-  border: 0.5px solid var(--border);
-  padding: 12px 14px;
-}
-.stat-label { font-size: 10px; color: var(--text-secondary); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
-.stat-value { font-size: 22px; font-weight: 500; margin-top: 4px; }
-.stat-delta { font-size: 11px; margin-top: 3px; }
+/* STAGE GROUP */
+.sg{margin-bottom:8px;border-radius:var(--rl);border:1px solid var(--border);background:var(--surface);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.sg-head{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;user-select:none;transition:background 0.1s;}
+.sg-head:hover{background:var(--g10);}
+.sg-head.open{border-bottom:1px solid var(--border);}
+.sg-bar{width:4px;height:18px;border-radius:2px;flex-shrink:0;}
+.sg-name{font-family:var(--font-head);font-size:13px;font-weight:600;color:var(--brand-800);}
+.sg-count{font-size:12px;color:var(--g300);margin-left:2px;}
+.sg-space{flex:1;}
+.sg-action{font-size:11px;font-weight:500;padding:2px 9px;border-radius:4px;font-family:var(--font-head);}
+.sg-chev{font-size:12px;color:var(--g300);transition:transform 0.2s;margin-left:8px;}
+.sg-chev.open{transform:rotate(90deg);}
 
-/* LOAN FILE VIEW */
-.loan-file-layout { display: flex; flex: 1; overflow: hidden; }
-.file-sidebar {
-  width: 220px; flex-shrink: 0;
-  border-right: 0.5px solid var(--border);
-  background: var(--bg-primary);
-  display: flex; flex-direction: column;
-  overflow-y: auto;
-}
-.file-main { flex: 1; overflow-y: auto; padding: 20px; }
-.file-nav-item {
-  padding: 9px 14px; cursor: pointer;
-  display: flex; align-items: center; gap: 9px;
-  font-size: 12px; color: var(--text-secondary);
-  border-left: 2px solid transparent;
-}
-.file-nav-item:hover { background: var(--bg-secondary); color: var(--text-primary); }
-.file-nav-item.active { background: var(--teal-bg); color: var(--teal-dim); border-left-color: var(--teal); font-weight: 500; }
-.file-section-label { font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); padding: 10px 14px 4px; }
+/* LIST HEAD */
+.list-head{display:grid;align-items:center;padding:7px 16px;background:var(--g10);border-bottom:1px solid var(--border);}
+.lh-col{font-family:var(--font-head);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--g300);}
+.mgr-grid{grid-template-columns:24px 190px 170px 110px 120px 110px 80px 60px 50px;}
+.off-grid{grid-template-columns:24px 190px 170px 110px 130px 80px 60px 50px;}
+.brk-grid{grid-template-columns:24px 210px 190px 130px 110px 80px;}
 
-/* BORROWER HEADER CARD */
-.borrower-card {
-  background: var(--navy);
-  border-radius: var(--radius-lg);
-  padding: 16px 20px;
-  margin-bottom: 16px;
-  display: flex; align-items: center; gap: 16px;
-}
-.borrower-avatar {
-  width: 44px; height: 44px; border-radius: 50%;
-  background: var(--teal); display: flex; align-items: center; justify-content: center;
-  font-size: 15px; font-weight: 500; color: white; flex-shrink: 0;
-}
-.borrower-name { font-size: 16px; font-weight: 500; color: white; }
-.borrower-meta { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
-.borrower-spacer { flex: 1; }
-.status-pill { padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+/* LOAN ROW */
+.loan-row{display:grid;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.1s;}
+.loan-row:last-child{border-bottom:none;}
+.loan-row:hover{background:#F4F0FB;}
+.lr-drag{color:var(--g200);font-size:15px;cursor:grab;display:flex;align-items:center;}
+.lr-name{font-family:var(--font-head);font-size:13px;font-weight:600;color:var(--brand-800);}
+.lr-vessel{font-size:12px;color:var(--g300);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lr-amount{font-family:var(--font-head);font-size:13px;font-weight:600;color:var(--teal-d);}
+.lr-person{display:flex;align-items:center;gap:6px;font-size:12px;}
+.lr-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:white;flex-shrink:0;font-family:var(--font-head);}
+.lr-days{font-size:12px;color:var(--g300);}
+.lr-flags{display:flex;gap:4px;}
+.fdot{width:8px;height:8px;border-radius:50%;}
+.pill{font-size:11px;font-weight:600;padding:3px 9px;border-radius:5px;font-family:var(--font-head);}
+
+/* ── LOAN FILE ── */
+.lf-prog{padding:12px 24px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;overflow-x:auto;}
+.prog-track{display:flex;align-items:center;min-width:max-content;}
+.pt-step{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;white-space:nowrap;font-family:var(--font-head);transition:all 0.1s;}
+.pt-num{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(--font-head);}
+.pt-step.done{color:var(--teal-d);}
+.pt-step.done .pt-num{background:var(--teal);color:white;}
+.pt-step.cur{background:#F4F0FB;color:var(--brand-700);font-weight:600;}
+.pt-step.cur .pt-num{background:var(--grad-a);color:white;}
+.pt-step.pend{color:var(--g300);}
+.pt-step.pend .pt-num{background:var(--g50);color:var(--g300);border:1px solid var(--g100);}
+.pt-step.kyc.cur{background:var(--amber-bg);color:#7A2E0E;}
+.pt-step.kyc.cur .pt-num{background:var(--amber);}
+.pt-arr{color:var(--g200);font-size:11px;padding:0 2px;}
+
+.lf-layout{display:flex;flex:1;overflow:hidden;}
+.lf-sb{width:216px;flex-shrink:0;border-right:1px solid var(--border);background:var(--surface);overflow-y:auto;}
+.lf-main{flex:1;overflow-y:auto;padding:20px 24px;}
+.lf-sec-label{font-family:var(--font-head);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--g300);padding:10px 16px 3px;}
+.lf-nav{padding:8px 16px;cursor:pointer;font-size:13px;color:var(--g300);border-left:3px solid transparent;display:flex;align-items:center;gap:8px;transition:all 0.1s;font-family:var(--font-body);}
+.lf-nav:hover{background:var(--g10);color:var(--text);}
+.lf-nav.active{background:#F4F0FB;color:var(--brand-700);border-left-color:var(--brand-700);font-weight:500;}
+.lf-flag{width:7px;height:7px;border-radius:50%;margin-left:auto;flex-shrink:0;}
+
+/* BORROWER HEADER */
+.bh{background:var(--brand-800);border-radius:var(--rl);padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;}
+.bh-av{width:46px;height:46px;border-radius:50%;background:var(--grad-a);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:15px;font-weight:700;color:white;flex-shrink:0;}
+.bh-name{font-family:var(--font-head);font-size:16px;font-weight:700;color:white;}
+.bh-meta{font-size:12px;color:rgba(255,255,255,0.45);margin-top:2px;}
+.bh-sp{flex:1;}
 
 /* SECTION CARD */
-.section-card {
-  background: var(--bg-primary);
-  border-radius: var(--radius-lg);
-  border: 0.5px solid var(--border);
-  margin-bottom: 12px;
-  overflow: hidden;
-}
-.section-card-head {
-  padding: 12px 16px;
-  border-bottom: 0.5px solid var(--border);
-  display: flex; align-items: center; gap: 10px;
-}
-.section-card-title { font-size: 13px; font-weight: 500; }
-.section-card-sub { font-size: 11px; color: var(--text-secondary); margin-left: auto; }
-.section-card-body { padding: 14px 16px; }
+.sc{background:var(--surface);border-radius:var(--rl);border:1px solid var(--border);margin-bottom:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+.sc-head{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--g10);}
+.sc-title{font-family:var(--font-head);font-size:13px;font-weight:600;color:var(--brand-800);}
+.sc-sub{font-size:12px;color:var(--g300);margin-left:auto;}
+.sc-body{padding:16px 18px;}
 
-/* FIELD GRID */
-.field-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 16px; }
-.field-grid-2 { grid-template-columns: repeat(2, 1fr); }
-.field-item {}
-.field-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-secondary); margin-bottom: 3px; }
-.field-value { font-size: 13px; }
-.field-input {
-  width: 100%; height: 32px; padding: 0 10px;
-  border-radius: var(--radius-md);
-  border: 0.5px solid var(--border-md);
-  background: var(--bg-secondary);
-  font-size: 12px; color: var(--text-primary);
-  outline: none; font-family: inherit;
-}
-.field-input:focus { border-color: var(--teal); box-shadow: 0 0 0 2px rgba(15,168,140,0.15); }
-textarea.field-input { height: auto; padding: 8px 10px; }
-.field-select {
-  width: 100%; height: 32px; padding: 0 10px;
-  border-radius: var(--radius-md);
-  border: 0.5px solid var(--border-md);
-  background: var(--bg-secondary);
-  font-size: 12px; color: var(--text-primary);
-  outline: none; cursor: pointer; font-family: inherit;
-}
+/* FIELDS */
+.fg{display:grid;gap:12px 16px;}
+.fg-3{grid-template-columns:repeat(3,1fr);}
+.fg-2{grid-template-columns:repeat(2,1fr);}
+.fg-4{grid-template-columns:repeat(4,1fr);}
+.fi-label{font-family:var(--font-head);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--g300);margin-bottom:4px;}
+.fi-val{font-size:14px;font-weight:400;}
+.fi-in{width:100%;height:34px;padding:0 12px;border-radius:var(--r);border:1px solid var(--g100);background:var(--g10);font-size:13px;color:var(--text);outline:none;font-family:var(--font-body);}
+.fi-in:focus{border-color:var(--brand-700);box-shadow:0 0 0 3px rgba(75,14,163,0.1);}
+textarea.fi-in{height:auto;padding:10px 12px;}
+.fi-sel{width:100%;height:34px;padding:0 12px;border-radius:var(--r);border:1px solid var(--g100);background:var(--g10);font-size:13px;color:var(--text);outline:none;cursor:pointer;font-family:var(--font-body);}
 
 /* DOC LIST */
-.doc-list { display: flex; flex-direction: column; gap: 6px; }
-.doc-row {
-  display: flex; align-items: center; gap: 10px;
-  padding: 9px 12px; border-radius: var(--radius-md);
-  border: 0.5px solid var(--border);
-  background: var(--bg-secondary);
-}
-.doc-icon { width: 28px; height: 28px; border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.doc-name { font-size: 12px; font-weight: 500; }
-.doc-meta { font-size: 10px; color: var(--text-secondary); margin-top: 1px; }
-.doc-spacer { flex: 1; }
-.doc-status { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 4px; }
+.doc-list{display:flex;flex-direction:column;gap:6px;}
+.doc-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r);border:1px solid var(--border);background:var(--g10);}
+.doc-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.doc-name{font-family:var(--font-head);font-size:13px;font-weight:500;}
+.doc-meta{font-size:12px;color:var(--g300);}
+.doc-sp{flex:1;}
+
+/* AI FLAGS */
+.af{padding:10px 14px;border-radius:var(--r);font-size:13px;line-height:1.5;margin-bottom:7px;border-left:3px solid;}
+.af-ok{background:var(--green-bg);color:#065F46;border-color:var(--green);}
+.af-warn{background:var(--amber-bg);color:#7A2E0E;border-color:var(--amber);}
+.af-err{background:var(--red-bg);color:#991B1B;border-color:var(--red);}
+.af-info{background:#F4F0FB;color:var(--brand-700);border-color:var(--brand-700);}
+
+/* KYC */
+.kyc-panel{background:var(--amber-bg);border:1px solid rgba(253,176,34,0.4);border-radius:var(--rl);padding:16px 18px;margin-bottom:14px;}
+.kyc-title{font-family:var(--font-head);font-size:14px;font-weight:600;color:#7A2E0E;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.kyc-step{display:flex;align-items:center;gap:9px;font-size:13px;color:#7A2E0E;margin-bottom:6px;}
+.kyc-check{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;color:white;}
+
+/* LOAN AGREEMENT */
+.la-panel{background:#F4F0FB;border:1px solid rgba(75,14,163,0.2);border-radius:var(--rl);padding:16px 18px;margin-bottom:14px;}
+.la-title{font-family:var(--font-head);font-size:14px;font-weight:600;color:var(--brand-700);margin-bottom:10px;}
+.sign-party{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r);border:1px solid var(--border);background:var(--surface);margin-bottom:6px;}
+.sign-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0;font-family:var(--font-head);}
+.sign-name{font-family:var(--font-head);font-size:13px;font-weight:600;}
+.sign-role{font-size:12px;color:var(--g300);}
+.sign-sp{flex:1;}
 
 /* TIMELINE */
-.timeline { display: flex; flex-direction: column; }
-.tl-item { display: flex; gap: 12px; }
-.tl-left { display: flex; flex-direction: column; align-items: center; }
-.tl-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
-.tl-line { width: 1px; flex: 1; background: var(--border); margin: 3px 0; min-height: 16px; }
-.tl-content { padding-bottom: 14px; flex: 1; }
-.tl-title { font-size: 12px; font-weight: 500; }
-.tl-time { font-size: 10px; color: var(--text-secondary); margin-top: 1px; }
-.tl-note { font-size: 11px; color: var(--text-secondary); margin-top: 4px; line-height: 1.5; }
+.tl{display:flex;flex-direction:column;}
+.tl-item{display:flex;gap:12px;}
+.tl-left{display:flex;flex-direction:column;align-items:center;}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.tl-line{width:1px;flex:1;background:var(--border);margin:3px 0;min-height:14px;}
+.tl-body{padding-bottom:14px;flex:1;}
+.tl-title{font-family:var(--font-head);font-size:13px;font-weight:600;}
+.tl-time{font-size:12px;color:var(--g300);}
+.tl-note{font-size:12px;color:var(--g300);margin-top:3px;line-height:1.5;}
 
 /* LENDER TABLE */
-.lender-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.lender-table th { text-align: left; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-secondary); padding: 8px 12px; border-bottom: 0.5px solid var(--border); }
-.lender-table td { padding: 10px 12px; border-bottom: 0.5px solid var(--border); }
-.lender-table tr:last-child td { border-bottom: none; }
-.lender-table tr:hover td { background: var(--bg-secondary); }
-.lender-radio { width: 14px; height: 14px; cursor: pointer; accent-color: var(--teal); }
+.lt{width:100%;border-collapse:collapse;font-size:13px;}
+.lt th{text-align:left;font-family:var(--font-head);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--g300);padding:8px 14px;border-bottom:1px solid var(--border);background:var(--g10);}
+.lt td{padding:10px 14px;border-bottom:1px solid var(--border);}
+.lt tr:last-child td{border-bottom:none;}
+.lt tr:hover td{background:#F4F0FB;}
+.lt-radio{accent-color:var(--brand-700);width:14px;height:14px;cursor:pointer;}
+.um-direct{background:var(--green-bg);color:#065F46;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;font-family:var(--font-head);}
+.um-email{background:var(--amber-bg);color:#7A2E0E;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;font-family:var(--font-head);}
+.um-portal{background:#F4F0FB;color:var(--brand-700);font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;font-family:var(--font-head);}
 
-/* AI SCORE */
-.ai-score-wrap { display: flex; align-items: center; gap: 16px; padding: 12px 16px; }
-.ai-score-circle {
-  width: 64px; height: 64px; border-radius: 50%;
-  border: 3px solid var(--teal);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.ai-score-num { font-size: 20px; font-weight: 500; line-height: 1; }
-.ai-score-label { font-size: 9px; color: var(--text-secondary); }
-.ai-flags { flex: 1; display: flex; flex-direction: column; gap: 5px; }
-.ai-flag { display: flex; align-items: center; gap: 8px; font-size: 11px; }
-.ai-flag-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+/* CLOSED LOANS */
+.cl-table{width:100%;border-collapse:collapse;font-size:13px;}
+.cl-table th{text-align:left;font-family:var(--font-head);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--g300);padding:8px 14px;border-bottom:1px solid var(--border);background:var(--g10);position:sticky;top:0;}
+.cl-table td{padding:10px 14px;border-bottom:1px solid var(--border);}
+.cl-table tr:hover td{background:#F4F0FB;cursor:pointer;}
+.pctag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-block;margin-right:3px;font-family:var(--font-head);}
 
-/* PROGRESS STEPS */
-.progress-steps { display: flex; align-items: center; padding: 12px 20px; background: var(--bg-primary); border-bottom: 0.5px solid var(--border); gap: 0; flex-shrink: 0; overflow-x: auto; }
-.ps-item { display: flex; align-items: center; flex-shrink: 0; }
-.ps-step {
-  display: flex; align-items: center; gap: 6px;
-  padding: 5px 10px; border-radius: 20px;
-  font-size: 11px; cursor: pointer; white-space: nowrap;
-}
-.ps-num { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 500; }
-.ps-step.done .ps-num { background: var(--teal); color: white; }
-.ps-step.done { color: var(--teal-dim); }
-.ps-step.current { background: var(--teal-bg); color: var(--teal-dim); font-weight: 500; }
-.ps-step.current .ps-num { background: var(--teal); color: white; }
-.ps-step.pending { color: var(--text-secondary); }
-.ps-step.pending .ps-num { background: var(--bg-secondary); color: var(--text-secondary); border: 0.5px solid var(--border-md); }
-.ps-arrow { color: var(--text-secondary); font-size: 12px; padding: 0 2px; }
+/* STAGE MODAL */
+.overlay{position:fixed;inset:0;background:rgba(38,7,84,0.5);z-index:200;display:none;align-items:center;justify-content:center;}
+.overlay.show{display:flex;}
+.modal-box{background:var(--surface);border-radius:var(--rxl);width:380px;overflow:hidden;box-shadow:0 24px 60px rgba(38,7,84,0.25);}
+.modal-head{background:var(--brand-800);padding:18px 22px;display:flex;align-items:center;}
+.modal-title{font-family:var(--font-head);font-size:15px;font-weight:600;color:white;}
+.modal-close{margin-left:auto;color:rgba(255,255,255,0.5);cursor:pointer;font-size:22px;line-height:1;background:none;border:none;font-family:var(--font-body);}
+.modal-body{padding:16px;}
+.sp-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r);border:1px solid var(--border);cursor:pointer;font-size:13px;margin-bottom:5px;transition:all 0.1s;font-family:var(--font-body);}
+.sp-item:hover{background:#F4F0FB;border-color:var(--brand-700);}
+.sp-item.cur{background:#F4F0FB;border-color:var(--brand-700);font-weight:600;color:var(--brand-700);}
+.sp-num{width:22px;height:22px;border-radius:50%;background:var(--brand-800);color:white;font-family:var(--font-head);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sp-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 
-/* VATO */
-.vato-comps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.comp-card { background: var(--bg-secondary); border-radius: var(--radius-md); border: 0.5px solid var(--border); padding: 12px; }
-.comp-vessel { font-size: 12px; font-weight: 500; }
-.comp-year { font-size: 10px; color: var(--text-secondary); }
-.comp-price { font-size: 15px; font-weight: 500; color: var(--teal-dim); margin-top: 6px; }
-.comp-delta { font-size: 10px; margin-top: 2px; }
+/* BROKER BANNER */
+.broker-banner{background:var(--brand-700);padding:7px 24px;font-size:12px;color:rgba(255,255,255,0.75);display:none;flex-shrink:0;font-family:var(--font-body);}
+.broker-banner.show{display:block;}
+.broker-banner strong{color:white;font-weight:600;}
 
-/* EASYSIGN */
-.easysign-wrap { display: flex; flex-direction: column; gap: 10px; }
-.sign-party { display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: var(--radius-md); border: 0.5px solid var(--border); background: var(--bg-secondary); }
-.sign-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: white; flex-shrink: 0; }
-.sign-name { font-size: 12px; font-weight: 500; }
-.sign-role { font-size: 10px; color: var(--text-secondary); }
-.sign-spacer { flex: 1; }
-.sign-status { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 4px; }
+/* TOAST */
+.toast{position:fixed;bottom:22px;right:22px;z-index:999;background:var(--brand-800);color:white;padding:12px 18px;border-radius:var(--r);font-size:13px;border-left:4px solid var(--brand-700);display:none;max-width:360px;line-height:1.5;box-shadow:0 8px 32px rgba(38,7,84,0.3);font-family:var(--font-body);}
+.toast.show{display:block;animation:tin .2s ease;}
+.toast.t-warn{border-left-color:var(--amber);}
+@keyframes tin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* NOTIFICATION TOAST */
-.toast {
-  position: fixed; bottom: 24px; right: 24px; z-index: 1000;
-  background: var(--navy); color: white;
-  padding: 12px 18px; border-radius: var(--radius-md);
-  font-size: 12px; border-left: 3px solid var(--teal);
-  display: none; max-width: 320px; line-height: 1.5;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-}
-.toast.show { display: block; animation: slideIn 0.2s ease; }
-@keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+/* NEW APP */
+.new-app-body{flex:1;overflow-y:auto;padding:20px 24px;}
 
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border-md); border-radius: 2px; }
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--g100);border-radius:3px;}
 </style>
 </head>
 <body>
-
-<div class="app" id="app">
+<div class="app">
 
 <div class="topnav">
   <div class="logo">
     <div class="logo-mark">
-      <svg viewBox="0 0 16 16"><path d="M8 2L14 6V14H2V6L8 2Z" opacity="0.9"/><rect x="5" y="9" width="6" height="5" fill="rgba(255,255,255,0.5)"/></svg>
+      <svg viewBox="0 0 20 20"><path d="M10 2L18 7.5V18H2V7.5L10 2Z" opacity="0.9"/><rect x="6.5" y="11" width="7" height="7" fill="rgba(255,255,255,0.4)"/></svg>
     </div>
-    <div class="logo-text">Yacht<span>Way</span></div>
-    <div class="logo-divider"></div>
-    <div class="logo-product">EasyFund LPS</div>
+    <div class="logo-name">Yacht<span>Way</span></div>
+    <div class="logo-div"></div>
+    <div class="logo-prod">EasyFund LPS</div>
   </div>
-  <div class="nav-spacer"></div>
-  <div class="nav-pill" onclick="showToast('3 lenders currently active in your pipeline')">
-    <div class="nav-dot"></div>
-    3 active lenders
+  <div class="nav-space"></div>
+  <div class="role-switcher">
+    <span class="role-label">View as</span>
+    <button class="role-btn active" onclick="setRole('manager',this)">Manager</button>
+    <button class="role-btn" onclick="setRole('officer',this)">Loan Officer</button>
+    <button class="role-btn" onclick="setRole('broker',this)">Broker / Dealer</button>
   </div>
-  <div class="nav-pill" onclick="showToast('Debbie Pettibone — EasyFund Operations')">DP</div>
+  <div class="nav-avatar" onclick="T('Debbie Pettibone — EasyFund Operations Lead')">DP</div>
+</div>
+
+<div class="broker-banner" id="broker-banner">
+  <strong>Broker view active.</strong> You are viewing as a referring broker. Loan amounts, documents, and internal notes are not visible in this mode.
 </div>
 
 <div class="layout">
 <div class="sidebar">
-  <div class="sidebar-section">
-    <div class="sidebar-label">Main</div>
-    <div class="nav-item active" onclick="showView('pipeline', this)" id="nav-pipeline">
-      <div class="nav-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="1" width="3" height="12" rx="1"/><rect x="5.5" y="3" width="3" height="10" rx="1"/><rect x="10" y="5" width="3" height="8" rx="1"/></svg></div>
-      Pipeline
-      <span class="nav-badge">12</span>
+  <div class="sb-logo-space"></div>
+  <div class="sb-section">
+    <div class="sb-label">Pipeline</div>
+    <div class="sb-item active" onclick="showView('pipeline',this)" id="nav-pipeline">
+      <div class="sb-icon"><svg width="15" height="15" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="1" width="3" height="12" rx="1"/><rect x="5.5" y="3" width="3" height="10" rx="1"/><rect x="10" y="5" width="3" height="8" rx="1"/></svg></div>
+      Active pipeline
+      <span class="sb-badge">12</span>
     </div>
-    <div class="nav-item" onclick="showView('new-app', this)" id="nav-new">
-      <div class="nav-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg></div>
+    <div class="sb-item" onclick="showView('closed',this)" id="nav-closed">
+      <div class="sb-icon"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10L5 7l2 2 5-5"/></svg></div>
+      Closed loans
+      <span class="sb-badge ok">24</span>
+    </div>
+    <div class="sb-item" onclick="showView('new-app',this)" id="nav-new">
+      <div class="sb-icon"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg></div>
       New application
     </div>
-    <div class="nav-item" onclick="showView('loan-file', this)" id="nav-file">
-      <div class="nav-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 1h6l3 3v9H3V1z" opacity="0.4"/><path d="M9 1v3h3"/><rect x="5" y="7" width="5" height="1"/><rect x="5" y="9" width="4" height="1"/></svg></div>
-      Loan file
-      <span class="nav-badge" style="background: var(--amber);">2</span>
-    </div>
   </div>
-  <div class="sidebar-divider"></div>
-  <div class="sidebar-section">
-    <div class="sidebar-label">Products</div>
-    <div class="nav-item" onclick="showView('vato', this)" id="nav-vato">
-      <div class="nav-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M7 4v3l2 2" stroke-linecap="round"/></svg></div>
+  <div class="sb-div"></div>
+  <div class="sb-section">
+    <div class="sb-label">Tools</div>
+    <div class="sb-item" onclick="showView('loan-file',this)" id="nav-lf">
+      <div class="sb-icon"><svg width="15" height="15" viewBox="0 0 14 14" fill="currentColor"><path d="M3 1h6l3 3v9H3V1z" opacity="0.4"/><path d="M9 1v3h3"/><rect x="5" y="7" width="5" height="1"/><rect x="5" y="9" width="4" height="1"/></svg></div>
+      Loan file
+      <span class="sb-badge warn">3</span>
+    </div>
+    <div class="sb-item" onclick="showView('vato',this)" id="nav-vato">
+      <div class="sb-icon"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M7 4v3l2 2" stroke-linecap="round"/></svg></div>
       VATO
     </div>
-    <div class="nav-item" onclick="showView('easysign', this)" id="nav-easysign">
-      <div class="nav-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10L5 7l2 2 5-5"/></svg></div>
-      EasySign
-      <span class="nav-badge" style="background: var(--purple);">1</span>
-    </div>
-    <div class="nav-item" onclick="showView('lenders', this)" id="nav-lenders">
-      <div class="nav-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="5" width="12" height="8" rx="1" opacity="0.4"/><rect x="3" y="3" width="8" height="2" rx="1" opacity="0.6"/><rect x="5" y="1" width="4" height="2" rx="1"/></svg></div>
+    <div class="sb-item" onclick="showView('lenders',this)" id="nav-lenders">
+      <div class="sb-icon"><svg width="15" height="15" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="5" width="12" height="8" rx="1" opacity="0.4"/><rect x="3" y="3" width="8" height="2" rx="1" opacity="0.6"/><rect x="5" y="1" width="4" height="2" rx="1"/></svg></div>
       Lenders
     </div>
   </div>
-  <div class="sidebar-divider"></div>
-  <div class="sidebar-section">
-    <div class="sidebar-label">Reports</div>
-    <div class="nav-item" onclick="showToast('Funding report: 8 loans closed this month. Volume: $12,400,000')">
-      <div class="nav-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12L5 8l3 2 4-6"/></svg></div>
-      Funding report
+  <div class="sb-div" id="mgr-div"></div>
+  <div class="sb-section" id="mgr-section">
+    <div class="sb-label">Reports</div>
+    <div class="sb-item" onclick="T('Volume report: $18.4M active pipeline. $12.4M funded this month — 8 loans.')">
+      <div class="sb-icon"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12L5 8l3 2 4-6"/></svg></div>
+      Volume report
     </div>
-    <div class="nav-item" onclick="showToast('Lender performance: Shore Premier Finance 4.2 days avg turnaround')">
-      <div class="nav-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M7 7L10 5" stroke-linecap="round"/></svg></div>
-      Lender performance
+    <div class="sb-item" onclick="T('Team: Debbie — 8 closings, 4.2 day avg. Alicia — 6 closings, 5.1 day avg.')">
+      <div class="sb-icon"><svg width="15" height="15" viewBox="0 0 14 14" fill="currentColor"><circle cx="5" cy="4" r="2.5"/><circle cx="10" cy="4" r="2"/><path d="M1 12c0-2.2 1.8-4 4-4s4 1.8 4 4"/><path d="M10 8c1.7 0 3 1.1 3 2.5" stroke="currentColor" fill="none" stroke-width="1.2"/></svg></div>
+      Team report
     </div>
   </div>
 </div>
 
 <div class="main">
 
-<!-- PIPELINE VIEW -->
+<!-- PIPELINE -->
 <div class="view active" id="view-pipeline">
-  <div class="page-header">
+  <div class="ph">
     <div>
-      <div class="page-title">Loan pipeline</div>
-      <div class="page-sub">12 active files across 11 stages</div>
+      <div class="ph-title" id="pl-title">Active pipeline — manager view</div>
+      <div class="ph-sub" id="pl-sub">All loan officers · All referring brokers · Drag or click Move to change stage</div>
     </div>
-    <div class="header-spacer"></div>
-    <button class="btn" onclick="showToast('Filters: lender, loan officer, amount range, date range')">Filter</button>
-    <button class="btn btn-teal" onclick="showView('new-app', document.getElementById('nav-new'))">+ New application</button>
+    <div class="ph-space"></div>
+    <button class="btn btn-outline btn-sm" onclick="T('Filters: loan officer, broker, lender, amount, KYC status')">Filter</button>
+    <button class="btn btn-brand btn-sm" onclick="showView('new-app',document.getElementById('nav-new'))">+ New application</button>
   </div>
-  <div class="pipeline-wrap">
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-label">Active files</div><div class="stat-value">12</div><div class="stat-delta" style="color:var(--teal)">+ 3 this week</div></div>
-      <div class="stat-card"><div class="stat-label">Total pipeline volume</div><div class="stat-value">$18.4M</div><div class="stat-delta" style="color:var(--text-secondary)">across 12 files</div></div>
-      <div class="stat-card"><div class="stat-label">Avg days to decision</div><div class="stat-value">4.2</div><div class="stat-delta" style="color:var(--teal)">- 0.8 vs last mo.</div></div>
-      <div class="stat-card"><div class="stat-label">Funded this month</div><div class="stat-value">$12.4M</div><div class="stat-delta" style="color:var(--teal)">8 loans closed</div></div>
-      <div class="stat-card"><div class="stat-label">Pending stips</div><div class="stat-value" style="color:var(--amber)">5</div><div class="stat-delta" style="color:var(--amber)">action required</div></div>
-    </div>
-    <div class="pipeline-stages">
-      <div class="stage-col"><div class="stage-head"><div class="stage-name">Apply online</div><div class="stage-count">2</div><div class="stage-bar" style="background:var(--teal);width:100%"></div></div><div class="stage-cards">
-        <div class="loan-card" onclick="openLoanFile('Marcus Webb','2019 Azimut 55','$485,000','New Application')"><div class="lc-name">Marcus Webb</div><div class="lc-vessel">2019 Azimut 55</div><div class="lc-amount">$485,000</div><div class="lc-meta"><span class="lc-badge" style="background:#DBEAFE;color:#1E3A8A">New</span><span class="lc-days">1h ago</span></div></div>
-        <div class="loan-card" onclick="openLoanFile('Sophia Tran','2021 Sunseeker 60','$740,000','New Application')"><div class="lc-name">Sophia Tran</div><div class="lc-vessel">2021 Sunseeker 60</div><div class="lc-amount">$740,000</div><div class="lc-meta"><span class="lc-badge" style="background:#DBEAFE;color:#1E3A8A">New</span><span class="lc-days">3h ago</span></div></div>
-      </div></div>
-      <div class="stage-col"><div class="stage-head"><div class="stage-name">App review</div><div class="stage-count">1</div><div class="stage-bar" style="background:var(--teal);width:80%"></div></div><div class="stage-cards">
-        <div class="loan-card" onclick="openLoanFile('James Kowalski','2020 Ferretti 550','$1,200,000','Under Review')"><div class="lc-name">James Kowalski</div><div class="lc-vessel">2020 Ferretti 550</div><div class="lc-amount">$1,200,000</div><div class="lc-meta"><span class="lc-badge" style="background:#FFFBEB;color:#92400E">Review</span><span class="lc-days">5h ago</span></div></div>
-      </div></div>
-      <div class="stage-col"><div class="stage-head"><div class="stage-name">Doc request</div><div class="stage-count">1</div><div class="stage-bar" style="background:var(--amber);width:60%"></div></div><div class="stage-cards">
-        <div class="loan-card" onclick="openLoanFile('Priya Anand','2022 Riviera 445','$395,000','Docs Requested')"><div class="lc-name">Priya Anand</div><div class="lc-vessel">2022 Riviera 445</div><div class="lc-amount">$395,000</div><div class="lc-meta"><span class="lc-badge" style="background:#FFFBEB;color:#92400E">Pending</span><span class="lc-days">1d ago</span></div></div>
-      </div></div>
-      <div class="stage-col"><div class="stage-head"><div class="stage-name">Doc upload</div><div class="stage-count">2</div><div class="stage-bar" style="background:var(--amber);width:70%"></div></div><div class="stage-cards">
-        <div class="loan-card" onclick="openLoanFile('Daniel Reyes','2018 Bertram 54','$620,000','Docs Uploading')"><div class="lc-name">Daniel Reyes</div><div class="lc-vessel">2018 Bertram 54</div><div class="lc-amount">$620,000</div><div class="lc-meta"><span class="lc-badge" style="background:#FEF3C7;color:#78350F">Partial</span><span class="lc-days">2d ago</span></div></div>
-        <div class="loan-card" onclick="openLoanFile('Elena Fischer','Fountaine Pajot 47','$510,000','Docs Uploading')"><div class="lc-name">Elena Fischer</div><div class="lc-vessel">Fountaine Pajot 47</div><div class="lc-amount">$510,000</div><div class="lc-meta"><span class="lc-badge" style="background:#DCFCE7;color:#14532D">Complete</span><span class="lc-days">1d ago</span></div></div>
-      </div></div>
-      <div class="stage-col"><div class="stage-head"><div class="stage-name">Lender submit</div><div class="stage-count">1</div><div class="stage-bar" style="background:var(--purple);width:55%"></div></div><div class="stage-cards">
-        <div class="loan-card" onclick="openLoanFile('Robert Kim','2021 Sea Ray L590','$880,000','Submitted to Lender')"><div class="lc-name">Robert Kim</div><div class="lc-vessel">2021 Sea Ray L590</div><div class="lc-amount">$880,000</div><div class="lc-meta"><span class="lc-badge" style="background:#EDE9FE;color:#4C1D95">Sent</span><span class="lc-days">3d ago</span></div></div>
-      </div></div>
-      <div class="stage-col"><div class="stage-head"><div class="stage-name">Credit decision</div><div class="stage-count">1</div><div class="stage-bar" style="background:var(--purple);width:50%"></div></div><div class="stage-cards">
-        <div class="loan-card" onclick="openLoanFile('Claire Moreau','2020 Princess V58','$1,450,000','Under Review — Lender')"><div class="lc-name">Claire Moreau</div><div class="lc-vessel">2020 Princess V58</div><div class="lc-amount">$1,450,000</div><div class="lc-meta"><span class="lc-badge" style="background:#EDE9FE;color:#4C1D95">In review</span><span class="lc-days">4d ago</span></div></div>
-      </div></div>
-      <div class="stage-col"><div class="stage-head"><div class="stage-name">Approval</div><div class="stage-count">1</div><div class="stage-bar" style="background:var(--teal);width:90%"></div></div><div class="stage-cards">
-        <div class="loan-card" onclick="openLoanFile('Thomas Lindqvist','2019 Pershing 70','$2,100,000','Conditionally Approved')"><div class="lc-name">Thomas Lindqvist</div><div class="lc-vessel">2019 Pershing 70</div><div class="lc-amount">$2,100,000</div><div class="lc-meta"><span class="lc-badge" style="background:#DCFCE7;color:#14532D">Approved</span><span class="lc-days">5d ago</span></div></div>
-      </div></div>
-      <div class="stage-col"><div class="stage-head"><div class="stage-name">Appraisal</div><div class="stage-count">1</div><div class="stage-bar" style="background:var(--amber);width:65%"></div></div><div class="stage-cards">
-        <div class="loan-card" onclick="openLoanFile('Valentina Cruz','2022 Azimut 72','$3,200,000','VATO Ordered')"><div class="lc-name">Valentina Cruz</div><div class="lc-vessel">2022 Azimut 72</div><div class="lc-amount">$3,200,000</div><div class="lc-meta"><span class="lc-badge" style="background:#FFFBEB;color:#92400E">In progress</span><span class="lc-days">6d ago</span></div></div>
-      </div></div>
-      <div class="stage-col"><div class="stage-head"><div class="stage-name">Loan docs</div><div class="stage-count">1</div><div class="stage-bar" style="background:var(--teal);width:85%"></div></div><div class="stage-cards">
-        <div class="loan-card" onclick="openLoanFile('Ahmed Hassan','Fairline Squadron 58','$1,750,000','Docs Ready for Signing')"><div class="lc-name">Ahmed Hassan</div><div class="lc-vessel">Fairline Squadron 58</div><div class="lc-amount">$1,750,000</div><div class="lc-meta"><span class="lc-badge" style="background:#FDF4FF;color:#6B21A8">EasySign</span><span class="lc-days">7d ago</span></div></div>
-      </div></div>
-      <div class="stage-col"><div class="stage-head"><div class="stage-name">Closing</div><div class="stage-count">1</div><div class="stage-bar" style="background:var(--purple);width:75%"></div></div><div class="stage-cards">
-        <div class="loan-card" onclick="showView('easysign', document.getElementById('nav-easysign'))"><div class="lc-name">Nina Petrova</div><div class="lc-vessel">2020 Sunseeker 76</div><div class="lc-amount">$4,800,000</div><div class="lc-meta"><span class="lc-badge" style="background:#FEF3C7;color:#78350F">Signing</span><span class="lc-days">8d ago</span></div></div>
-      </div></div>
-      <div class="stage-col"><div class="stage-head"><div class="stage-name">Funded</div><div class="stage-count">0</div><div class="stage-bar" style="background:var(--border);width:100%"></div></div><div class="stage-cards">
-        <div style="text-align:center;padding:20px 8px;color:var(--text-secondary);font-size:11px;line-height:1.7">No loans funded<br>this week yet</div>
-      </div></div>
-    </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-label">Active files</div><div class="stat-val">12</div><div class="stat-sub" style="color:var(--teal-d)">+3 this week</div></div>
+    <div class="stat-card"><div class="stat-label">Pipeline volume</div><div class="stat-val" id="pl-vol">$18.4M</div><div class="stat-sub" style="color:var(--g300)">12 files</div></div>
+    <div class="stat-card"><div class="stat-label">KYC pending</div><div class="stat-val" style="color:var(--amber)">4</div><div class="stat-sub" style="color:var(--amber)">action required</div></div>
+    <div class="stat-card"><div class="stat-label">Avg days to decision</div><div class="stat-val" style="color:var(--brand-800)">4.2</div><div class="stat-sub" style="color:var(--teal-d)">−0.8 vs last month</div></div>
+    <div class="stat-card"><div class="stat-label">Funded this month</div><div class="stat-val" style="color:var(--teal-d)">$12.4M</div><div class="stat-sub" style="color:var(--teal-d)">8 loans closed</div></div>
+  </div>
+  <div class="flags-row">
+    <div class="fl-item"><div class="fl-dot" style="background:var(--amber)"></div>KYC pending</div>
+    <div class="fl-item"><div class="fl-dot" style="background:var(--red)"></div>Stip required</div>
+    <div class="fl-item"><div class="fl-dot" style="background:var(--brand-700)"></div>Loan agreement out</div>
+    <div class="fl-item"><div class="fl-dot" style="background:var(--teal)"></div>On track</div>
+  </div>
+  <div class="pipeline-body" id="pl-body"></div>
+</div>
+
+<!-- CLOSED LOANS -->
+<div class="view" id="view-closed">
+  <div class="ph">
+    <div><div class="ph-title">Closed loans</div><div class="ph-sub">24 funded loans — search, download docs, track post-close title and registration</div></div>
+    <div class="ph-space"></div>
+    <button class="btn btn-outline btn-sm" onclick="T('Exporting closed loan summary as CSV...')">Export CSV</button>
+  </div>
+  <div style="padding:14px 24px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;gap:10px;flex-shrink:0">
+    <input style="flex:1;height:34px;padding:0 14px;border-radius:var(--r);border:1px solid var(--g100);background:var(--g10);font-size:13px;font-family:var(--font-body);outline:none" placeholder="Search by name, vessel, lender, or loan ID..." oninput="filterClosed(this.value)">
+    <select style="height:34px;padding:0 12px;border-radius:var(--r);border:1px solid var(--g100);background:var(--g10);font-size:13px;font-family:var(--font-body);outline:none;cursor:pointer" onchange="T('Sorted by: '+this.value)">
+      <option>Funded date (newest)</option><option>Funded date (oldest)</option><option>Loan amount (high)</option><option>Borrower name</option>
+    </select>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:16px 24px">
+    <table class="cl-table"><thead><tr><th>Loan ID</th><th>Borrower</th><th>Vessel</th><th>Lender</th><th>Amount</th><th>Rate</th><th>Funded</th><th>Loan officer</th><th>Referring broker</th><th>Post-close</th><th>Actions</th></tr></thead>
+    <tbody id="cl-tbody"></tbody></table>
   </div>
 </div>
 
-<!-- LOAN FILE VIEW -->
+<!-- LOAN FILE -->
 <div class="view" id="view-loan-file">
-  <div class="progress-steps" id="loan-file-steps">
-    <div class="ps-item"><div class="ps-step done" onclick="setStep(1)"><div class="ps-num">1</div>Apply</div><span class="ps-arrow">›</span></div>
-    <div class="ps-item"><div class="ps-step done" onclick="setStep(2)"><div class="ps-num">2</div>Review</div><span class="ps-arrow">›</span></div>
-    <div class="ps-item"><div class="ps-step done" onclick="setStep(3)"><div class="ps-num">3</div>Docs requested</div><span class="ps-arrow">›</span></div>
-    <div class="ps-item"><div class="ps-step current" onclick="setStep(4)"><div class="ps-num">4</div>Docs uploaded</div><span class="ps-arrow">›</span></div>
-    <div class="ps-item"><div class="ps-step pending" onclick="setStep(5)"><div class="ps-num">5</div>Lender submit</div><span class="ps-arrow">›</span></div>
-    <div class="ps-item"><div class="ps-step pending" onclick="setStep(6)"><div class="ps-num">6</div>Decision</div><span class="ps-arrow">›</span></div>
-    <div class="ps-item"><div class="ps-step pending" onclick="setStep(7)"><div class="ps-num">7</div>Approval</div><span class="ps-arrow">›</span></div>
-    <div class="ps-item"><div class="ps-step pending" onclick="setStep(8)"><div class="ps-num">8</div>Appraisal</div><span class="ps-arrow">›</span></div>
-    <div class="ps-item"><div class="ps-step pending" onclick="setStep(9)"><div class="ps-num">9</div>Loan docs</div><span class="ps-arrow">›</span></div>
-    <div class="ps-item"><div class="ps-step pending" onclick="setStep(10)"><div class="ps-num">10</div>Closing</div><span class="ps-arrow">›</span></div>
-    <div class="ps-item"><div class="ps-step pending" onclick="setStep(11)"><div class="ps-num">11</div>Funded</div></div>
-  </div>
-  <div class="loan-file-layout">
-    <div class="file-sidebar">
-      <div class="file-section-label">Loan file</div>
-      <div class="file-nav-item active" onclick="setFileTab('overview', this)">Overview</div>
-      <div class="file-nav-item" onclick="setFileTab('borrower', this)">Borrower profile</div>
-      <div class="file-nav-item" onclick="setFileTab('documents', this)">Documents</div>
-      <div class="file-nav-item" onclick="setFileTab('ai', this)">AI analysis</div>
-      <div class="file-section-label">Loan details</div>
-      <div class="file-nav-item" onclick="setFileTab('vessel', this)">Vessel details</div>
-      <div class="file-nav-item" onclick="setFileTab('lender', this)">Lender match</div>
-      <div class="file-section-label">Actions</div>
-      <div class="file-nav-item" onclick="setFileTab('timeline', this)">Activity log</div>
-      <div class="file-nav-item" onclick="setFileTab('notes', this)">Notes</div>
-    </div>
-    <div class="file-main" id="file-main-content"></div>
+  <div class="lf-prog" id="lf-prog"></div>
+  <div class="lf-layout">
+    <div class="lf-sb" id="lf-sb"></div>
+    <div class="lf-main" id="lf-main"></div>
   </div>
 </div>
 
-<!-- NEW APPLICATION VIEW -->
+<!-- NEW APPLICATION -->
 <div class="view" id="view-new-app">
-  <div class="page-header">
-    <div><div class="page-title">New loan application</div><div class="page-sub">Pre-qualification — up to $20,000,000</div></div>
-  </div>
-  <div style="padding:20px;flex:1;overflow-y:auto">
-    <div class="section-card"><div class="section-card-head"><div class="section-card-title">Borrower information</div></div><div class="section-card-body">
-      <div class="field-grid" style="margin-bottom:12px">
-        <div class="field-item"><div class="field-label">First name</div><input class="field-input" placeholder="First name"/></div>
-        <div class="field-item"><div class="field-label">Last name</div><input class="field-input" placeholder="Last name"/></div>
-        <div class="field-item"><div class="field-label">Email</div><input class="field-input" placeholder="Email address" type="email"/></div>
-        <div class="field-item"><div class="field-label">Phone</div><input class="field-input" placeholder="(305) 000-0000"/></div>
-        <div class="field-item"><div class="field-label">Social Security</div><input class="field-input" placeholder="XXX-XX-XXXX"/></div>
-        <div class="field-item"><div class="field-label">Date of birth</div><input class="field-input" type="date"/></div>
+  <div class="ph"><div><div class="ph-title">New loan application</div><div class="ph-sub">Pre-qualification — up to $20,000,000</div></div></div>
+  <div class="new-app-body">
+    <div class="sc"><div class="sc-head"><div class="sc-title">Borrower information</div></div><div class="sc-body">
+      <div class="fg fg-3" style="margin-bottom:14px">
+        <div><div class="fi-label">First name</div><input class="fi-in" placeholder="First name"></div>
+        <div><div class="fi-label">Last name</div><input class="fi-in" placeholder="Last name"></div>
+        <div><div class="fi-label">Email</div><input class="fi-in" type="email" placeholder="Email address"></div>
+        <div><div class="fi-label">Phone</div><input class="fi-in" placeholder="(305) 000-0000"></div>
+        <div><div class="fi-label">Date of birth</div><input class="fi-in" type="date"></div>
+        <div><div class="fi-label">Employment status</div><select class="fi-sel"><option>Employed</option><option>Self-employed</option><option>Retired</option><option>Business owner</option></select></div>
       </div>
-      <div class="field-grid field-grid-2">
-        <div class="field-item"><div class="field-label">Annual income</div><input class="field-input" placeholder="$0.00"/></div>
-        <div class="field-item"><div class="field-label">Employment status</div><select class="field-select"><option>Employed</option><option>Self-employed</option><option>Retired</option><option>Business owner</option></select></div>
-      </div>
-    </div></div>
-    <div class="section-card"><div class="section-card-head"><div class="section-card-title">Vessel details</div></div><div class="section-card-body">
-      <div class="field-grid">
-        <div class="field-item"><div class="field-label">Year</div><input class="field-input" placeholder="2022"/></div>
-        <div class="field-item"><div class="field-label">Make</div><input class="field-input" placeholder="Azimut"/></div>
-        <div class="field-item"><div class="field-label">Model</div><input class="field-input" placeholder="55"/></div>
-        <div class="field-item"><div class="field-label">Length (ft)</div><input class="field-input" placeholder="55"/></div>
-        <div class="field-item"><div class="field-label">Hull type</div><select class="field-select"><option>Fiberglass</option><option>Aluminum</option><option>Steel</option><option>Wood</option></select></div>
-        <div class="field-item"><div class="field-label">Use type</div><select class="field-select"><option>Personal use</option><option>Charter</option><option>Commercial</option></select></div>
+      <div class="fg fg-2">
+        <div>
+          <div class="fi-label">Social Security Number <span style="font-size:11px;color:var(--teal-d);text-transform:none;letter-spacing:0;font-weight:400">Editable until first lender submission</span></div>
+          <input class="fi-in" placeholder="XXX-XX-XXXX">
+        </div>
+        <div><div class="fi-label">Annual income</div><input class="fi-in" placeholder="$0.00"></div>
       </div>
     </div></div>
-    <div class="section-card"><div class="section-card-head"><div class="section-card-title">Loan request</div></div><div class="section-card-body">
-      <div class="field-grid">
-        <div class="field-item"><div class="field-label">Purchase price</div><input class="field-input" placeholder="$0.00"/></div>
-        <div class="field-item"><div class="field-label">Loan amount</div><input class="field-input" placeholder="$0.00"/></div>
-        <div class="field-item"><div class="field-label">Down payment</div><input class="field-input" placeholder="$0.00"/></div>
-        <div class="field-item"><div class="field-label">Desired term</div><select class="field-select"><option>120 months</option><option>180 months</option><option>240 months</option></select></div>
-        <div class="field-item"><div class="field-label">Co-borrower?</div><select class="field-select"><option>No</option><option>Yes</option></select></div>
-        <div class="field-item"><div class="field-label">Is new purchase?</div><select class="field-select"><option>Yes — new purchase</option><option>Refinance</option></select></div>
+    <div class="sc"><div class="sc-head"><div class="sc-title">Vessel details</div></div><div class="sc-body">
+      <div class="fg fg-3">
+        <div><div class="fi-label">Year</div><input class="fi-in" placeholder="2022"></div>
+        <div><div class="fi-label">Make</div><input class="fi-in" placeholder="Azimut"></div>
+        <div><div class="fi-label">Model</div><input class="fi-in" placeholder="55"></div>
+        <div><div class="fi-label">Length (ft)</div><input class="fi-in" placeholder="55"></div>
+        <div><div class="fi-label">Hull type</div><select class="fi-sel"><option>Fiberglass</option><option>Aluminum</option><option>Steel</option><option>Wood</option></select></div>
+        <div><div class="fi-label">Use type</div><select class="fi-sel"><option>Personal use</option><option>Charter</option><option>Commercial</option></select></div>
+      </div>
+    </div></div>
+    <div class="sc"><div class="sc-head"><div class="sc-title">Loan request</div></div><div class="sc-body">
+      <div class="fg fg-3">
+        <div><div class="fi-label">Purchase price</div><input class="fi-in" placeholder="$0.00"></div>
+        <div><div class="fi-label">Loan amount</div><input class="fi-in" placeholder="$0.00"></div>
+        <div><div class="fi-label">Down payment</div><input class="fi-in" placeholder="$0.00"></div>
+        <div><div class="fi-label">Desired term</div><select class="fi-sel"><option>120 months</option><option>180 months</option><option>240 months</option></select></div>
+        <div><div class="fi-label">Referring broker</div><input class="fi-in" placeholder="Broker or dealer name"></div>
+        <div><div class="fi-label">Co-borrower</div><select class="fi-sel"><option>No</option><option>Yes — add co-borrower</option></select></div>
+      </div>
+    </div></div>
+    <div class="sc"><div class="sc-head"><div class="sc-title">KYC — Know Your Customer</div><span class="sc-sub">Can be initiated at any point — non-blocking</span></div><div class="sc-body">
+      <div style="display:flex;gap:10px;align-items:center">
+        <select class="fi-sel" style="width:220px"><option>Send KYC link to borrower now</option><option>Borrower completes at end of flow</option><option>Skip — initiate later</option></select>
+        <span style="font-size:13px;color:var(--g300)">KYC is required before funding. It can be triggered at any stage.</span>
       </div>
     </div></div>
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
-      <button class="btn" onclick="showView('pipeline', document.getElementById('nav-pipeline'))">Cancel</button>
-      <button class="btn btn-teal" onclick="submitApp()">Submit application</button>
+      <button class="btn btn-outline" onclick="showView('pipeline',document.getElementById('nav-pipeline'))">Cancel</button>
+      <button class="btn btn-brand" onclick="submitApp()">Submit application</button>
     </div>
   </div>
 </div>
 
-<!-- VATO VIEW -->
+<!-- VATO -->
 <div class="view" id="view-vato">
-  <div class="page-header">
-    <div><div class="page-title">VATO — Vessel Appraisal Tool</div><div class="page-sub">Automated comparable analysis powered by NADA and BUCValu</div></div>
-    <div class="header-spacer"></div>
-    <button class="btn btn-teal" onclick="showToast('VATO running comparable analysis via NADA and BUCValu...')">Run new appraisal</button>
-  </div>
-  <div style="padding:20px;flex:1;overflow-y:auto">
-    <div class="section-card"><div class="section-card-head"><div class="section-card-title">Subject vessel</div><div class="section-card-sub">2022 Azimut 72 · Hull #AZ72T2022-0041</div></div><div class="section-card-body">
-      <div class="field-grid">
-        <div class="field-item"><div class="field-label">Make / Model</div><div class="field-value">Azimut 72</div></div>
-        <div class="field-item"><div class="field-label">Year</div><div class="field-value">2022</div></div>
-        <div class="field-item"><div class="field-label">Length</div><div class="field-value">72 ft</div></div>
-        <div class="field-item"><div class="field-label">Engine hours</div><div class="field-value">312</div></div>
-        <div class="field-item"><div class="field-label">Location</div><div class="field-value">Miami, FL</div></div>
-        <div class="field-item"><div class="field-label">Asking price</div><div class="field-value" style="color:var(--teal-dim);font-weight:500">$3,450,000</div></div>
+  <div class="ph"><div><div class="ph-title">VATO — Vessel Appraisal Tool</div><div class="ph-sub">Automated comparable analysis via NADA and BUCValu</div></div><div class="ph-space"></div><button class="btn btn-brand btn-sm" onclick="T('VATO running comparable analysis...')">Run new appraisal</button></div>
+  <div style="padding:20px 24px;flex:1;overflow-y:auto">
+    <div class="sc"><div class="sc-head"><div class="sc-title">Subject vessel</div><div class="sc-sub">2022 Azimut 72 · Hull #AZ72T2022-0041</div></div><div class="sc-body">
+      <div class="fg fg-3">
+        <div><div class="fi-label">Make / Model</div><div class="fi-val">Azimut 72</div></div>
+        <div><div class="fi-label">Year</div><div class="fi-val">2022</div></div>
+        <div><div class="fi-label">Engine hours</div><div class="fi-val">312</div></div>
+        <div><div class="fi-label">Asking price</div><div class="fi-val" style="font-weight:600;color:var(--teal-d)">$3,450,000</div></div>
+        <div><div class="fi-label">Location</div><div class="fi-val">Miami, FL</div></div>
+        <div><div class="fi-label">Length</div><div class="fi-val">72 ft</div></div>
       </div>
     </div></div>
-    <div class="section-card"><div class="section-card-head"><div class="section-card-title">VATO valuation</div><span style="margin-left:auto;font-size:11px;background:var(--teal-bg);color:var(--teal-dim);padding:3px 10px;border-radius:4px;font-weight:500">High confidence</span></div><div class="section-card-body">
-      <div style="display:flex;gap:24px;margin-bottom:16px;padding:14px;background:var(--bg-secondary);border-radius:var(--radius-md)">
-        <div><div class="field-label">VATO estimate</div><div style="font-size:24px;font-weight:500;color:var(--teal-dim);margin-top:4px">$3,200,000</div></div>
-        <div><div class="field-label">Variance from ask</div><div style="font-size:18px;font-weight:500;color:var(--amber);margin-top:4px">- $250,000 (7.2%)</div></div>
-        <div><div class="field-label">LTV at loan amount</div><div style="font-size:18px;font-weight:500;margin-top:4px">88.9%</div></div>
-        <div><div class="field-label">Comp count</div><div style="font-size:18px;font-weight:500;margin-top:4px">8 vessels</div></div>
+    <div class="sc"><div class="sc-head"><div class="sc-title">VATO valuation</div><span style="margin-left:auto;font-size:11px;font-weight:600;background:var(--green-bg);color:#065F46;padding:3px 10px;border-radius:5px;font-family:var(--font-head)">High confidence · 8 comps</span></div><div class="sc-body">
+      <div style="display:flex;gap:22px;padding:14px 16px;background:var(--g10);border-radius:var(--r);border:1px solid var(--border);margin-bottom:16px">
+        <div><div class="fi-label">VATO estimate</div><div style="font-family:var(--font-head);font-size:24px;font-weight:700;color:var(--teal-d);margin-top:4px">$3,200,000</div></div>
+        <div><div class="fi-label">Variance from ask</div><div style="font-family:var(--font-head);font-size:18px;font-weight:600;color:var(--amber);margin-top:4px">−$250,000 (7.2%)</div></div>
+        <div><div class="fi-label">LTV at loan amount</div><div style="font-family:var(--font-head);font-size:18px;font-weight:600;margin-top:4px">88.9%</div></div>
       </div>
-      <div class="vato-comps">
-        <div class="comp-card"><div class="comp-vessel">2022 Azimut 72</div><div class="comp-year">Fort Lauderdale · 280 hrs</div><div class="comp-price">$3,350,000</div><div class="comp-delta" style="color:var(--teal-dim)">+ 4.7% vs estimate</div></div>
-        <div class="comp-card"><div class="comp-vessel">2021 Azimut 72</div><div class="comp-year">Palm Beach · 510 hrs</div><div class="comp-price">$3,100,000</div><div class="comp-delta" style="color:var(--text-secondary)">- 3.1% vs estimate</div></div>
-        <div class="comp-card"><div class="comp-vessel">2022 Azimut 72</div><div class="comp-year">Annapolis · 190 hrs</div><div class="comp-price">$3,280,000</div><div class="comp-delta" style="color:var(--teal-dim)">+ 2.5% vs estimate</div></div>
-        <div class="comp-card"><div class="comp-vessel">2023 Azimut 72</div><div class="comp-year">Miami · 90 hrs</div><div class="comp-price">$3,580,000</div><div class="comp-delta" style="color:var(--teal-dim)">+ 11.9% vs estimate</div></div>
-        <div class="comp-card"><div class="comp-vessel">2021 Sunseeker 76</div><div class="comp-year">Newport · 620 hrs</div><div class="comp-price">$3,050,000</div><div class="comp-delta" style="color:var(--text-secondary)">- 4.7% vs estimate</div></div>
-        <div class="comp-card"><div class="comp-vessel">2022 Princess 72</div><div class="comp-year">Fort Lauderdale · 310 hrs</div><div class="comp-price">$3,150,000</div><div class="comp-delta" style="color:var(--text-secondary)">- 1.6% vs estimate</div></div>
-      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px" id="vato-comps"></div>
     </div></div>
   </div>
 </div>
 
-<!-- EASYSIGN VIEW -->
-<div class="view" id="view-easysign">
-  <div class="page-header">
-    <div><div class="page-title">EasySign</div><div class="page-sub">Create, send, and track legally binding documents</div></div>
-    <div class="header-spacer"></div>
-    <button class="btn btn-teal" onclick="showToast('Sending reminder to all pending signers...')">Send reminder</button>
-  </div>
-  <div style="padding:20px;flex:1;overflow-y:auto">
-    <div class="section-card"><div class="section-card-head"><div class="section-card-title">Envelope — Nina Petrova · Sunseeker 76</div><span style="margin-left:auto;font-size:11px;background:var(--amber-bg);color:var(--amber);padding:3px 10px;border-radius:4px;font-weight:500">Awaiting signatures</span></div><div class="section-card-body">
-      <div class="easysign-wrap">
-        <div class="sign-party"><div class="sign-avatar" style="background:var(--teal)">NP</div><div><div class="sign-name">Nina Petrova</div><div class="sign-role">Borrower · Primary signer</div></div><div class="sign-spacer"></div><span class="sign-status" style="background:var(--amber-bg);color:var(--amber)">Pending</span><button class="btn" style="height:28px;font-size:11px" onclick="showToast('Reminder sent to Nina Petrova')">Remind</button></div>
-        <div class="sign-party"><div class="sign-avatar" style="background:#3B82F6">IB</div><div><div class="sign-name">Ivan Baranov</div><div class="sign-role">Co-borrower</div></div><div class="sign-spacer"></div><span class="sign-status" style="background:var(--teal-bg);color:var(--teal-dim)">Signed</span></div>
-        <div class="sign-party"><div class="sign-avatar" style="background:var(--purple)">DP</div><div><div class="sign-name">Debbie Pettibone</div><div class="sign-role">YachtWay EasyFund · Loan officer</div></div><div class="sign-spacer"></div><span class="sign-status" style="background:var(--teal-bg);color:var(--teal-dim)">Signed</span></div>
-        <div class="sign-party"><div class="sign-avatar" style="background:#7C3AED">SS</div><div><div class="sign-name">Shore Premier Finance</div><div class="sign-role">Lender · Countersignature required</div></div><div class="sign-spacer"></div><span class="sign-status" style="background:var(--amber-bg);color:var(--amber)">Pending</span></div>
-      </div>
-      <div style="margin-top:14px;padding-top:14px;border-top:0.5px solid var(--border);display:flex;gap:10px">
-        <button class="btn" onclick="showToast('Downloading executed set as PDF...')">Download envelope</button>
-        <button class="btn" onclick="showToast('EasyClose: forwarding to closing agent and title company')">Forward to EasyClose</button>
-        <button class="btn btn-teal" style="margin-left:auto" onclick="showToast('Completed envelope sent to Shore Premier Finance for final countersign')">Mark complete</button>
-      </div>
-    </div></div>
-    <div class="section-card"><div class="section-card-head"><div class="section-card-title">Document checklist</div></div><div class="section-card-body"><div class="doc-list">
-      <div class="doc-row"><div class="doc-icon" style="background:var(--purple-bg)"><svg width="12" height="12" viewBox="0 0 12 12" fill="var(--purple)"><path d="M2 1h5l3 3v7H2V1z"/></svg></div><div><div class="doc-name">Promissory note</div><div class="doc-meta">Generated by LPS · 4 pages</div></div><div class="doc-spacer"></div><span class="doc-status" style="background:var(--teal-bg);color:var(--teal-dim)">Executed</span></div>
-      <div class="doc-row"><div class="doc-icon" style="background:var(--purple-bg)"><svg width="12" height="12" viewBox="0 0 12 12" fill="var(--purple)"><path d="M2 1h5l3 3v7H2V1z"/></svg></div><div><div class="doc-name">Security agreement</div><div class="doc-meta">Generated by LPS · 6 pages</div></div><div class="doc-spacer"></div><span class="doc-status" style="background:var(--amber-bg);color:var(--amber)">Pending</span></div>
-      <div class="doc-row"><div class="doc-icon" style="background:var(--purple-bg)"><svg width="12" height="12" viewBox="0 0 12 12" fill="var(--purple)"><path d="M2 1h5l3 3v7H2V1z"/></svg></div><div><div class="doc-name">Disclosure statement (TILA)</div><div class="doc-meta">Regulatory · 2 pages</div></div><div class="doc-spacer"></div><span class="doc-status" style="background:var(--teal-bg);color:var(--teal-dim)">Executed</span></div>
-      <div class="doc-row"><div class="doc-icon" style="background:var(--purple-bg)"><svg width="12" height="12" viewBox="0 0 12 12" fill="var(--purple)"><path d="M2 1h5l3 3v7H2V1z"/></svg></div><div><div class="doc-name">Vessel title transfer</div><div class="doc-meta">Coast Guard NVDC · 1 page</div></div><div class="doc-spacer"></div><span class="doc-status" style="background:var(--red-bg);color:var(--red)">Required</span></div>
-    </div></div></div>
-  </div>
-</div>
-
-<!-- LENDERS VIEW -->
+<!-- LENDERS -->
 <div class="view" id="view-lenders">
-  <div class="page-header">
-    <div><div class="page-title">Lender network</div><div class="page-sub">Active lender partners and rate matrix</div></div>
-    <div class="header-spacer"></div>
-    <button class="btn btn-teal" onclick="showToast('Lender match engine: running against current pipeline criteria')">Run match engine</button>
-  </div>
-  <div style="padding:20px;flex:1;overflow-y:auto">
-    <div class="section-card"><div class="section-card-head"><div class="section-card-title">Active lender partners</div></div><div class="section-card-body" style="padding:0">
-      <table class="lender-table">
-        <thead><tr><th>Select</th><th>Lender</th><th>Min loan</th><th>Max loan</th><th>Rate range</th><th>Avg turnaround</th><th>LTV max</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr><td><input type="radio" name="lender-select" class="lender-radio" checked/></td><td style="font-weight:500">Shore Premier Finance</td><td>$100,000</td><td>$20,000,000</td><td>6.25 – 7.80%</td><td>4.2 days</td><td>80%</td><td><span class="doc-status" style="background:var(--teal-bg);color:var(--teal-dim)">Active</span></td></tr>
-          <tr><td><input type="radio" name="lender-select" class="lender-radio"/></td><td style="font-weight:500">Essex Credit</td><td>$50,000</td><td>$5,000,000</td><td>6.99 – 8.50%</td><td>5.8 days</td><td>80%</td><td><span class="doc-status" style="background:var(--teal-bg);color:var(--teal-dim)">Active</span></td></tr>
-          <tr><td><input type="radio" name="lender-select" class="lender-radio"/></td><td style="font-weight:500">Medallion Bank</td><td>$75,000</td><td>$7,500,000</td><td>7.25 – 9.00%</td><td>6.1 days</td><td>85%</td><td><span class="doc-status" style="background:var(--teal-bg);color:var(--teal-dim)">Active</span></td></tr>
-          <tr><td><input type="radio" name="lender-select" class="lender-radio"/></td><td style="font-weight:500">Trident Funding</td><td>$100,000</td><td>$10,000,000</td><td>6.50 – 8.25%</td><td>5.0 days</td><td>80%</td><td><span class="doc-status" style="background:var(--amber-bg);color:var(--amber)">Review</span></td></tr>
-          <tr><td><input type="radio" name="lender-select" class="lender-radio"/></td><td style="font-weight:500">LightStream (SunTrust)</td><td>$5,000</td><td>$100,000</td><td>7.99 – 10.49%</td><td>2.1 days</td><td>N/A</td><td><span class="doc-status" style="background:var(--teal-bg);color:var(--teal-dim)">Active</span></td></tr>
-        </tbody>
-      </table>
+  <div class="ph"><div><div class="ph-title">Lender network</div><div class="ph-sub">Rate matrix · Upload integrations · Match engine</div></div><div class="ph-space"></div><button class="btn btn-brand btn-sm" onclick="T('Match engine running against current pipeline...')">Run match engine</button></div>
+  <div style="padding:20px 24px;flex:1;overflow-y:auto">
+    <div class="sc"><div class="sc-head"><div class="sc-title">Active lender partners</div></div><div class="sc-body" style="padding:0">
+      <table class="lt"><thead><tr><th>Select</th><th>Lender</th><th>Min loan</th><th>Max loan</th><th>Rate range</th><th>Avg turnaround</th><th>LTV max</th><th>Doc upload method</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><input type="radio" name="ls" class="lt-radio" checked></td><td style="font-weight:600;font-family:var(--font-head)">Shore Premier Finance</td><td>$100,000</td><td>$20,000,000</td><td>6.25 – 7.80%</td><td>4.2 days</td><td>80%</td><td><span class="um-direct">Direct via LPS</span></td><td><span class="pill" style="background:var(--green-bg);color:#065F46">Active</span></td></tr>
+        <tr><td><input type="radio" name="ls" class="lt-radio"></td><td style="font-weight:600;font-family:var(--font-head)">Essex Credit</td><td>$50,000</td><td>$5,000,000</td><td>6.99 – 8.50%</td><td>5.8 days</td><td>80%</td><td><span class="um-email">Email only</span></td><td><span class="pill" style="background:var(--green-bg);color:#065F46">Active</span></td></tr>
+        <tr><td><input type="radio" name="ls" class="lt-radio"></td><td style="font-weight:600;font-family:var(--font-head)">Medallion Bank</td><td>$75,000</td><td>$7,500,000</td><td>7.25 – 9.00%</td><td>6.1 days</td><td>85%</td><td><span class="um-portal">Their portal</span></td><td><span class="pill" style="background:var(--green-bg);color:#065F46">Active</span></td></tr>
+        <tr><td><input type="radio" name="ls" class="lt-radio"></td><td style="font-weight:600;font-family:var(--font-head)">Trident Funding</td><td>$100,000</td><td>$10,000,000</td><td>6.50 – 8.25%</td><td>5.0 days</td><td>80%</td><td><span class="um-direct">Direct via LPS</span></td><td><span class="pill" style="background:var(--amber-bg);color:#7A2E0E">Under review</span></td></tr>
+      </tbody></table>
     </div></div>
+    <div class="af af-info">Upload method is shown per lender so your team knows how to deliver documents without logging into separate portals. Direct-integrated lenders submit through LPS automatically — no separate portal login required.</div>
   </div>
 </div>
 
-</div>
-</div>
+</div><!-- /main -->
+</div><!-- /layout -->
+</div><!-- /app -->
+
+<div class="overlay" id="stage-overlay">
+  <div class="modal-box">
+    <div class="modal-head"><div class="modal-title" id="modal-title">Move loan to stage</div><button class="modal-close" onclick="closeModal()">×</button></div>
+    <div class="modal-body"><div id="sp-list"></div></div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-var currentFileTab = 'overview';
-var currentBorrower = { name: 'Elena Fischer', vessel: 'Fountaine Pajot 47', amount: '$510,000', status: 'Docs Uploading' };
+var ROLE='manager',ML=null;
+var CL={name:'Elena Fischer',vessel:'Fountaine Pajot 47',amount:'$510,000',status:'Doc Upload',si:4,officer:'Debbie Pettibone',broker:'Gulf Coast Marine',lid:'EF-2024-0041'};
 
-function showView(id, navEl) {
-  document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
-  document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
-  var v = document.getElementById('view-' + id);
-  if (v) v.classList.add('active');
-  if (navEl) navEl.classList.add('active');
-  if (id === 'loan-file') { renderFileTab('overview'); document.querySelectorAll('.file-nav-item')[0].classList.add('active'); }
+var ST=[
+  {n:'Application',c:'#0FA88C'},{n:'App review',c:'#0FA88C'},{n:'KYC',c:'#FDB022'},
+  {n:'Doc request',c:'#FDB022'},{n:'Doc upload',c:'#FDB022'},{n:'Lender submit',c:'#6430B0'},
+  {n:'Credit decision',c:'#6430B0'},{n:'Approval',c:'#0FA88C'},{n:'Appraisal',c:'#FDB022'},
+  {n:'Loan agreement',c:'#4B0EA3'},{n:'Loan docs',c:'#0FA88C'},{n:'Closing / EasySign',c:'#4B0EA3'},
+  {n:'Funded',c:'#32D583'}
+];
+
+var LOANS=[
+  {name:'Marcus Webb',vessel:'2019 Azimut 55',amount:'$485,000',si:0,officer:'Debbie Pettibone',broker:'Gulf Coast Marine',days:0,kyc:false,stip:false,la:false},
+  {name:'Sophia Tran',vessel:'2021 Sunseeker 60',amount:'$740,000',si:0,officer:'Alicia Bryson',broker:'Miami Yacht Group',days:0,kyc:false,stip:false,la:false},
+  {name:'James Kowalski',vessel:'2020 Ferretti 550',amount:'$1,200,000',si:1,officer:'Debbie Pettibone',broker:'Advantage Rec. Finance',days:0,kyc:true,stip:false,la:false},
+  {name:'Priya Anand',vessel:'2022 Riviera 445',amount:'$395,000',si:2,officer:'Alicia Bryson',broker:'Gulf Coast Marine',days:1,kyc:false,stip:false,la:false},
+  {name:'Daniel Reyes',vessel:'2018 Bertram 54',amount:'$620,000',si:3,officer:'Debbie Pettibone',broker:'South Florida Yachts',days:1,kyc:true,stip:false,la:false},
+  {name:'Elena Fischer',vessel:'Fountaine Pajot 47',amount:'$510,000',si:4,officer:'Debbie Pettibone',broker:'Gulf Coast Marine',days:2,kyc:false,stip:false,la:false},
+  {name:'Robert Kim',vessel:'2021 Sea Ray L590',amount:'$880,000',si:5,officer:'Alicia Bryson',broker:'Miami Yacht Group',days:3,kyc:false,stip:false,la:false},
+  {name:'Claire Moreau',vessel:'2020 Princess V58',amount:'$1,450,000',si:6,officer:'Debbie Pettibone',broker:'Advantage Rec. Finance',days:4,kyc:false,stip:true,la:false},
+  {name:'Thomas Lindqvist',vessel:'2019 Pershing 70',amount:'$2,100,000',si:7,officer:'Alicia Bryson',broker:'Gulf Coast Marine',days:5,kyc:false,stip:false,la:false},
+  {name:'Valentina Cruz',vessel:'2022 Azimut 72',amount:'$3,200,000',si:8,officer:'Debbie Pettibone',broker:'South Florida Yachts',days:6,kyc:false,stip:false,la:false},
+  {name:'Ahmed Hassan',vessel:'Fairline Squadron 58',amount:'$1,750,000',si:10,officer:'Alicia Bryson',broker:'Miami Yacht Group',days:7,kyc:false,stip:false,la:true},
+  {name:'Nina Petrova',vessel:'2020 Sunseeker 76',amount:'$4,800,000',si:11,officer:'Debbie Pettibone',broker:'Gulf Coast Marine',days:8,kyc:false,stip:false,la:true}
+];
+
+var CLOSED=[
+  {id:'EF-2024-0031',name:'Richard Hoang',vessel:'2021 Sea Ray 400',lender:'Shore Premier Finance',amount:'$380,000',rate:'6.50%',funded:'Mar 28, 2025',officer:'Debbie Pettibone',broker:'Gulf Coast Marine',title:true,reg:true},
+  {id:'EF-2024-0028',name:'Camille Nguyen',vessel:'2020 Azimut 55',lender:'Medallion Bank',amount:'$620,000',rate:'7.10%',funded:'Mar 12, 2025',officer:'Alicia Bryson',broker:'Miami Yacht Group',title:true,reg:false},
+  {id:'EF-2024-0025',name:'Patrick Osei',vessel:'2019 Ferretti 550',lender:'Essex Credit',amount:'$1,100,000',rate:'6.80%',funded:'Feb 18, 2025',officer:'Debbie Pettibone',broker:'Advantage Rec. Finance',title:true,reg:true},
+  {id:'EF-2024-0022',name:'Laura Fontaine',vessel:'2022 Princess 62',lender:'Shore Premier Finance',amount:'$1,850,000',rate:'6.25%',funded:'Feb 3, 2025',officer:'Alicia Bryson',broker:'Gulf Coast Marine',title:false,reg:false},
+  {id:'EF-2024-0019',name:'Dmitri Volkov',vessel:'2021 Sunseeker 76',lender:'Shore Premier Finance',amount:'$4,200,000',rate:'6.40%',funded:'Jan 22, 2025',officer:'Debbie Pettibone',broker:'South Florida Yachts',title:true,reg:true},
+  {id:'EF-2024-0016',name:'Amanda Johansson',vessel:'2020 Riviera 50',lender:'Trident Funding',amount:'$490,000',rate:'7.00%',funded:'Jan 9, 2025',officer:'Alicia Bryson',broker:'Miami Yacht Group',title:true,reg:true}
+];
+
+function setRole(r,btn){
+  ROLE=r;
+  document.querySelectorAll('.role-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  var bb=document.getElementById('broker-banner');
+  var ms=document.getElementById('mgr-section');
+  var md=document.getElementById('mgr-div');
+  if(r==='broker'){bb.classList.add('show');ms.style.display='none';md.style.display='none';document.getElementById('pl-title').textContent='My referred loans';document.getElementById('pl-sub').textContent='Your submitted deals — application status and bank decision visible only';document.getElementById('pl-vol').textContent='—';}
+  else{bb.classList.remove('show');ms.style.display='';md.style.display='';document.getElementById('pl-title').textContent=r==='manager'?'Active pipeline — manager view':'Active pipeline — loan officer view';document.getElementById('pl-sub').textContent=r==='manager'?'All loan officers · All referring brokers · Drag or click Move to change stage':'Your assigned loans · Drag or click Move to change stage';document.getElementById('pl-vol').textContent='$18.4M';}
+  renderPipeline();
 }
 
-function openLoanFile(name, vessel, amount, status) {
-  currentBorrower = { name: name, vessel: vessel, amount: amount, status: status };
-  showView('loan-file', document.getElementById('nav-file'));
+function renderPipeline(){
+  var body=document.getElementById('pl-body');
+  var grp={};ST.forEach(function(s,i){grp[i]=[];});
+  LOANS.forEach(function(l){grp[l.si].push(l);});
+  var html='';
+  ST.forEach(function(s,i){
+    var loans=grp[i];
+    if(ROLE==='broker') loans=loans.filter(function(l){return l.broker==='Gulf Coast Marine';});
+    if(ROLE==='officer') loans=loans.filter(function(l){return l.officer==='Debbie Pettibone';});
+    var ac=loans.filter(function(l){return l.kyc||l.stip;}).length;
+    var gc=ROLE==='broker'?'brk-grid':ROLE==='manager'?'mgr-grid':'off-grid';
+    html+='<div class="sg"><div class="sg-head open" onclick="toggleSG(this)">';
+    html+='<div class="sg-bar" style="background:'+s.c+'"></div>';
+    html+='<div class="sg-name">'+s.n+'</div><div class="sg-count">('+loans.length+')</div>';
+    if(ac>0) html+='<span class="sg-action" style="background:var(--amber-bg);color:#7A2E0E">'+ac+' need action</span>';
+    html+='<div class="sg-space"></div><span class="sg-chev open">›</span></div>';
+    if(loans.length>0){
+      html+='<div class="list-head '+gc+'">';
+      html+='<div class="lh-col"></div>';
+      if(ROLE==='broker'){html+='<div class="lh-col">Borrower</div><div class="lh-col">Vessel</div><div class="lh-col">Submitted</div><div class="lh-col">Status</div><div class="lh-col"></div>';}
+      else{html+='<div class="lh-col">Borrower</div><div class="lh-col">Vessel</div><div class="lh-col">Amount</div><div class="lh-col">Referring broker</div>';if(ROLE==='manager')html+='<div class="lh-col">Loan officer</div>';html+='<div class="lh-col">Days</div><div class="lh-col">Flags</div><div class="lh-col"></div>';}
+      html+='</div>';
+    }
+    html+='<div class="loan-list open">';
+    loans.forEach(function(l){
+      html+='<div class="loan-row '+gc+'" onclick="openLF(\''+l.name+'\',\''+l.vessel+'\',\''+l.amount+'\',\''+ST[l.si].n+'\','+l.si+')">';
+      html+='<div class="lr-drag" onclick="event.stopPropagation();openModal(\''+l.name+'\','+l.si+')">⠿</div>';
+      html+='<div><div class="lr-name">'+l.name+'</div><div class="lr-vessel">'+l.vessel+'</div></div>';
+      if(ROLE==='broker'){
+        var bst=l.si>=7?'<span class="pill" style="background:var(--green-bg);color:#065F46">Approved</span>':l.si===6?'<span class="pill" style="background:var(--amber-bg);color:#7A2E0E">Decision pending</span>':'<span class="pill" style="background:#F4F0FB;color:var(--brand-700)">In review</span>';
+        html+='<div class="lr-days">'+(l.days===0?'Today':l.days+'d ago')+'</div><div>'+bst+'</div><div></div>';
+      }else{
+        html+='<div class="lr-amount">'+l.amount+'</div>';
+        html+='<div class="lr-person"><div class="lr-av" style="background:var(--brand-700)">'+initials(l.broker)+'</div>'+l.broker+'</div>';
+        if(ROLE==='manager') html+='<div class="lr-person"><div class="lr-av" style="background:var(--brand-800)">'+initials(l.officer)+'</div>'+l.officer+'</div>';
+        html+='<div class="lr-days">'+(l.days===0?'Today':l.days+'d ago')+'</div>';
+        html+='<div class="lr-flags">';
+        if(l.kyc) html+='<div class="fdot" style="background:var(--amber)" title="KYC pending"></div>';
+        if(l.stip) html+='<div class="fdot" style="background:var(--red)" title="Stip required"></div>';
+        if(l.la) html+='<div class="fdot" style="background:var(--brand-700)" title="Loan agreement out"></div>';
+        if(!l.kyc&&!l.stip&&!l.la) html+='<div class="fdot" style="background:var(--teal)" title="On track"></div>';
+        html+='</div>';
+        html+='<div><button class="btn btn-xs btn-outline" onclick="event.stopPropagation();openModal(\''+l.name+'\','+l.si+')">Move</button></div>';
+      }
+      html+='</div>';
+    });
+    if(!loans.length) html+='<div style="padding:12px 16px;font-size:13px;color:var(--g300)">No loans in this stage</div>';
+    html+='</div></div>';
+  });
+  body.innerHTML=html;
 }
 
-function setFileTab(tab, el) {
-  currentFileTab = tab;
-  document.querySelectorAll('.file-nav-item').forEach(function(i) { i.classList.remove('active'); });
-  if (el) el.classList.add('active');
-  renderFileTab(tab);
+function toggleSG(h){
+  var list=h.parentElement.querySelector('.loan-list');
+  var chev=h.querySelector('.sg-chev');
+  if(list){var o=list.classList.contains('open');list.classList.toggle('open',!o);h.classList.toggle('open',!o);if(chev)chev.classList.toggle('open',!o);}
 }
 
-function renderFileTab(tab) {
-  var c = document.getElementById('file-main-content');
-  var b = currentBorrower;
-  var initials = b.name.split(' ').map(function(w) { return w[0]; }).join('');
-  var hdr = '<div class="borrower-card"><div class="borrower-avatar">' + initials + '</div><div><div class="borrower-name">' + b.name + '</div><div class="borrower-meta">' + b.vessel + ' &nbsp;&middot;&nbsp; ' + b.amount + ' &nbsp;&middot;&nbsp; EasyFund ID: EF-2024-0041</div></div><div class="borrower-spacer"></div><span class="status-pill" style="background:rgba(15,168,140,0.2);color:#0FA88C">' + b.status + '</span><button class="btn" style="border-color:rgba(255,255,255,0.2);color:white;background:rgba(255,255,255,0.08)" onclick="showToast(\'Advancing ' + b.name + ' to next stage...\')">Advance stage</button></div>';
+function openModal(name,si){
+  ML={name:name,si:si};
+  document.getElementById('modal-title').textContent='Move "'+name+'" to stage';
+  var html='';
+  ST.forEach(function(s,i){
+    var c=i===si?' cur':'';
+    html+='<div class="sp-item'+c+'" onclick="moveStage('+i+')">';
+    html+='<div class="sp-num" style="background:'+(i===si?'var(--brand-700)':'var(--brand-800)')+'">'+(i+1)+'</div>';
+    html+='<div class="sp-dot" style="background:'+s.c+'"></div>';
+    html+=s.n+(i===si?' (current)':'');
+    html+='</div>';
+  });
+  document.getElementById('sp-list').innerHTML=html;
+  document.getElementById('stage-overlay').classList.add('show');
+}
 
-  if (tab === 'overview') {
-    c.innerHTML = hdr +
-      '<div class="section-card"><div class="section-card-head"><div class="section-card-title">Loan summary</div></div><div class="section-card-body"><div class="field-grid">' +
-      fld('Loan amount', '<span style="font-weight:500;color:var(--teal-dim)">' + b.amount + '</span>') + fld('Vessel', b.vessel) + fld('Assigned lender', 'Shore Premier Finance') +
-      fld('Loan officer', 'Debbie Pettibone') + fld('Term requested', '180 months') + fld('Days in pipeline', '7') +
-      '</div></div></div>' +
-      '<div class="section-card"><div class="section-card-head"><div class="section-card-title">AI completeness score</div></div><div class="ai-score-wrap"><div class="ai-score-circle"><div class="ai-score-num" style="color:var(--teal)">87</div><div class="ai-score-label">/ 100</div></div><div class="ai-flags">' +
-      aflag('Credit application: complete', '#0FA88C') + aflag('Income documentation: verified', '#0FA88C') +
-      aflag('Bank statements: 1 of 3 months uploaded', '#D97706') + aflag('Insurance binder: not yet provided', '#D97706') +
-      aflag('USCG documentation or state title: missing', '#B91C1C') +
-      '</div></div></div>';
-  } else if (tab === 'borrower') {
-    c.innerHTML = hdr + '<div class="section-card"><div class="section-card-head"><div class="section-card-title">Personal details</div></div><div class="section-card-body"><div class="field-grid">' +
-      fld('Full name', b.name) + fld('Email', '<span style="color:var(--teal-dim)">' + b.name.replace(' ','') + '@email.com</span>') + fld('Phone', '(305) 555-0182') +
-      fld('Employment', 'Business owner') + fld('Annual income', '$420,000') + fld('Credit score', '<span style="color:var(--teal-dim);font-weight:500">748</span>') +
-      fld('DTI ratio', '28.4%') + fld('Net worth', '$2,100,000') + fld('Co-borrower', 'None') +
-      '</div></div></div>';
-  } else if (tab === 'documents') {
-    c.innerHTML = hdr + '<div class="section-card"><div class="section-card-head"><div class="section-card-title">Document checklist</div><button class="btn btn-teal" style="height:26px;font-size:11px;margin-left:auto" onclick="showToast(\'Sending updated doc request to ' + b.name + '\')">Request missing docs</button></div><div class="section-card-body"><div class="doc-list">' +
-      doc('Government-issued ID', 'Uploaded by borrower', 'Verified') + doc('Last 2 years tax returns', 'Uploaded · 2 files', 'Verified') +
-      doc('Bank statements (3 months)', 'Uploaded · 1 of 3 files', 'Partial') + doc('Pay stubs / P&amp;L statement', 'Uploaded by borrower', 'Verified') +
-      doc('Insurance binder', 'Not yet uploaded', 'Missing') + doc('USCG documentation / State title', 'Not yet uploaded', 'Required') +
-      doc('Purchase agreement', 'Uploaded by borrower', 'Verified') +
-      '</div></div></div>';
-  } else if (tab === 'ai') {
-    c.innerHTML = hdr + '<div class="section-card"><div class="section-card-head"><div class="section-card-title">AI underwriting analysis</div><span style="margin-left:auto;font-size:10px;color:var(--text-secondary)">Last run: 2 hours ago</span></div><div class="section-card-body"><div style="display:flex;flex-direction:column;gap:8px">' +
-      aiflag('Credit profile: 748 FICO. Strong prime borrower. No derogatory marks in 7 years.', 'success') +
-      aiflag('Income: $420,000 reported. 2023 and 2022 returns cross-validated. Consistent.', 'success') +
-      aiflag('DTI ratio: 28.4%. Within all lender thresholds reviewed.', 'success') +
-      aiflag('LTV: 80.4% at requested amount. At the ceiling for Shore Premier Finance. Consider down payment increase.', 'warn') +
-      aiflag('Bank statements: Only January provided. February and March outstanding. Cannot confirm cash reserves.', 'warn') +
-      aiflag('Vessel title: No USCG documentation on file. Required before lender submission.', 'error') +
-      aiflag('AI recommendation: Do not submit to lender until bank statements and title are received. File is 87% complete.', 'info') +
-      '</div></div></div>';
-  } else if (tab === 'vessel') {
-    c.innerHTML = hdr + '<div class="section-card"><div class="section-card-head"><div class="section-card-title">Vessel information</div></div><div class="section-card-body"><div class="field-grid">' +
-      fld('Year', '2023') + fld('Make', 'Fountaine Pajot') + fld('Model', '47') + fld('Length', '47 ft') + fld('Hull type', 'Fiberglass') + fld('Engine hours', '180') +
-      fld('Purchase price', '<span style="color:var(--teal-dim);font-weight:500">$635,000</span>') + fld('Loan amount', b.amount) + fld('Down payment', '$125,000') +
-      '</div></div></div>' +
-      '<div class="section-card"><div class="section-card-head"><div class="section-card-title">VATO estimate</div><button class="btn btn-teal" style="height:26px;font-size:11px;margin-left:auto" onclick="showView(\'vato\', document.getElementById(\'nav-vato\'))">Open VATO</button></div><div class="section-card-body"><div style="font-size:24px;font-weight:500;color:var(--teal-dim)">$508,000</div><div style="font-size:12px;color:var(--text-secondary);margin-top:4px">Based on 6 comparable vessels. Variance from purchase price: + $2,000 (0.4%). LTV: 80.8%.</div></div></div>';
-  } else if (tab === 'lender') {
-    c.innerHTML = hdr + '<div class="section-card"><div class="section-card-head"><div class="section-card-title">Lender match</div></div><div class="section-card-body" style="padding:0"><table class="lender-table"><thead><tr><th>Select</th><th>Lender</th><th>Rate</th><th>Term</th><th>Est. payment</th><th>LTV</th><th>Match</th></tr></thead><tbody>' +
-      '<tr><td><input type="radio" name="lf-lender" class="lender-radio" checked/></td><td style="font-weight:500">Shore Premier Finance</td><td>6.75%</td><td>180 mo.</td><td>$4,514/mo.</td><td>80.8%</td><td><span class="lc-badge" style="background:var(--teal-bg);color:var(--teal-dim)">Best match</span></td></tr>' +
-      '<tr><td><input type="radio" name="lf-lender" class="lender-radio"/></td><td style="font-weight:500">Essex Credit</td><td>7.25%</td><td>180 mo.</td><td>$4,694/mo.</td><td>80.8%</td><td><span class="lc-badge" style="background:var(--bg-secondary);color:var(--text-secondary)">Alternative</span></td></tr>' +
-      '<tr><td><input type="radio" name="lf-lender" class="lender-radio"/></td><td style="font-weight:500">Medallion Bank</td><td>7.50%</td><td>240 mo.</td><td>$4,106/mo.</td><td>80.8%</td><td><span class="lc-badge" style="background:var(--bg-secondary);color:var(--text-secondary)">Alternative</span></td></tr>' +
-      '</tbody></table><div style="padding:12px 16px;border-top:0.5px solid var(--border);display:flex;gap:8px;justify-content:flex-end"><button class="btn btn-teal" onclick="showToast(\'File submitted to Shore Premier Finance via LPS. Reference: SPF-2024-0041\')">Submit to lender</button></div></div></div>';
-  } else if (tab === 'timeline') {
-    c.innerHTML = hdr + '<div class="section-card"><div class="section-card-head"><div class="section-card-title">Activity log</div></div><div class="section-card-body"><div class="timeline">' +
-      tl('Application received via EasyFund portal', 'Today, 9:14 AM', 'AI completeness score: 72. GHL pipeline stage set to New Application.', '#0FA88C') +
-      tl('Debbie Pettibone assigned as loan officer', 'Today, 9:31 AM', 'Automated assignment based on queue. Review initiated.', '#0FA88C') +
-      tl('Doc checklist sent to borrower', 'Today, 10:02 AM', '7-item checklist delivered via GHL email automation. Upload portal link included.', '#0FA88C') +
-      tl('4 of 7 documents uploaded', 'Today, 2:45 PM', 'ID, tax returns, pay stubs, and purchase agreement received. Bank statements and title outstanding.', '#D97706') +
-      tl('AI completeness score updated to 87', 'Today, 2:46 PM', 'Automated re-score on upload event. 2 items blocking lender submission.', '#D97706') +
-      '</div></div></div>';
-  } else if (tab === 'notes') {
-    c.innerHTML = hdr + '<div class="section-card"><div class="section-card-head"><div class="section-card-title">Loan officer notes</div></div><div class="section-card-body"><textarea class="field-input" style="height:120px;padding:10px;line-height:1.6;resize:vertical">Borrower is motivated and responsive. Self-employed — 2 years of returns look strong. Business P&L is clean. Waiting on February and March bank statements. Borrower confirmed will upload by end of week. Title is pending from seller — purchase agreement shows vessel still in transit from Annapolis.</textarea><div style="display:flex;justify-content:flex-end;margin-top:10px"><button class="btn btn-teal" onclick="showToast(\'Note saved to loan file\')">Save note</button></div></div></div>';
+function moveStage(i){
+  if(ML){var l=LOANS.find(function(x){return x.name===ML.name;});if(l)l.si=i;}
+  T(ML.name+' moved to: '+ST[i].n);
+  closeModal();renderPipeline();
+}
+
+function closeModal(){document.getElementById('stage-overlay').classList.remove('show');ML=null;}
+
+function openLF(name,vessel,amount,status,si){
+  if(ROLE==='broker'){T('Broker view: full loan file is not accessible. You can see application status and bank decision only.');return;}
+  CL={name:name,vessel:vessel,amount:amount,status:status,si:si||4,officer:'Debbie Pettibone',broker:'Gulf Coast Marine',lid:'EF-2024-0041'};
+  showView('loan-file',document.getElementById('nav-lf'));
+  renderLF('overview');
+}
+
+function renderLF(tab){
+  renderProg();renderSidebar(tab);
+  var c=document.getElementById('lf-main');
+  var b=CL;var ini=initials(b.name);
+  var hdr='<div class="bh"><div class="bh-av">'+ini+'</div><div><div class="bh-name">'+b.name+'</div><div class="bh-meta">'+b.vessel+' &nbsp;·&nbsp; '+b.amount+' &nbsp;·&nbsp; '+b.lid+' &nbsp;·&nbsp; Referred by: '+b.broker+'</div></div><div class="bh-sp"></div><span class="pill" style="background:rgba(15,168,140,0.2);color:var(--teal-d)">'+b.status+'</span><button class="btn btn-sm" onclick="openModal(\''+b.name+'\','+b.si+')" style="border-color:rgba(255,255,255,0.25);color:white;background:rgba(255,255,255,0.1)">Move stage</button></div>';
+
+  if(tab==='overview'){c.innerHTML=hdr+
+    '<div class="sc"><div class="sc-head"><div class="sc-title">Loan summary</div></div><div class="sc-body"><div class="fg fg-3">'+
+    F('Loan amount','<span style="font-weight:600;color:var(--teal-d)">'+b.amount+'</span>')+F('Vessel',b.vessel)+F('Assigned lender','Shore Premier Finance')+
+    F('Loan officer',b.officer)+F('Referring broker','<strong>'+b.broker+'</strong>')+F('Term requested','180 months')+
+    F('Days in pipeline','7')+F('Max advance check','<span style="color:var(--teal-d);font-weight:600">Passed</span>')+F('Dealer name on contract','<span style="color:var(--teal-d);font-weight:600">Auto-stripped</span>')+
+    '</div></div></div>'+
+    '<div class="sc"><div class="sc-head"><div class="sc-title">AI completeness score</div></div><div class="sc-body" style="display:flex;gap:18px;align-items:flex-start">'+
+    '<div style="width:64px;height:64px;border-radius:50%;border:3px solid var(--teal);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0"><div style="font-family:var(--font-head);font-size:20px;font-weight:700;color:var(--teal-d)">87</div><div style="font-size:10px;color:var(--g300)">/100</div></div>'+
+    '<div style="flex:1">'+AD('Credit application: complete','var(--teal)')+AD('Income documentation: verified','var(--teal)')+AD('Bank statements: 1 of 3 months uploaded','var(--amber)')+AD('Insurance binder: not provided','var(--amber)')+AD('USCG title: missing — blocks lender submission','var(--red)')+'</div></div></div>';
+  }else if(tab==='borrower'){c.innerHTML=hdr+
+    '<div class="sc"><div class="sc-head"><div class="sc-title">Personal details</div></div><div class="sc-body"><div class="fg fg-3">'+
+    F('Full name',b.name)+F('Email','<span style="color:var(--teal-d)">'+b.name.replace(' ','')+'@email.com</span>')+F('Phone','(305) 555-0182')+
+    F('Employment','Business owner')+F('Annual income','$420,000')+F('Credit score','<span style="font-weight:600;color:var(--teal-d)">748</span>')+
+    F('DTI ratio','28.4%')+F('Net worth','$2,100,000')+F('Co-borrower','None')+
+    '</div></div></div>'+
+    '<div class="sc"><div class="sc-head"><div class="sc-title">Social Security Number</div><span class="sc-sub" style="color:var(--amber);font-weight:600">Submitted — edit requires file duplication</span></div><div class="sc-body">'+
+    '<div style="display:flex;gap:10px;align-items:center"><div style="display:flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:var(--r);border:1px solid var(--border);background:var(--g10);font-size:13px;color:var(--g300)">🔒 XXX-XX-6741 &nbsp;(masked)</div>'+
+    '<button class="btn btn-outline btn-sm" onclick="dupFile()">Correct SSN — duplicate file</button></div>'+
+    '<div style="font-size:12px;color:var(--g300);margin-top:8px">SSN cannot be edited after first submission. Duplicate file creates a corrected copy with a new Loan ID. All existing data carries over automatically.</div>'+
+    '</div></div>';
+  }else if(tab==='kyc'){c.innerHTML=hdr+
+    '<div class="kyc-panel"><div class="kyc-title">KYC — Know Your Customer</div><div class="kyc-steps">'+
+    KS('Identity verification (government ID)',true)+KS('Address verification',true)+KS('Source of funds declaration',false)+KS('PEP / sanctions screening',false)+
+    '</div><div style="display:flex;gap:8px;margin-top:14px">'+
+    '<button class="btn btn-brand btn-sm" onclick="T(\'KYC link sent to borrower via email and SMS\')">Send KYC link</button>'+
+    '<button class="btn btn-outline btn-sm" onclick="T(\'KYC reminder sent\')">Remind borrower</button>'+
+    '<span style="font-size:12px;color:#7A2E0E;align-self:center;margin-left:6px">KYC can be completed by the borrower independently via the link at any point before funding.</span>'+
+    '</div></div>'+
+    '<div class="sc"><div class="sc-head"><div class="sc-title">KYC activity</div></div><div class="sc-body"><div class="tl">'+
+    TL('KYC link sent to borrower','Apr 14, 2025 · 10:02 AM','Sent via email and SMS.','var(--amber)')+
+    TL('Identity document uploaded','Apr 14, 2025 · 11:34 AM','Government-issued ID received and verified.','var(--teal)')+
+    TL('Address verification uploaded','Apr 14, 2025 · 11:36 AM','Utility bill accepted.','var(--teal)')+
+    '</div></div></div>';
+  }else if(tab==='documents'){c.innerHTML=hdr+
+    '<div class="sc"><div class="sc-head"><div class="sc-title">Document checklist</div><button class="btn btn-brand btn-sm" style="margin-left:auto" onclick="T(\'Doc request sent to '+b.name+'\')">Request missing docs</button></div><div class="sc-body"><div class="doc-list">'+
+    DR('Government-issued ID','Uploaded by borrower','Verified')+DR('Last 2 years tax returns','Uploaded · 2 files','Verified')+
+    DR('Bank statements (3 months)','Uploaded · 1 of 3 files','Partial')+DR('Pay stubs / P&L statement','Uploaded','Verified')+
+    DR('Insurance binder','Not uploaded','Missing')+DR('USCG documentation / State title','Not uploaded','Required')+
+    DR('Purchase agreement','Uploaded','Verified')+
+    '</div></div></div>';
+  }else if(tab==='ai'){c.innerHTML=hdr+
+    '<div class="sc"><div class="sc-head"><div class="sc-title">AI underwriting analysis</div><span class="sc-sub">Last run: 2 hours ago</span></div><div class="sc-body">'+
+    '<div class="af af-ok">Credit profile: 748 FICO. Prime borrower. No derogatory marks in 7 years.</div>'+
+    '<div class="af af-ok">Income: $420,000 reported. 2023 and 2022 returns cross-validated. Consistent.</div>'+
+    '<div class="af af-ok">DTI ratio: 28.4%. Within all lender thresholds reviewed.</div>'+
+    '<div class="af af-warn">LTV: 80.4% at requested amount. At ceiling for Shore Premier Finance. Consider requesting larger down payment.</div>'+
+    '<div class="af af-warn">Bank statements: January only. February and March outstanding. Cash reserves unverified.</div>'+
+    '<div class="af af-err">Vessel title: No USCG documentation on file. Blocks lender submission until resolved.</div>'+
+    '<div class="af af-info">Recommendation: Do not submit to lender until bank statements and USCG title are received. File is 87% complete. Max advance check: passed. Dealer name auto-stripped from contract template.</div>'+
+    '</div></div>';
+  }else if(tab==='vessel'){c.innerHTML=hdr+
+    '<div class="sc"><div class="sc-head"><div class="sc-title">Vessel information</div></div><div class="sc-body"><div class="fg fg-3">'+
+    F('Year','2023')+F('Make','Fountaine Pajot')+F('Model','47')+F('Length','47 ft')+F('Hull type','Fiberglass')+F('Engine hours','180')+
+    F('Purchase price','<span style="font-weight:600;color:var(--teal-d)">$635,000</span>')+F('Loan amount',b.amount)+F('Down payment','$125,000')+
+    '</div></div></div>'+
+    '<div class="sc"><div class="sc-head"><div class="sc-title">VATO estimate</div><button class="btn btn-brand btn-sm" style="margin-left:auto" onclick="showView(\'vato\',document.getElementById(\'nav-vato\'))">Open VATO</button></div><div class="sc-body">'+
+    '<div style="font-family:var(--font-head);font-size:24px;font-weight:700;color:var(--teal-d)">$508,000</div>'+
+    '<div style="font-size:13px;color:var(--g300);margin-top:5px">6 comparable vessels. Variance from purchase price: +$2,000 (0.4%). LTV: 80.8%.</div>'+
+    '</div></div>';
+  }else if(tab==='lender'){c.innerHTML=hdr+
+    '<div class="sc"><div class="sc-head"><div class="sc-title">Lender match</div></div><div class="sc-body" style="padding:0"><table class="lt"><thead><tr><th>Select</th><th>Lender</th><th>Rate</th><th>Term</th><th>Est. payment</th><th>LTV</th><th>Max advance</th><th>Doc method</th><th>Match</th></tr></thead><tbody>'+
+    '<tr><td><input type="radio" name="lm" class="lt-radio" checked></td><td style="font-weight:600">Shore Premier Finance</td><td>6.75%</td><td>180 mo.</td><td>$4,514/mo.</td><td>80.8%</td><td><span style="color:var(--teal-d);font-weight:600">Passed</span></td><td><span class="um-direct">Direct</span></td><td><span class="pill" style="background:var(--green-bg);color:#065F46">Best match</span></td></tr>'+
+    '<tr><td><input type="radio" name="lm" class="lt-radio"></td><td style="font-weight:600">Essex Credit</td><td>7.25%</td><td>180 mo.</td><td>$4,694/mo.</td><td>80.8%</td><td><span style="color:var(--teal-d);font-weight:600">Passed</span></td><td><span class="um-email">Email</span></td><td></td></tr>'+
+    '<tr><td><input type="radio" name="lm" class="lt-radio"></td><td style="font-weight:600">Medallion Bank</td><td>7.50%</td><td>240 mo.</td><td>$4,106/mo.</td><td>80.8%</td><td><span style="color:var(--teal-d);font-weight:600">Passed</span></td><td><span class="um-portal">Their portal</span></td><td></td></tr>'+
+    '</tbody></table><div style="padding:12px 18px;border-top:1px solid var(--border);display:flex;justify-content:flex-end">'+
+    '<button class="btn btn-brand btn-sm" onclick="T(\'File submitted to Shore Premier Finance. Ref: SPF-2024-0041. Expected decision: 1–2 hours.\')">Submit to lender</button>'+
+    '</div></div>';
+  }else if(tab==='loan-agreement'){c.innerHTML=hdr+
+    '<div class="la-panel"><div class="la-title">Loan agreement — EasySign + EasyClose</div>'+
+    '<div style="font-size:13px;color:var(--brand-700);margin-bottom:12px">Broker sends the loan agreement to the borrower. Requires signature and e-notary via EasyClose. Dealer name is auto-stripped from all generated documents.</div>'+
+    '<div class="sign-party"><div class="sign-av" style="background:var(--grad-a)">'+ini+'</div><div><div class="sign-name">'+b.name+'</div><div class="sign-role">Borrower · Primary signer</div></div><div class="sign-sp"></div><span class="pill" style="background:var(--amber-bg);color:#7A2E0E">Pending</span><button class="btn btn-outline btn-xs" onclick="T(\'Reminder sent to '+b.name+'\')">Remind</button></div>'+
+    '<div class="sign-party"><div class="sign-av" style="background:var(--brand-800)">DP</div><div><div class="sign-name">Debbie Pettibone</div><div class="sign-role">YachtWay EasyFund · Loan officer</div></div><div class="sign-sp"></div><span class="pill" style="background:var(--green-bg);color:#065F46">Signed</span></div>'+
+    '<div class="sign-party"><div class="sign-av" style="background:var(--brand-700)">GC</div><div><div class="sign-name">Gulf Coast Marine</div><div class="sign-role">Referring broker · Acknowledgment required</div></div><div class="sign-sp"></div><span class="pill" style="background:var(--green-bg);color:#065F46">Signed</span></div>'+
+    '<div style="margin-top:14px;display:flex;gap:8px">'+
+    '<button class="btn btn-brand btn-sm" onclick="T(\'Loan agreement sent to '+b.name+' via EasySign. E-notary session scheduled.\')">Send loan agreement</button>'+
+    '<button class="btn btn-outline btn-sm" onclick="T(\'E-notary session link sent to borrower\')">Schedule e-notary</button>'+
+    '</div></div>'+
+    '<div class="sc"><div class="sc-head"><div class="sc-title">Documents in envelope</div></div><div class="sc-body"><div class="doc-list">'+
+    DR('Loan agreement','Generated by LPS · Dealer name auto-removed','Ready')+
+    DR('TILA disclosure','Regulatory · 2 pages','Ready')+
+    DR('E-notary acknowledgment','Required for amounts over $500,000','Pending')+
+    '</div></div></div>';
+  }else if(tab==='timeline'){c.innerHTML=hdr+
+    '<div class="sc"><div class="sc-head"><div class="sc-title">Activity log</div></div><div class="sc-body"><div class="tl">'+
+    TL('Application received via EasyFund portal','Apr 14, 2025 · 9:14 AM','AI completeness score: 72. GHL stage set to Application.','var(--teal)')+
+    TL('Debbie Pettibone assigned','Apr 14, 2025 · 9:31 AM','Auto-assigned based on queue.','var(--teal)')+
+    TL('KYC link sent to borrower','Apr 14, 2025 · 10:02 AM','Sent via email and SMS.','var(--amber)')+
+    TL('Doc checklist sent','Apr 14, 2025 · 10:02 AM','7-item checklist via GHL automation.','var(--teal)')+
+    TL('KYC: identity and address verified','Apr 14, 2025 · 11:36 AM','2 of 4 KYC steps complete.','var(--teal)')+
+    TL('4 of 7 documents uploaded','Apr 14, 2025 · 2:45 PM','Bank statements and USCG title outstanding.','var(--amber)')+
+    TL('AI completeness score updated to 87','Apr 14, 2025 · 2:46 PM','2 items blocking lender submission.','var(--amber)')+
+    '</div></div></div>';
+  }else if(tab==='notes'){c.innerHTML=hdr+
+    '<div class="sc"><div class="sc-head"><div class="sc-title">Loan officer notes</div><span class="sc-sub">Internal only — not visible to broker or borrower</span></div><div class="sc-body">'+
+    '<textarea class="fi-in" style="height:120px;padding:10px 14px;line-height:1.6;resize:vertical">Borrower is motivated and responsive. Self-employed — 2 years of returns look strong. Waiting on Feb and March bank statements. Title pending from seller, vessel in transit from Annapolis.</textarea>'+
+    '<div style="display:flex;justify-content:flex-end;margin-top:10px"><button class="btn btn-brand btn-sm" onclick="T(\'Note saved\')">Save note</button></div>'+
+    '</div></div>';
   }
 }
 
-function fld(label, val) { return '<div class="field-item"><div class="field-label">' + label + '</div><div class="field-value">' + val + '</div></div>'; }
-function aflag(text, color) { return '<div class="ai-flag"><div class="ai-flag-dot" style="background:' + color + '"></div>' + text + '</div>'; }
-function doc(name, meta, status) {
-  var s = { Verified: 'background:var(--teal-bg);color:var(--teal-dim)', Partial: 'background:var(--amber-bg);color:var(--amber)', Missing: 'background:var(--red-bg);color:var(--red)', Required: 'background:var(--red-bg);color:var(--red)' };
-  return '<div class="doc-row"><div class="doc-icon" style="background:var(--purple-bg)"><svg width="12" height="12" viewBox="0 0 12 12" fill="var(--purple)"><path d="M2 1h5l3 3v7H2V1z"/></svg></div><div><div class="doc-name">' + name + '</div><div class="doc-meta">' + meta + '</div></div><div class="doc-spacer"></div><span class="doc-status" style="' + (s[status]||'') + '">' + status + '</span></div>';
-}
-function aiflag(text, type) {
-  var st = { success: 'background:var(--teal-bg);color:var(--teal-dim);border-left:3px solid var(--teal)', warn: 'background:var(--amber-bg);color:#78350F;border-left:3px solid var(--amber)', error: 'background:var(--red-bg);color:var(--red);border-left:3px solid var(--red)', info: 'background:var(--purple-bg);color:var(--purple);border-left:3px solid var(--purple)' };
-  return '<div style="padding:9px 12px;border-radius:var(--radius-md);font-size:12px;line-height:1.5;' + st[type] + '">' + text + '</div>';
-}
-function tl(title, time, note, color) {
-  return '<div class="tl-item"><div class="tl-left"><div class="tl-dot" style="background:' + color + '"></div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-title">' + title + '</div><div class="tl-time">' + time + '</div><div class="tl-note">' + note + '</div></div></div>';
-}
-
-function setStep(n) {
-  document.querySelectorAll('#loan-file-steps .ps-step').forEach(function(s, i) {
-    s.className = 'ps-step ' + (i + 1 < n ? 'done' : i + 1 === n ? 'current' : 'pending');
+function renderProg(){
+  var s=CL.si||0;
+  var h='<div class="prog-track">';
+  ST.forEach(function(st,i){
+    var c=i<s?'done':i===s?'cur':'pend';
+    var k=st.n==='KYC'?' kyc':'';
+    h+='<div class="pt-step '+c+k+'" onclick="setStep('+i+')"><div class="pt-num">'+(i+1)+'</div>'+st.n+'</div>';
+    if(i<ST.length-1) h+='<span class="pt-arr">›</span>';
   });
-  showToast('Viewing stage ' + n + ' of 11');
+  h+='</div>';
+  document.getElementById('lf-prog').innerHTML=h;
 }
 
-function submitApp() {
-  showToast('Application submitted. GHL record created. Debbie Pettibone notified. AI completeness score: running...');
-  setTimeout(function() { showView('pipeline', document.getElementById('nav-pipeline')); }, 1200);
+function setStep(n){CL.si=n;CL.status=ST[n].n;renderProg();T('Stage '+(n+1)+': '+ST[n].n);}
+
+function renderSidebar(active){
+  var items=[
+    {t:'overview',l:'Overview',f:null},
+    {t:'borrower',l:'Borrower profile',f:null},
+    {t:'kyc',l:'KYC',f:'amber'},
+    {t:'documents',l:'Documents',f:'amber'},
+    {t:'ai',l:'AI analysis',f:null},
+    {t:'vessel',l:'Vessel details',f:null},
+    {t:'lender',l:'Lender match',f:null},
+    {t:'loan-agreement',l:'Loan agreement',f:'purple'},
+    {t:'timeline',l:'Activity log',f:null},
+    {t:'notes',l:'Notes',f:null}
+  ];
+  var secs={overview:'Loan file',kyc:'Actions',vessel:'Loan details','loan-agreement':'EasySign',timeline:'History'};
+  var h='';
+  items.forEach(function(it){
+    if(secs[it.t]) h+='<div class="lf-sec-label">'+secs[it.t]+'</div>';
+    var a=it.t===active?' active':'';
+    var fc=it.f==='amber'?'var(--amber)':it.f==='purple'?'var(--brand-700)':'';
+    h+='<div class="lf-nav'+a+'" onclick="switchTab(\''+it.t+'\',this)">'+it.l;
+    if(fc) h+='<div class="lf-flag" style="background:'+fc+'"></div>';
+    h+='</div>';
+  });
+  document.getElementById('lf-sb').innerHTML=h;
 }
 
-function showToast(msg) {
-  var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(t._timer);
-  t._timer = setTimeout(function() { t.classList.remove('show'); }, 3200);
+function switchTab(t,el){document.querySelectorAll('.lf-nav').forEach(function(i){i.classList.remove('active');});if(el)el.classList.add('active');renderLF(t);}
+
+function filterClosed(v){
+  var rows=CLOSED.filter(function(r){if(!v)return true;var f=v.toLowerCase();return r.name.toLowerCase().includes(f)||r.vessel.toLowerCase().includes(f)||r.lender.toLowerCase().includes(f)||r.id.toLowerCase().includes(f);});
+  var h='';
+  rows.forEach(function(r){
+    var tt=r.title?'<span class="pctag" style="background:var(--green-bg);color:#065F46">Title</span>':'<span class="pctag" style="background:var(--red-bg);color:#991B1B">Title pending</span>';
+    var rt=r.reg?'<span class="pctag" style="background:var(--green-bg);color:#065F46">Reg</span>':'<span class="pctag" style="background:var(--amber-bg);color:#7A2E0E">Reg pending</span>';
+    h+='<tr onclick="T(\'Opening closed file: '+r.name+' · '+r.id+'\')">';
+    h+='<td style="font-size:12px;color:var(--g300)">'+r.id+'</td>';
+    h+='<td style="font-family:var(--font-head);font-weight:600;color:var(--brand-800)">'+r.name+'</td>';
+    h+='<td>'+r.vessel+'</td><td>'+r.lender+'</td>';
+    h+='<td style="font-family:var(--font-head);font-weight:600;color:var(--teal-d)">'+r.amount+'</td>';
+    h+='<td>'+r.rate+'</td><td>'+r.funded+'</td>';
+    h+='<td><div class="lr-person"><div class="lr-av" style="background:var(--brand-800)">'+initials(r.officer)+'</div>'+r.officer+'</div></td>';
+    h+='<td>'+r.broker+'</td><td>'+tt+rt+'</td>';
+    h+='<td style="display:flex;gap:4px"><button class="btn btn-xs btn-outline" onclick="event.stopPropagation();T(\'Viewing: '+r.name+'\')" >View</button><button class="btn btn-xs btn-brand" onclick="event.stopPropagation();T(\'Downloading docs: '+r.name+'\')">Docs</button></td>';
+    h+='</tr>';
+  });
+  document.getElementById('cl-tbody').innerHTML=h;
 }
 
-renderFileTab('overview');
+function showView(id,navEl){
+  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+  document.querySelectorAll('.sb-item').forEach(function(n){n.classList.remove('active');});
+  var v=document.getElementById('view-'+id);if(v)v.classList.add('active');
+  if(navEl)navEl.classList.add('active');
+  if(id==='loan-file')renderLF('overview');
+  if(id==='closed'){filterClosed('');}
+  if(id==='vato')renderVato();
+}
+
+function submitApp(){T('Application submitted. GHL record created. AI score running. Debbie Pettibone notified.');setTimeout(function(){showView('pipeline',document.getElementById('nav-pipeline'));},1100);}
+function dupFile(){T('File duplicated as EF-2024-0041-B. SSN field is now editable. All data carried over. New Loan ID assigned.');}
+
+function renderVato(){
+  var comps=[['2022 Azimut 72','Fort Lauderdale · 280 hrs','$3,350,000','+4.7%',true],['2021 Azimut 72','Palm Beach · 510 hrs','$3,100,000','-3.1%',false],['2022 Azimut 72','Annapolis · 190 hrs','$3,280,000','+2.5%',true],['2023 Azimut 72','Miami · 90 hrs','$3,580,000','+11.9%',true],['2021 Sunseeker 76','Newport · 620 hrs','$3,050,000','-4.7%',false],['2022 Princess 72','Fort Lauderdale · 310 hrs','$3,150,000','-1.6%',false]];
+  var el=document.getElementById('vato-comps');if(!el)return;
+  el.innerHTML=comps.map(function(c){return '<div style="background:var(--g10);border-radius:var(--r);border:1px solid var(--border);padding:14px"><div style="font-family:var(--font-head);font-size:13px;font-weight:600;color:var(--brand-800)">'+c[0]+'</div><div style="font-size:12px;color:var(--g300);margin-top:1px">'+c[1]+'</div><div style="font-family:var(--font-head);font-size:16px;font-weight:700;color:var(--teal-d);margin-top:8px">'+c[2]+'</div><div style="font-size:12px;color:'+(c[4]?'var(--teal-d)':'var(--g300)')+';margin-top:2px">'+c[3]+' vs estimate</div></div>';}).join('');
+}
+
+/* helpers */
+function initials(s){return s.split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();}
+function F(l,v){return '<div><div class="fi-label">'+l+'</div><div class="fi-val">'+v+'</div></div>';}
+function AD(t,c){return '<div style="display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:5px"><div style="width:7px;height:7px;border-radius:50%;background:'+c+';flex-shrink:0"></div>'+t+'</div>';}
+function DR(n,m,s){var sc={Verified:'background:var(--green-bg);color:#065F46',Partial:'background:var(--amber-bg);color:#7A2E0E',Missing:'background:var(--red-bg);color:#991B1B',Required:'background:var(--red-bg);color:#991B1B',Ready:'background:var(--green-bg);color:#065F46',Pending:'background:var(--amber-bg);color:#7A2E0E'};return '<div class="doc-row"><div class="doc-icon" style="background:#F4F0FB"><svg width="13" height="13" viewBox="0 0 12 12" fill="var(--brand-700)"><path d="M2 1h5l3 3v7H2V1z"/></svg></div><div><div class="doc-name">'+n+'</div><div class="doc-meta">'+m+'</div></div><div class="doc-sp"></div><span class="pill" style="'+sc[s]+'">'+s+'</span><button class="btn btn-xs btn-outline" onclick="T(\'Downloading: '+n+'\')" style="margin-left:6px">↓</button></div>';}
+function KS(l,d){return '<div class="kyc-step"><div class="kyc-check" style="background:'+(d?'var(--teal)':'rgba(253,176,34,0.3)')+'">'+( d?'✓':'')+'</div>'+l+(d?' — complete':' — pending')+'</div>';}
+function TL(ti,tm,nt,c){return '<div class="tl-item"><div class="tl-left"><div class="tl-dot" style="background:'+c+'"></div><div class="tl-line"></div></div><div class="tl-body"><div class="tl-title">'+ti+'</div><div class="tl-time">'+tm+'</div><div class="tl-note">'+nt+'</div></div></div>';}
+function T(m){var t=document.getElementById('toast');t.textContent=m;t.className='toast show';clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},3400);}
+
+// init
+renderPipeline();filterClosed('');renderLF('overview');renderVato();
 </script>
 </body>
 </html>
