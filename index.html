@@ -705,7 +705,7 @@ function renderLoanList(body) {
   stages.forEach(function(s){stageOpts+='<option value="'+s+'"'+(FILTER_STAGE===s?' selected':'')+'>'+s+'</option>';});
 
   var html = '<div class="ll-toolbar">';
-  html += '<input class="ll-search" placeholder="Search borrower or vessel..." value="'+SEARCH_VAL+'" oninput="doSearch(this.value)">';
+  html += '<input class="ll-search" id="ll-search-input" placeholder="Search borrower or vessel..." oninput="doSearch(this.value)">';
   html += '<select class="ll-select" onchange="doFilterOfficer(this.value)">'+officerOpts+'</select>';
   html += '<select class="ll-select" onchange="doFilterStage(this.value)">'+stageOpts+'</select>';
   html += '<div class="ll-sp"></div>';
@@ -746,9 +746,12 @@ function renderLoanList(body) {
   if(!loans.length) html += '<tr><td colspan="9" style="padding:24px;text-align:center;color:var(--muted);font-size:13px">No loans match the current filters</td></tr>';
   html += '</tbody></table></div>';
   body.innerHTML = html;
+  // restore search input value without triggering undefined
+  var si = document.getElementById('ll-search-input');
+  if(si) si.value = SEARCH_VAL || '';
 }
 
-function doSearch(v){SEARCH_VAL=v.toLowerCase();renderBankBody();}
+function doSearch(v){SEARCH_VAL=(v||"").toLowerCase();renderBankBody();}
 function doFilterOfficer(v){FILTER_OFFICER=v;renderBankBody();}
 function doFilterStage(v){FILTER_STAGE=v;renderBankBody();}
 
@@ -920,8 +923,10 @@ function TL(ti,tm,nt,c){return '<div class="tl-item"><div class="tl-left"><div c
 function T(m){var t=document.getElementById('toast');t.textContent=m;t.className='toast show';clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},3400);}
 
 // init
-renderBankBody();
-filterClosed('');
+window.addEventListener("DOMContentLoaded",function(){
+  renderBankBody();
+  filterClosed('');
+});
 
 // ── VATO ENGINE ──
 var VATO_DB = {
@@ -1093,16 +1098,15 @@ function resetVato() {
 
 
 function showAllLoans() {
-  // Switch to loans tab, clear all filters, scroll to list
   BANK_TAB = 'loans';
   FILTER_OFFICER = 'all';
   FILTER_STAGE = 'all';
   SEARCH_VAL = '';
   document.querySelectorAll('.btab').forEach(function(b,i){b.classList.toggle('active',i===0);});
   renderBankBody();
-  // Scroll bank body to top
   var body = document.getElementById('bank-body');
-  if(body) body.scrollTop = 0;
+  if(body) { body.scrollTop = 0; }
+  T('Showing all 12 active loans across Shore Premier Finance');
 }
 </script>
 </body>
