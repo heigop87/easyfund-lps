@@ -154,13 +154,13 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
 /* Decision row (expanded) */
 .decision-row td{background:#F4F4F4!important;padding:0!important;}
 .decision-panel{padding:16px 20px;display:flex;align-items:center;gap:12px;border-top:1px solid rgba(0,0,0,0.08);}
-.dp-info{font-size:13px;color:var(--b800);flex:1;}
+.dp-info{font-size:13px;color:var(--black);flex:1;}
 .dp-label{font-family:var(--fh);font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.07em;}
 
 /* Assign modal */
-.overlay{position:fixed;inset:0;background:rgba(38,7,84,0.45);z-index:300;display:none;align-items:center;justify-content:center;}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;display:none;align-items:center;justify-content:center;}
 .overlay.show{display:flex;}
-.modal{background:var(--surface);border-radius:var(--rxl);width:420px;overflow:hidden;box-shadow:0 20px 60px rgba(38,7,84,0.2);}
+.modal{background:var(--surface);border-radius:var(--rxl);width:420px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
 .modal-hd{background:var(--black);padding:18px 22px;display:flex;align-items:center;}
 .modal-title{font-family:var(--fh);font-size:15px;font-weight:600;color:white;}
 .modal-close{margin-left:auto;color:rgba(255,255,255,0.45);cursor:pointer;font-size:22px;line-height:1;background:none;border:none;font-family:var(--fb);}
@@ -168,14 +168,14 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
 .officer-pick{display:flex;flex-direction:column;gap:6px;}
 .op-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:var(--r);border:1px solid var(--border);cursor:pointer;transition:all 0.1s;}
 .op-item:hover{border-color:var(--black);background:var(--g25);}
-.op-av{width:36px;height:36px;border-radius:50%;background:var(--b800);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:13px;font-weight:700;color:white;flex-shrink:0;}
+.op-av{width:36px;height:36px;border-radius:50%;background:var(--black);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:13px;font-weight:700;color:white;flex-shrink:0;}
 .op-name{font-family:var(--fh);font-size:13px;font-weight:600;}
 .op-meta{font-size:12px;color:var(--muted);}
 .op-sp{flex:1;}
 .op-count{font-family:var(--fh);font-size:12px;font-weight:600;color:var(--muted);}
 
 /* Loan detail panel (slide-in) */
-.detail-panel{position:fixed;right:0;top:54px;bottom:0;width:520px;background:var(--surface);border-left:1px solid var(--border);z-index:200;display:none;flex-direction:column;box-shadow:-8px 0 32px rgba(38,7,84,0.1);}
+.detail-panel{position:fixed;right:0;top:54px;bottom:0;width:520px;background:var(--surface);border-left:1px solid var(--border);z-index:200;display:none;flex-direction:column;box-shadow:-8px 0 32px rgba(0,0,0,0.1);}
 .detail-panel.show{display:flex;}
 .dp-header{background:var(--black);padding:16px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
 .dp-av{width:42px;height:42px;border-radius:50%;background:var(--black3);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:14px;font-weight:700;color:white;flex-shrink:0;}
@@ -226,7 +226,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
 .af-info{background:var(--g25);color:var(--black);border-color:var(--black);}
 
 /* Broker banner */
-.broker-banner{background:var(--b700);padding:7px 24px;font-size:12px;color:rgba(255,255,255,0.75);display:none;flex-shrink:0;}
+.broker-banner{background:var(--black3);padding:7px 24px;font-size:12px;color:rgba(255,255,255,0.75);display:none;flex-shrink:0;}
 .broker-banner.show{display:block;}
 
 /* Toast */
@@ -244,7 +244,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
 .v-select{width:100%;height:34px;padding:0 12px;border-radius:var(--r);border:1px solid var(--g100);background:var(--surface);font-size:13px;font-family:var(--fb);outline:none;cursor:pointer;color:var(--text);}
 .comp-card{background:var(--g10);border-radius:var(--r);border:1px solid var(--border);padding:14px;}
 .comp-card:hover{border-color:var(--black);}
-.comp-name{font-family:var(--fh);font-size:13px;font-weight:600;color:var(--b800);}
+.comp-name{font-family:var(--fh);font-size:13px;font-weight:600;color:var(--black);}
 .comp-meta{font-size:12px;color:var(--muted);margin-top:2px;}
 .comp-price{font-family:var(--fh);font-size:17px;font-weight:700;color:var(--teal-d);margin-top:8px;}
 .comp-delta{font-size:12px;margin-top:2px;}
@@ -505,11 +505,11 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
             </div>
             <div style="background:var(--g10);border-radius:var(--r);border:1px solid var(--border);padding:14px 16px">
               <div class="fi-lbl">Comp count</div>
-              <div id="vr-comps" style="font-family:var(--fh);font-size:24px;font-weight:700;color:var(--b800);margin-top:4px"></div>
+              <div id="vr-comps" style="font-family:var(--fh);font-size:24px;font-weight:700;color:var(--black);margin-top:4px"></div>
             </div>
             <div style="background:var(--g10);border-radius:var(--r);border:1px solid var(--border);padding:14px 16px">
               <div class="fi-lbl">LTV (at loan amount)</div>
-              <div id="vr-ltv" style="font-family:var(--fh);font-size:24px;font-weight:700;color:var(--b800);margin-top:4px"></div>
+              <div id="vr-ltv" style="font-family:var(--fh);font-size:24px;font-weight:700;color:var(--black);margin-top:4px"></div>
             </div>
           </div>
           <div id="vr-comp-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px"></div>
@@ -594,18 +594,18 @@ var CLOSED = [
 ];
 
 var STAGE_COLORS = {
-  'Application':'background:#F4F4F4;color:#4B0EA3',
-  'App review':'background:#F4F4F4;color:#4B0EA3',
+  'Application':'background:#EBEBEB;color:#222',
+  'App review':'background:#EBEBEB;color:#222',
   'KYC':'background:#FFFBEB;color:#78350F',
   'Doc request':'background:#FFFBEB;color:#78350F',
   'Doc upload':'background:#FFFBEB;color:#78350F',
-  'Lender submit':'background:#EDE9FE;color:#4B0EA3',
-  'Credit decision':'background:#EDE9FE;color:#4B0EA3',
+  'Lender submit':'background:#EBEBEB;color:#222',
+  'Credit decision':'background:#EBEBEB;color:#222',
   'Approval':'background:var(--green-bg);color:#14532D',
   'Appraisal':'background:#FFFBEB;color:#78350F',
-  'Loan agreement':'background:#EDE9FE;color:#4B0EA3',
+  'Loan agreement':'background:#EBEBEB;color:#222',
   'Loan docs':'background:var(--green-bg);color:#14532D',
-  'Closing':'background:#EDE9FE;color:#4B0EA3',
+  'Closing':'background:#EBEBEB;color:#222',
   'Funded':'background:var(--green-bg);color:#14532D'
 };
 
@@ -642,49 +642,60 @@ function renderOfficers(body) {
     var oLoans = LOANS.filter(function(l){return l.oid===o.id;});
     var vol = oLoans.reduce(function(s,l){return s+parseFloat(l.amount.replace(/[$,]/g,''));},0);
     var volStr = vol>=1000000?'$'+(vol/1000000).toFixed(1)+'M':'$'+(vol/1000).toFixed(0)+'K';
+    var isOpen = OFFICER_OPEN[o.id] !== false; // default open
 
-    html += '<div style="background:var(--surface);border-radius:var(--rl);border:1px solid var(--border);margin-bottom:16px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04)">';
+    html += '<div style="background:var(--surface);border-radius:var(--rl);border:1px solid var(--border);margin-bottom:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04)">';
 
-    // officer header
-    html += '<div style="display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--g10);border-bottom:1px solid var(--border)">';
+    // Header row — clickable to collapse/expand
+    html += '<div style="display:flex;align-items:center;gap:14px;padding:14px 20px;background:var(--g10);border-bottom:'+(isOpen?'1px solid var(--border)':'none')+';cursor:pointer;user-select:none" onclick="toggleOfficer(\'' + o.id + '\')">';
     html += '<div class="oc-av" style="background:'+o.color+'">'+ini(o.name)+'</div>';
     html += '<div><div class="oc-name">'+o.name+'</div><div class="oc-role">'+o.role+'</div></div>';
     html += '<div style="flex:1"></div>';
+    // Metrics
     html += '<div style="display:flex;gap:24px;margin-right:20px">';
-    html += '<div style="text-align:right"><div class="oc-metric-label">Active loans</div><div style="font-family:var(--fh);font-size:18px;font-weight:700;color:var(--b800)">'+oLoans.length+'</div></div>';
+    html += '<div style="text-align:right"><div class="oc-metric-label">Active loans</div><div style="font-family:var(--fh);font-size:18px;font-weight:700;color:var(--black)">'+oLoans.length+'</div></div>';
     html += '<div style="text-align:right"><div class="oc-metric-label">Volume</div><div style="font-family:var(--fh);font-size:18px;font-weight:700;color:var(--teal-d)">'+volStr+'</div></div>';
-    html += '<div style="text-align:right"><div class="oc-metric-label">Avg days</div><div style="font-family:var(--fh);font-size:18px;font-weight:700;color:var(--b800)">'+o.avgDays+'</div></div>';
-    html += '<div style="text-align:right"><div class="oc-metric-label">Close rate</div><div style="font-family:var(--fh);font-size:18px;font-weight:700;color:var(--b800)">'+o.closeRate+'</div></div>';
+    html += '<div style="text-align:right"><div class="oc-metric-label">Avg days</div><div style="font-family:var(--fh);font-size:18px;font-weight:700;color:var(--black)">'+o.avgDays+'</div></div>';
+    html += '<div style="text-align:right"><div class="oc-metric-label">Close rate</div><div style="font-family:var(--fh);font-size:18px;font-weight:700;color:var(--black)">'+o.closeRate+'</div></div>';
     html += '</div>';
-    html += '<button class="btn btn-xs btn-outline" onclick="openAssignLoan('__any__',''+o.id+'')">Assign loan</button>';
+    // Chevron + assign button — stop propagation on assign
+    html += '<div style="display:flex;align-items:center;gap:8px">';
+    html += '<button class="btn btn-xs btn-outline" onclick="event.stopPropagation();openAssignToOfficer(\'' + o.id + '\')" style="pointer-events:all">Assign</button>';
+    html += '<span style="font-size:18px;color:var(--g300);line-height:1;transition:transform 0.2s;display:inline-block;transform:rotate('+(isOpen?'90':'0')+'deg)">›</span>';
     html += '</div>';
+    html += '</div>'; // end header
 
-    // loan rows under this officer
-    if(oLoans.length===0) {
-      html += '<div style="padding:16px 20px;font-size:13px;color:var(--muted)">No active loans assigned.</div>';
-    } else {
-      html += '<table class="loan-table"><thead><tr><th>Borrower</th><th>Vessel</th><th>Amount</th><th>Stage</th><th>Broker</th><th>Days</th><th>Flags</th><th>Actions</th></tr></thead><tbody>';
-      oLoans.forEach(function(l){
-        var flags='';
-        if(l.kyc) flags+='<div class="fdot" style="background:#D97706" title="KYC pending"></div>';
-        if(l.stip) flags+='<div class="fdot" style="background:#DC2626" title="Stip required"></div>';
-        if(l.decision) flags+='<div class="fdot" style="background:#4B0EA3" title="Decision pending"></div>';
-        if(!l.kyc&&!l.stip&&!l.decision) flags+='<div class="fdot" style="background:#0FA88C" title="On track"></div>';
-        html += '<tr onclick="openDetail(''+l.name+'')">';
-        html += '<td><div class="lt-name">'+l.name+'</div><div class="lt-vessel">'+l.vessel+'</div></td>';
-        html += '<td style="font-size:13px;color:var(--muted)">'+l.vessel+'</td>';
-        html += '<td class="lt-amount">'+l.amount+'</td>';
-        html += '<td><span class="stage-pill" style="'+sp(l.stage)+'">'+l.stage+'</span></td>';
-        html += '<td style="font-size:13px">'+l.broker+'</td>';
-        html += '<td class="lt-days">'+(l.days===0?'Today':l.days+'d ago')+'</td>';
-        html += '<td><div class="lt-flags">'+flags+'</div></td>';
-        html += '<td><div class="lt-actions">';
-        html += '<button class="btn btn-xs" onclick="event.stopPropagation();openDetail(''+l.name+'')">View</button>';
-        html += '<button class="btn btn-xs btn-outline" onclick="event.stopPropagation();openAssignLoan(''+l.name+'','')">Reassign</button>';
-        if(l.decision) html += '<button class="btn btn-xs btn-success" onclick="event.stopPropagation();T('Approved: '+l.name+'')">Approve</button><button class="btn btn-xs btn-danger" onclick="event.stopPropagation();declineLoan(''+l.name+'')">Decline</button>';
-        html += '</div></td></tr>';
-      });
-      html += '</tbody></table>';
+    // Loan rows — shown/hidden based on state
+    if(isOpen) {
+      if(oLoans.length===0) {
+        html += '<div style="padding:14px 20px;font-size:13px;color:var(--muted)">No active loans assigned.</div>';
+      } else {
+        html += '<table class="loan-table"><thead><tr><th>Borrower</th><th>Vessel</th><th>Amount</th><th>Stage</th><th>Broker</th><th>Days</th><th>Flags</th><th>Actions</th></tr></thead><tbody>';
+        oLoans.forEach(function(l){
+          var flags='';
+          if(l.kyc) flags+='<div class="fdot" style="background:#D97706" title="KYC pending"></div>';
+          if(l.stip) flags+='<div class="fdot" style="background:#DC2626" title="Stip required"></div>';
+          if(l.decision) flags+='<div class="fdot" style="background:#D97706" title="Decision pending"></div>';
+          if(!l.kyc&&!l.stip&&!l.decision) flags+='<div class="fdot" style="background:#0FA88C" title="On track"></div>';
+          html += '<tr onclick="openDetail(\'' + l.name.replace(/'/g,"\'") + '\')">';
+          html += '<td><div class="lt-name">'+l.name+'</div><div class="lt-vessel">'+l.vessel+'</div></td>';
+          html += '<td style="font-size:13px;color:var(--muted)">'+l.vessel+'</td>';
+          html += '<td class="lt-amount">'+l.amount+'</td>';
+          html += '<td><span class="stage-pill" style="'+sp(l.stage)+'">'+l.stage+'</span></td>';
+          html += '<td style="font-size:13px">'+l.broker+'</td>';
+          html += '<td class="lt-days">'+(l.days===0?'Today':l.days+'d ago')+'</td>';
+          html += '<td><div class="lt-flags">'+flags+'</div></td>';
+          html += '<td><div class="lt-actions">';
+          html += '<button class="btn btn-xs" onclick="event.stopPropagation();openDetail(\'' + l.name.replace(/'/g,"\'") + '\')">View</button>';
+          html += '<button class="btn btn-xs btn-outline" onclick="event.stopPropagation();openAssignLoan(\'' + l.name.replace(/'/g,"\'") + '\', \'\')">Reassign</button>';
+          if(l.decision) {
+            html += '<button class="btn btn-xs btn-success" onclick="event.stopPropagation();T(\'Approved: ' + l.name + '\')">Approve</button>';
+            html += '<button class="btn btn-xs btn-danger" onclick="event.stopPropagation();declineLoan(\'' + l.name.replace(/'/g,"\'") + '\')">Decline</button>';
+          }
+          html += '</div></td></tr>';
+        });
+        html += '</tbody></table>';
+      }
     }
     html += '</div>';
   });
@@ -734,7 +745,7 @@ function renderLoanList(body) {
     var flags = '';
     if(l.kyc) flags+='<div class="fdot" style="background:#D97706" title="KYC pending"></div>';
     if(l.stip) flags+='<div class="fdot" style="background:#DC2626" title="Stip required"></div>';
-    if(l.decision) flags+='<div class="fdot" style="background:#4B0EA3" title="Decision pending"></div>';
+    if(l.decision) flags+='<div class="fdot" style="background:#D97706" title="Decision pending"></div>';
     if(!l.kyc&&!l.stip&&!l.decision) flags+='<div class="fdot" style="background:#0FA88C" title="On track"></div>';
 
     var off = OFFICERS.find(function(o){return o.id===l.oid;})||{};
@@ -744,7 +755,7 @@ function renderLoanList(body) {
     html += '<td>'+l.vessel+'</td>';
     html += '<td class="lt-amount">'+l.amount+'</td>';
     html += '<td><span class="stage-pill" style="'+sp(l.stage)+'">'+l.stage+'</span></td>';
-    html += '<td><div class="lt-officer"><div class="lt-av" style="background:'+(off.color||'#260754')+'">'+ini(l.officer)+'</div>'+l.officer+'</div></td>';
+    html += '<td><div class="lt-officer"><div class="lt-av" style="background:'+(off.color||'#141414')+'">'+ini(l.officer)+'</div>'+l.officer+'</div></td>';
     html += '<td style="font-size:13px">'+l.broker+'</td>';
     html += '<td class="lt-days">'+(l.days===0?'Today':l.days+'d ago')+'</td>';
     html += '<td><div class="lt-flags">'+flags+'</div></td>';
@@ -801,7 +812,7 @@ function renderDetailBody(tab) {
       '<div class="sc"><div class="sc-hd"><div class="sc-title">Loan details</div></div><div class="sc-body"><div class="fg fg2">'+
       F('Borrower',l.name)+F('Vessel',l.vessel)+
       F('Loan amount','<span style="font-weight:600;color:var(--teal-d)">'+l.amount+'</span>')+F('Stage','<span class="stage-pill" style="'+sp(l.stage)+'">'+l.stage+'</span>')+
-      F('Loan officer','<div style="display:flex;align-items:center;gap:7px"><div style="width:22px;height:22px;border-radius:50%;background:'+(off.color||'#260754')+';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:white;font-family:var(--fh)">'+ini(l.officer)+'</div>'+l.officer+'</div>')+
+      F('Loan officer','<div style="display:flex;align-items:center;gap:7px"><div style="width:22px;height:22px;border-radius:50%;background:'+(off.color||'#141414')+';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:white;font-family:var(--fh)">'+ini(l.officer)+'</div>'+l.officer+'</div>')+
       F('Referring broker',l.broker)+
       F('Days in pipeline',l.days===0?'Today':l.days+'d')+F('Max advance check','<span style="color:var(--teal-d);font-weight:600">Passed</span>')+
       '</div></div></div>'+
@@ -810,7 +821,7 @@ function renderDetailBody(tab) {
       F('Credit score','<span style="font-weight:600;color:var(--teal-d)">748</span>')+F('DTI ratio','28.4%')+
       F('Net worth','$2,100,000')+F('Co-borrower','None')+
       '</div></div></div>'+
-      (l.decision?'<div style="background:#F4F4F4;border:1px solid rgba(0,0,0,0.1);border-radius:var(--rl);padding:14px 16px;margin-bottom:12px"><div style="font-family:var(--fh);font-size:13px;font-weight:600;color:var(--b700);margin-bottom:10px">Decision required</div><div style="font-size:13px;color:var(--b800);margin-bottom:12px">This loan is pending a credit decision from Shore Premier Finance. Review the file and record your decision below.</div><div style="display:flex;gap:8px"><button class="btn btn-success" onclick="T(\'Approved: '+l.name+'. Conditional approval letter being generated.\')">Approve</button><button class="btn btn-danger" onclick="declineLoan(\''+l.name+'\')">Decline</button><button class="btn btn-outline" onclick="T(\'Counter-offer sent to borrower\')">Counter-offer</button></div></div>':'');
+      (l.decision?'<div style="background:#F4F4F4;border:1px solid rgba(0,0,0,0.1);border-radius:var(--rl);padding:14px 16px;margin-bottom:12px"><div style="font-family:var(--fh);font-size:13px;font-weight:600;color:var(--black);margin-bottom:10px">Decision required</div><div style="font-size:13px;color:var(--black);margin-bottom:12px">This loan is pending a credit decision from Shore Premier Finance. Review the file and record your decision below.</div><div style="display:flex;gap:8px"><button class="btn btn-success" onclick="T(\'Approved: '+l.name+'. Conditional approval letter being generated.\')">Approve</button><button class="btn btn-danger" onclick="declineLoan(\''+l.name+'\')">Decline</button><button class="btn btn-outline" onclick="openCounterOfferForCurrent()">Counter-offer</button></div></div>':'');
   } else if(tab==='documents') {
     c.innerHTML =
       '<div class="sc"><div class="sc-hd"><div class="sc-title">Document checklist</div></div><div class="sc-body">'+
@@ -859,7 +870,7 @@ function openAssignLoan(loanName, fromOid) {
   var html = '';
   OFFICERS.forEach(function(o) {
     var liveCount = LOANS.filter(function(l){return l.oid===o.id;}).length;
-    html += '<div class="op-item" onclick="assignLoan(''+loanName+'',''+o.id+'')">';
+    html += '<div class="op-item" data-loan="'+encodeURIComponent(loanName)+'" data-oid="'+o.id+'" onclick="handleAssignClick(this)">';
     html += '<div class="op-av" style="background:'+o.color+'">'+ini(o.name)+'</div>';
     html += '<div><div class="op-name">'+o.name+'</div><div class="op-meta">'+o.role+' &nbsp;·&nbsp; '+liveCount+' active loans</div></div>';
     html += '<div class="op-sp"></div>';
@@ -892,7 +903,7 @@ function filterClosed(v) {
     var rt=r.reg?'<span class="stage-pill" style="background:var(--green-bg);color:#14532D;font-size:10px;margin-left:4px">Reg</span>':'<span class="stage-pill" style="background:var(--amber-bg);color:#78350F;font-size:10px;margin-left:4px">Reg pending</span>';
     h+='<tr onclick="T(\'Opening closed file: '+r.name+' · '+r.id+'\')">';
     h+='<td style="font-size:12px;color:var(--muted)">'+r.id+'</td>';
-    h+='<td><div style="font-family:var(--fh);font-weight:600;color:var(--b800)">'+r.name+'</div></td>';
+    h+='<td><div style="font-family:var(--fh);font-weight:600;color:var(--black)">'+r.name+'</div></td>';
     h+='<td>'+r.vessel+'</td><td>'+r.lender+'</td>';
     h+='<td style="font-family:var(--fh);font-weight:600;color:var(--teal-d)">'+r.amount+'</td>';
     h+='<td>'+r.rate+'</td><td>'+r.funded+'</td>';
@@ -933,6 +944,15 @@ function DR(n,m,s){
 }
 function TL(ti,tm,nt,c){return '<div class="tl-item"><div class="tl-left"><div class="tl-dot" style="background:'+c+'"></div><div class="tl-line"></div></div><div class="tl-body"><div class="tl-title">'+ti+'</div><div class="tl-time">'+tm+'</div><div class="tl-note">'+nt+'</div></div></div>';}
 function T(m){var t=document.getElementById('toast');t.textContent=m;t.className='toast show';clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},3400);}
+
+
+// Officer collapse state — all open by default
+var OFFICER_OPEN = {};
+
+function toggleOfficer(oid) {
+  OFFICER_OPEN[oid] = OFFICER_OPEN[oid] === false ? true : false;
+  renderBankBody();
+}
 
 // init
 window.addEventListener("DOMContentLoaded",function(){
@@ -1120,6 +1140,131 @@ function showAllLoans() {
   if(body) { body.scrollTop = 0; }
   T('Showing all 12 active loans across Shore Premier Finance');
 }
+
+function openAssignToOfficer(oid) {
+  T('To assign a loan to this officer, go to Active loans tab, find the loan, and click Reassign.');
+}
+
+function handleAssignClick(el) {
+  var loanName = decodeURIComponent(el.getAttribute('data-loan'));
+  var oid = el.getAttribute('data-oid');
+  assignLoan(loanName, oid);
+}
+
+function openCounterOffer(borrowerName) {
+  var modal = document.getElementById('counter-modal');
+  var nameEl = document.getElementById('co-borrower-name');
+  var textarea = document.getElementById('co-message');
+  if(nameEl) nameEl.textContent = borrowerName;
+  if(textarea) {
+    textarea.value = 'Dear ' + borrowerName + ',\n\nThank you for your application. After reviewing your file, Shore Premier Finance is pleased to offer the following counter-proposal:\n\n  Loan amount: $[AMOUNT]\n  Interest rate: [RATE]%\n  Term: [TERM] months\n  Monthly payment: $[PAYMENT]/mo.\n  Down payment required: $[DOWN]\n\nThis offer is conditional upon receipt of the outstanding documents listed in your file. Please review and confirm your acceptance by [DATE].\n\nFor questions, please contact your loan officer directly.\n\nSincerely,\nShore Premier Finance / YachtWay EasyFund';
+  }
+  modal.classList.add('show');
+}
+
+function closeCounterOffer() {
+  document.getElementById('counter-modal').classList.remove('show');
+}
+
+function sendCounterOffer() {
+  var msg = document.getElementById('co-message').value.trim();
+  var name = document.getElementById('co-borrower-name').textContent;
+  if(!msg) { T('Please enter a message before sending.'); return; }
+  closeCounterOffer();
+  T('Counter-offer sent to ' + name + ' via email and EasyFund portal.');
+}
+
+function openCounterOfferForCurrent() {
+  var name = CURRENT_LOAN ? CURRENT_LOAN.name : 'Borrower';
+  openCounterOffer(name);
+}
+
+function openCounterOffer(borrowerName) {
+  var modal = document.getElementById('counter-modal');
+  var nameEl = document.getElementById('co-borrower-name');
+  var textarea = document.getElementById('co-message');
+  if(nameEl) nameEl.textContent = borrowerName;
+  if(textarea) {
+    textarea.value = 'Dear ' + borrowerName + ',\n\nThank you for your application. After reviewing your file, Shore Premier Finance is pleased to present the following counter-proposal:\n\n  Loan amount: $[AMOUNT]\n  Interest rate: [RATE]%\n  Term: [TERM] months\n  Estimated monthly payment: $[PAYMENT]\n  Down payment required: $[DOWN]\n\nThis offer is conditional upon receipt of all outstanding documentation. Please confirm your acceptance by [DATE].\n\nFor any questions, please contact your loan officer directly.\n\nSincerely,\nShore Premier Finance / YachtWay EasyFund';
+  }
+  modal.classList.add('show');
+}
+
+function closeCounterOffer() {
+  document.getElementById('counter-modal').classList.remove('show');
+}
+
+function sendCounterOffer() {
+  var msg = document.getElementById('co-message').value.trim();
+  var name = document.getElementById('co-borrower-name').textContent;
+  if(!msg) { T('Please enter a message before sending.'); return; }
+  closeCounterOffer();
+  T('Counter-offer sent to ' + name + ' via email and EasyFund portal.');
+}
 </script>
+
+<!-- COUNTER-OFFER MODAL -->
+<div class="overlay" id="counter-modal">
+  <div class="modal" style="width:520px">
+    <div class="modal-hd">
+      <div class="modal-title">Counter-offer — <span id="co-borrower-name"></span></div>
+      <button class="modal-close" onclick="closeCounterOffer()">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="margin-bottom:10px">
+        <div style="font-family:var(--fh);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px">Message to borrower</div>
+        <textarea id="co-message" style="width:100%;height:260px;padding:12px 14px;border-radius:var(--r);border:1px solid var(--g100);background:var(--g10);font-size:13px;font-family:var(--fb);outline:none;resize:vertical;line-height:1.6;color:var(--text)"></textarea>
+      </div>
+      <div style="margin-bottom:14px">
+        <div style="font-family:var(--fh);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:8px">Delivery method</div>
+        <div style="display:flex;gap:8px">
+          <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer">
+            <input type="checkbox" checked style="accent-color:var(--black);width:14px;height:14px"> Email to borrower
+          </label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer">
+            <input type="checkbox" checked style="accent-color:var(--black);width:14px;height:14px"> EasyFund portal notification
+          </label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer">
+            <input type="checkbox" style="accent-color:var(--black);width:14px;height:14px"> SMS
+          </label>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border)">
+        <button class="btn" onclick="closeCounterOffer()">Cancel</button>
+        <button class="btn btn-primary" onclick="sendCounterOffer()">Send counter-offer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- COUNTER-OFFER MODAL -->
+<div class="overlay" id="counter-modal">
+  <div class="modal" style="width:520px">
+    <div class="modal-hd">
+      <div class="modal-title">Counter-offer &mdash; <span id="co-borrower-name"></span></div>
+      <button class="modal-close" onclick="closeCounterOffer()">x</button>
+    </div>
+    <div class="modal-body">
+      <div style="margin-bottom:12px">
+        <div style="font-family:var(--fh);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px">Message to borrower</div>
+        <textarea id="co-message" style="width:100%;height:240px;padding:12px 14px;border-radius:var(--r);border:1px solid var(--g100);background:var(--g10);font-size:13px;font-family:var(--fb);outline:none;resize:vertical;line-height:1.6;color:var(--text)"></textarea>
+      </div>
+      <div style="margin-bottom:16px">
+        <div style="font-family:var(--fh);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:8px">Delivery</div>
+        <div style="display:flex;gap:16px">
+          <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--black);width:14px;height:14px"> Email</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--black);width:14px;height:14px"> EasyFund portal</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="checkbox" style="accent-color:var(--black);width:14px;height:14px"> SMS</label>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--border)">
+        <button class="btn" onclick="closeCounterOffer()">Cancel</button>
+        <button class="btn btn-primary" onclick="sendCounterOffer()">Send counter-offer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
