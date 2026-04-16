@@ -722,7 +722,7 @@ function assignLoan(loanName, oid) {
   var loan = LOANS.find(function(l){return l.name===loanName;});
   var off = OFFICERS.find(function(o){return o.id===oid;});
   if(loan && off) { loan.oid=oid; loan.officer=off.name; }
-  T(loanName+' assigned to '+off.name);
+  T((off?off.name:'Officer')+' is now handling '+loanName);
   closeAssign();
   renderBankBody();
 }
