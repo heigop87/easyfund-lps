@@ -13,8 +13,8 @@
   --brand-700:#4B0EA3;
   --brand-600:#6430B0;
   --brand-500:#7E528E;
-  --grad-a:linear-gradient(254.25deg,#8729FA,#2B0075);
-  --grad-b:linear-gradient(304.46deg,#8334DA,#4409D7);
+  
+  
   /* secondary */
   --teal:#0FA88C;
   --teal-d:#0D7C66;
@@ -53,10 +53,10 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-si
 /* ── TOPNAV ── */
 .topnav{height:56px;background:var(--brand-800);display:flex;align-items:center;padding:0 20px;gap:14px;flex-shrink:0;z-index:20;}
 .logo{display:flex;align-items:center;gap:10px;}
-.logo-mark{width:34px;height:34px;border-radius:8px;background:var(--grad-a);display:flex;align-items:center;justify-content:center;}
+.logo-mark{width:34px;height:34px;border-radius:8px;background:var(--brand-800);display:flex;align-items:center;justify-content:center;}
 .logo-mark svg{width:20px;height:20px;fill:white;}
 .logo-name{font-family:var(--font-head);font-size:16px;font-weight:700;color:white;letter-spacing:-0.3px;}
-.logo-name span{background:var(--grad-a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.logo-name span{background:var(--brand-800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .logo-div{width:1px;height:20px;background:rgba(255,255,255,0.2);margin:0 6px;}
 .logo-prod{font-family:var(--font-body);font-size:11px;font-weight:500;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.1em;}
 .nav-space{flex:1;}
@@ -64,8 +64,8 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-si
 .role-label{font-size:10px;font-weight:500;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.1em;padding:0 6px;font-family:var(--font-body);}
 .role-btn{padding:5px 12px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;color:rgba(255,255,255,0.5);border:none;background:transparent;font-family:var(--font-body);transition:all 0.15s;}
 .role-btn:hover{color:rgba(255,255,255,0.9);}
-.role-btn.active{background:var(--grad-a);color:white;}
-.nav-avatar{width:32px;height:32px;border-radius:50%;background:var(--grad-a);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:white;cursor:pointer;font-family:var(--font-head);}
+.role-btn.active{background:var(--brand-800);color:white;}
+.nav-avatar{width:32px;height:32px;border-radius:50%;background:var(--brand-800);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:white;cursor:pointer;font-family:var(--font-head);}
 
 /* ── LAYOUT ── */
 .app{display:flex;flex-direction:column;height:100vh;}
@@ -78,7 +78,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-si
 .sb-label{font-family:var(--font-head);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.3);padding:0 8px;margin-bottom:4px;}
 .sb-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;color:rgba(255,255,255,0.5);font-size:13px;font-weight:400;transition:all 0.12s;font-family:var(--font-body);}
 .sb-item:hover{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.9);}
-.sb-item.active{background:var(--grad-a);color:white;font-weight:500;}
+.sb-item.active{background:var(--brand-800);color:white;font-weight:500;}
 .sb-icon{width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .sb-badge{margin-left:auto;background:var(--brand-700);color:white;font-size:10px;font-weight:600;border-radius:10px;padding:1px 7px;font-family:var(--font-head);}
 .sb-badge.warn{background:var(--amber);color:#7A2E0E;}
@@ -99,8 +99,8 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-si
 /* BUTTONS */
 .btn{height:34px;padding:0 16px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:var(--font-body);transition:all 0.12s;}
 .btn:hover{background:var(--g10);}
-.btn-brand{background:var(--grad-a);color:white;border:none;}
-.btn-brand:hover{opacity:0.9;}
+.btn-brand{background:var(--brand-800);color:white;border:none;}
+.btn-brand:hover{background:var(--brand-800);}
 .btn-outline{background:transparent;border:1px solid rgba(38,7,84,0.25);color:var(--brand-800);}
 .btn-outline:hover{background:rgba(38,7,84,0.04);}
 .btn-sm{height:28px;font-size:12px;padding:0 12px;}
@@ -162,7 +162,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-si
 .pt-step.done{color:var(--teal-d);}
 .pt-step.done .pt-num{background:var(--teal);color:white;}
 .pt-step.cur{background:#F4F0FB;color:var(--brand-700);font-weight:600;}
-.pt-step.cur .pt-num{background:var(--grad-a);color:white;}
+.pt-step.cur .pt-num{background:var(--brand-800);color:white;}
 .pt-step.pend{color:var(--g300);}
 .pt-step.pend .pt-num{background:var(--g50);color:var(--g300);border:1px solid var(--g100);}
 .pt-step.kyc.cur{background:var(--amber-bg);color:#7A2E0E;}
@@ -180,7 +180,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-si
 
 /* BORROWER HEADER */
 .bh{background:var(--brand-800);border-radius:var(--rl);padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;}
-.bh-av{width:46px;height:46px;border-radius:50%;background:var(--grad-a);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:15px;font-weight:700;color:white;flex-shrink:0;}
+.bh-av{width:46px;height:46px;border-radius:50%;background:var(--brand-800);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:15px;font-weight:700;color:white;flex-shrink:0;}
 .bh-name{font-family:var(--font-head);font-size:16px;font-weight:700;color:white;}
 .bh-meta{font-size:12px;color:rgba(255,255,255,0.45);margin-top:2px;}
 .bh-sp{flex:1;}
@@ -301,7 +301,7 @@ textarea.fi-in{height:auto;padding:10px 12px;}
 
 <div class="topnav">
   <div class="logo">
-    <div class="logo-mark">
+    <div class="logo-mark" style="background:var(--brand-700)">
       <svg viewBox="0 0 20 20"><path d="M10 2L18 7.5V18H2V7.5L10 2Z" opacity="0.9"/><rect x="6.5" y="11" width="7" height="7" fill="rgba(255,255,255,0.4)"/></svg>
     </div>
     <div class="logo-name">Yacht<span>Way</span></div>
@@ -315,7 +315,7 @@ textarea.fi-in{height:auto;padding:10px 12px;}
     <button class="role-btn" onclick="setRole('officer',this)">Loan Officer</button>
     <button class="role-btn" onclick="setRole('broker',this)">Broker / Dealer</button>
   </div>
-  <div class="nav-avatar" onclick="T('Debbie Pettibone — EasyFund Operations Lead')">DP</div>
+  <div class="nav-avatar" style="background:var(--brand-700)" onclick="T('Debbie Pettibone — EasyFund Operations Lead')">DP</div>
 </div>
 
 <div class="broker-banner" id="broker-banner">
@@ -752,7 +752,7 @@ function renderLF(tab){
   }else if(tab==='loan-agreement'){c.innerHTML=hdr+
     '<div class="la-panel"><div class="la-title">Loan agreement — EasySign + EasyClose</div>'+
     '<div style="font-size:13px;color:var(--brand-700);margin-bottom:12px">Broker sends the loan agreement to the borrower. Requires signature and e-notary via EasyClose. Dealer name is auto-stripped from all generated documents.</div>'+
-    '<div class="sign-party"><div class="sign-av" style="background:var(--grad-a)">'+ini+'</div><div><div class="sign-name">'+b.name+'</div><div class="sign-role">Borrower · Primary signer</div></div><div class="sign-sp"></div><span class="pill" style="background:var(--amber-bg);color:#7A2E0E">Pending</span><button class="btn btn-outline btn-xs" onclick="T(\'Reminder sent to '+b.name+'\')">Remind</button></div>'+
+    '<div class="sign-party"><div class="sign-av" style="background:var(--brand-800)">'+ini+'</div><div><div class="sign-name">'+b.name+'</div><div class="sign-role">Borrower · Primary signer</div></div><div class="sign-sp"></div><span class="pill" style="background:var(--amber-bg);color:#7A2E0E">Pending</span><button class="btn btn-outline btn-xs" onclick="T(\'Reminder sent to '+b.name+'\')">Remind</button></div>'+
     '<div class="sign-party"><div class="sign-av" style="background:var(--brand-800)">DP</div><div><div class="sign-name">Debbie Pettibone</div><div class="sign-role">YachtWay EasyFund · Loan officer</div></div><div class="sign-sp"></div><span class="pill" style="background:var(--green-bg);color:#065F46">Signed</span></div>'+
     '<div class="sign-party"><div class="sign-av" style="background:var(--brand-700)">GC</div><div><div class="sign-name">Gulf Coast Marine</div><div class="sign-role">Referring broker · Acknowledgment required</div></div><div class="sign-sp"></div><span class="pill" style="background:var(--green-bg);color:#065F46">Signed</span></div>'+
     '<div style="margin-top:14px;display:flex;gap:8px">'+
