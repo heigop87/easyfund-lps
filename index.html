@@ -26,7 +26,7 @@ html,body{height:100%;overflow:hidden;}
 body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;}
 
 /* ── TOPNAV ── */
-.tnav{height:54px;background:var(--black);display:flex;align-items:center;padding:0 20px;gap:14px;flex-shrink:0;z-index:50;}
+.tnav{height:54px;background:var(--black);display:flex;align-items:center;padding:0 20px;gap:14px;flex-shrink:0;position:relative;}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
 /* logo uses inline SVG */
 .lsep{width:1px;height:18px;background:rgba(255,255,255,0.15);margin:0 6px;}
@@ -79,7 +79,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
 .btn-success{background:var(--green-bg);color:var(--green);border-color:rgba(22,163,74,0.2);}
 .btn-danger{background:var(--red-bg);color:var(--red);border-color:rgba(220,38,38,0.2);}
 .btn-sm{height:28px;font-size:12px;padding:0 11px;}
-.btn-xs{height:24px;font-size:11px;padding:0 9px;}
+.btn-xs{height:22px;font-size:10px;padding:0 7px;border-radius:4px;}
 .sc{background:var(--surface);border-radius:var(--rl);border:1px solid var(--border);margin-bottom:12px;overflow:hidden;}
 .sc-hd{padding:11px 16px;border-bottom:1px solid var(--border);background:var(--g10);display:flex;align-items:center;gap:10px;}
 .sc-title{font-family:var(--fh);font-size:13px;font-weight:600;}
@@ -172,6 +172,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
 
 /* ── DETAIL PANEL ── */
 .dpanel{position:fixed;right:0;top:54px;bottom:0;width:520px;background:var(--surface);border-left:1px solid var(--border);z-index:100;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,0.08);}
+.dp-broker-only{display:none;}
 .dpanel.show{display:flex;}
 .dp-hd{background:var(--black);padding:16px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
 .dp-av{width:42px;height:42px;border-radius:50%;background:var(--black3);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:14px;font-weight:700;color:white;flex-shrink:0;}
@@ -302,6 +303,10 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
 .doc-sig-line{border-top:1px solid var(--black);margin-top:40px;padding-top:6px;font-size:12px;color:var(--muted);}
 .doc-redacted{background:var(--black);color:transparent;border-radius:2px;user-select:none;}
 .doc-watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-size:72px;font-weight:700;color:rgba(0,0,0,0.04);font-family:var(--fh);pointer-events:none;white-space:nowrap;}
+
+.pmenu-btn{display:block;width:100%;text-align:left;padding:7px 10px;border-radius:6px;font-size:13px;font-weight:400;cursor:pointer;color:rgba(255,255,255,0.6);border:none;background:transparent;font-family:var(--fb);transition:all 0.1s;}
+.pmenu-btn:hover{background:rgba(255,255,255,0.08);color:white;}
+.pmenu-btn.active{background:rgba(255,255,255,0.12);color:white;font-weight:500;}
 </style>
 </head>
 <body>
@@ -315,34 +320,25 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
     <div class="lprod">EasyFund</div>
   </div>
   <div class="nav-sp"></div>
-  <div class="role-sw">
-    <div class="role-group">
-      <div class="rg-label">Bank</div>
-      <div class="rg-btns">
-        <button class="rbtn" onclick="setPortal('bank-mgr',this)">Manager</button>
-        <button class="rbtn" onclick="setPortal('bank-officer',this)">Loan Officer</button>
-      </div>
-    </div>
-    <div class="rg-sep"></div>
-    <div class="role-group">
-      <div class="rg-label">Lending Broker</div>
-      <div class="rg-btns">
-        <button class="rbtn" onclick="setPortal('broker-mgr',this)">Manager</button>
-        <button class="rbtn" onclick="setPortal('broker',this)">Broker</button>
-      </div>
-    </div>
-    <div class="rg-sep"></div>
-    <div class="role-group">
-      <div class="rg-label">Boat Dealer</div>
-      <div class="rg-btns">
-        <button class="rbtn" onclick="setPortal('dealer',this)">Manager</button>
-      </div>
-    </div>
-    <div class="rg-sep"></div>
-    <div class="role-group">
-      <div class="rg-label">Customer</div>
-      <div class="rg-btns">
-        <button class="rbtn active" onclick="setPortal('customer',this)">Portal</button>
+  <div style="position:relative">
+    <button id="portal-menu-btn" onclick="togglePortalMenu()" style="display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.07);border:0.5px solid rgba(255,255,255,0.12);border-radius:7px;padding:6px 12px;cursor:pointer;color:rgba(255,255,255,0.6);font-size:12px;font-family:var(--fb);transition:all 0.12s">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5h10M2 7h10M2 10.5h10"/></svg>
+      <span id="portal-menu-label">Customer Portal</span>
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3.5l3 3 3-3"/></svg>
+    </button>
+    <div id="portal-menu" style="display:none;position:fixed;top:62px;right:20px;background:var(--black2);border:1px solid rgba(255,255,255,0.12);border-radius:var(--rl);min-width:220px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.4);z-index:9999">
+      <div style="padding:8px 12px 6px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.25);font-family:var(--fh)">Switch portal</div>
+      <div style="padding:0 6px 6px">
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.25);padding:6px 8px 3px;font-family:var(--fh)">Bank</div>
+        <button class="pmenu-btn" onclick="setPortalMenu('bank-mgr','Bank — Manager',this)">Manager</button>
+        <button class="pmenu-btn" onclick="setPortalMenu('bank-officer','Bank — Loan Officer',this)">Loan Officer</button>
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.25);padding:8px 8px 3px;font-family:var(--fh)">Lending Broker</div>
+        <button class="pmenu-btn" onclick="setPortalMenu('broker-mgr','Lending Broker — Manager',this)">Manager</button>
+        <button class="pmenu-btn" onclick="setPortalMenu('broker','Lending Broker — Broker',this)">Broker</button>
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.25);padding:8px 8px 3px;font-family:var(--fh)">Boat Dealer</div>
+        <button class="pmenu-btn" onclick="setPortalMenu('dealer','Boat Dealer — Manager',this)">Manager</button>
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.25);padding:8px 8px 3px;font-family:var(--fh)">Customer</div>
+        <button class="pmenu-btn active" onclick="setPortalMenu('customer','Customer Portal',this)">Customer Portal</button>
       </div>
     </div>
   </div>
@@ -375,10 +371,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
     <div class="sb-div"></div>
     <div class="sb-s">
       <div class="sb-lbl">Tools</div>
-      <div class="sb-i" onclick="bankMgrTab('new',this)">
-        <div class="sb-ic"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7.5 1.5v12M1.5 7.5h12"/></svg></div>
-        New application
-      </div>
+
       <div class="sb-i" onclick="bankMgrTab('vato-bm',this)">
         <div class="sb-ic"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7.5" cy="7.5" r="5.5"/><path d="M7.5 4.5v3l2.5 2" stroke-linecap="round"/></svg></div>
         VATO
@@ -397,7 +390,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
       <div class="bk-kpis">
         <div class="bkpi" onclick="showAllBankLoans()"><div class="bkpi-lbl">Active pipeline</div><div class="bkpi-val" style="text-decoration:underline;text-decoration-color:rgba(255,255,255,0.3);text-underline-offset:3px">12</div><div class="bkpi-sub" style="color:rgba(255,255,255,0.4)">click to view all →</div></div>
         <div class="bkpi"><div class="bkpi-lbl">Total volume</div><div class="bkpi-val">$18.4M</div><div class="bkpi-sub" style="color:rgba(255,255,255,0.4)">active</div></div>
-        <div class="bkpi"><div class="bkpi-lbl">Pending decisions</div><div class="bkpi-val" style="color:#FDB022">3</div><div class="bkpi-sub" style="color:#FDB022">action required</div></div>
+        <div class="bkpi" onclick="showPendingDecisions()" style="cursor:pointer"><div class="bkpi-lbl">Pending decisions</div><div class="bkpi-val" style="color:#FDB022;text-decoration:underline;text-decoration-color:rgba(253,176,34,0.4);text-underline-offset:3px">3</div><div class="bkpi-sub" style="color:#FDB022">click to review →</div></div>
         <div class="bkpi"><div class="bkpi-val" style="color:var(--teal)">$12.4M</div><div class="bkpi-lbl">Funded this month</div><div class="bkpi-sub" style="color:var(--teal)">8 loans</div></div>
         <div class="bkpi"><div class="bkpi-lbl">Avg days to decision</div><div class="bkpi-val">4.2</div><div class="bkpi-sub" style="color:rgba(255,255,255,0.4)">−0.8 vs last mo.</div></div>
       </div>
@@ -441,7 +434,16 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
     </div>
   </div>
   <div style="display:flex;flex-direction:column;flex:1;overflow:hidden;min-width:0">
-    <div class="ph"><div><div class="ph-title" id="officer-tab-title">My active loans</div><div class="ph-sub">Debbie Pettibone · Shore Premier Finance</div></div><div class="ph-sp"></div></div>
+    <div id="officer-dash-header" style="background:var(--black);padding:20px 24px;flex-shrink:0">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+        <div style="width:44px;height:44px;border-radius:50%;background:#141414;border:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:15px;font-weight:700;color:white;flex-shrink:0">DP</div>
+        <div>
+          <div style="font-family:var(--fh);font-size:18px;font-weight:700;color:white" id="officer-tab-title">Debbie Pettibone</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.4)">Loan Officer · Shore Premier Finance</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px" id="officer-kpis"></div>
+    </div>
     <div style="flex:1;overflow-y:auto;padding:20px 24px" id="officer-body"></div>
   </div>
 </div>
@@ -558,7 +560,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
       <div class="dealer-kpis">
         <div class="dkpi"><div class="dkpi-lbl">Active referrals</div><div class="dkpi-val">6</div></div>
         <div class="dkpi"><div class="dkpi-lbl">Approved this month</div><div class="dkpi-val" style="color:var(--teal)">3</div></div>
-        <div class="dkpi"><div class="dkpi-lbl">My docs pending</div><div class="dkpi-val" style="color:#FDB022">2</div></div>
+        <div class="dkpi" onclick="dealerGoToDocs()" style="cursor:pointer"><div class="dkpi-lbl">My docs pending</div><div class="dkpi-val" style="color:#FDB022;text-decoration:underline;text-decoration-color:rgba(253,176,34,0.4);text-underline-offset:3px">2</div><div style="font-size:11px;color:#FDB022;margin-top:2px">click to upload →</div></div>
         <div class="dkpi"><div class="dkpi-lbl">Funded this month</div><div class="dkpi-val" style="color:var(--teal)">2</div></div>
       </div>
     </div>
@@ -586,9 +588,24 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
       </div>
     </div>
     <div class="cust-sections">
-      <div class="tabs" style="margin:14px 0 0;border-radius:var(--rl) var(--rl) 0 0;overflow:hidden">
+      <!-- Always-visible status strip -->
+      <div id="cust-status-strip" style="background:var(--black);border-radius:var(--rl);padding:14px 18px;margin-top:14px;display:flex;align-items:center;gap:16px">
+        <div style="flex:1">
+          <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.35);font-family:var(--fh);margin-bottom:3px">Current stage</div>
+          <div style="font-family:var(--fh);font-size:15px;font-weight:700;color:white" id="cust-stage-label">Docs &amp; KYC</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.35);font-family:var(--fh);margin-bottom:3px">Loan officer</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.7)">Alicia Bryson</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.35);font-family:var(--fh);margin-bottom:3px">Application</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.7)">#EF-2024-0041</div>
+        </div>
+      </div>
+      <div class="tabs" style="margin:10px 0 0;border-radius:var(--rl) var(--rl) 0 0;overflow:hidden">
         <div class="tab active" id="ct-docs" onclick="setCustTab('docs',this)" style="padding-left:18px">My documents</div>
-        <div class="tab" id="ct-status" onclick="setCustTab('status',this)">Loan status</div>
+        <div class="tab" id="ct-status" onclick="setCustTab('status',this)">Loan timeline</div>
         <div class="tab" id="ct-chat" onclick="setCustTab('chat',this)">Messages</div>
       </div>
       <div style="background:var(--surface);border-radius:0 0 var(--rl) var(--rl);border:1px solid var(--border);border-top:none;min-height:300px" id="cust-tab-body"></div>
@@ -608,8 +625,10 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
   <div class="dp-tabs">
     <div class="dptab active" onclick="setDpTab('summary',this)">Summary</div>
     <div class="dptab" onclick="setDpTab('documents',this)">Documents</div>
+
     <div class="dptab" onclick="setDpTab('request',this)">Request docs</div>
-    <div class="dptab" onclick="setDpTab('vato-report',this)">VATO report</div>
+    <div class="dptab" onclick="setDpTab('vato-report',this)">VATO</div>
+    <div class="dptab" onclick="setDpTab('lender-timeline',this)">Lenders</div>
     <div class="dptab" onclick="setDpTab('history',this)">History</div>
   </div>
   <div class="dp-body" id="dp-body"></div>
@@ -666,7 +685,75 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
   </div>
 </div>
 
+
+<!-- DOCUMENT VIEWER -->
+<div class="docviewer-overlay" id="docviewer">
+  <div class="docviewer-box">
+    <div class="docviewer-hd">
+      <div>
+        <div class="docviewer-title" id="dv-title">Document</div>
+        <div class="docviewer-meta" id="dv-meta"></div>
+      </div>
+      <div class="docviewer-sp"></div>
+      <button class="btn btn-sm" style="background:rgba(255,255,255,0.1);color:white;border-color:rgba(255,255,255,0.2)" onclick="downloadDoc()">Download</button>
+      <button class="docviewer-close" onclick="closeDocViewer()">&#215;</button>
+    </div>
+    <div class="docviewer-body" id="dv-body"></div>
+    <div class="docviewer-footer">
+      <span class="docviewer-footer-note">Confidential. Viewing is logged.</span>
+      <div style="flex:1"></div>
+      <button class="btn btn-sm" onclick="closeDocViewer()">Close</button>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
+
+
+<!-- CO-BORROWER MODAL -->
+<div class="overlay" id="cb-modal">
+  <div class="modal" style="width:500px">
+    <div class="modal-hd">
+      <div class="modal-title" id="cb-modal-title">Add co-borrower</div>
+      <button class="modal-close" onclick="document.getElementById('cb-modal').classList.remove('show')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="cb-loan-id">
+      <div style="font-family:var(--fh);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:10px">Co-borrower details</div>
+      <div class="fg fg2" style="margin-bottom:12px">
+        <div><div class="fi-lbl">First name</div><input id="cb-first" class="fi-in" placeholder="First name"></div>
+        <div><div class="fi-lbl">Last name</div><input id="cb-last" class="fi-in" placeholder="Last name"></div>
+        <div><div class="fi-lbl">Email</div><input id="cb-email" class="fi-in" type="email" placeholder="Email address"></div>
+        <div><div class="fi-lbl">Phone</div><input id="cb-phone" class="fi-in" placeholder="(305) 000-0000"></div>
+        <div><div class="fi-lbl">Date of birth</div><input id="cb-dob" class="fi-in" type="date"></div>
+        <div><div class="fi-lbl">Relationship to borrower</div>
+          <select id="cb-rel" class="fi-sel">
+            <option>Spouse</option>
+            <option>Partner</option>
+            <option>Business partner</option>
+            <option>Parent</option>
+            <option>Sibling</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div><div class="fi-lbl">Annual income</div><input id="cb-income" class="fi-in" placeholder="$0.00"></div>
+        <div><div class="fi-lbl">Employment status</div>
+          <select id="cb-employment" class="fi-sel">
+            <option>Employed</option>
+            <option>Self-employed</option>
+            <option>Retired</option>
+            <option>Business owner</option>
+          </select>
+        </div>
+      </div>
+      <div class="af af-info" style="margin-bottom:14px">Adding a co-borrower will trigger a new KYC verification for this individual. The borrower will be notified by email.</div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--border)">
+        n" onclick="document.getElementById('cb-modal').classList.remove('show')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveCoBorrower()">Save co-borrower</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script>
 // ═══════════════════════════════════════════════════
@@ -824,8 +911,8 @@ var BORROWER_DOCS = [
   {name:'Purchase agreement',status:'Verified',icon:'✍️'}
 ];
 
-var CUST_STEPS = ['Application','Documents','KYC','Under review','Decision','Closing','Funded'];
-var CUST_STEP = 2; // currently on Documents step
+var CUST_STEPS = ['Applied','Docs & KYC','Under Review','Approved','Funded'];
+var CUST_STEP = 1; // currently on Docs & KYCents step
 
 var OFFICER_OPEN = {};
 var CURRENT_LOAN = null;
@@ -856,8 +943,7 @@ var PORTAL_NAMES = {
 
 function setPortal(id, btn) {
   CURRENT_PORTAL = id;
-  document.querySelectorAll('.rbtn').forEach(function(b){b.classList.remove('active');});
-  btn.classList.add('active');
+  if(btn) btn.classList.add('active');
   // portals handled below
   // hide all top-level portal views
   document.querySelectorAll('[id^="portal-"]').forEach(function(v){v.classList.remove('active');});
@@ -946,6 +1032,7 @@ else if(c==='actions-officer') {
             else if(c==='actions-broker') {
         h += '<td><div style="display:flex;gap:4px">';
         h += '<button class="btn btn-xs" onclick="event.stopPropagation();openDp(\''+l.id+'\')">View</button>';
+        h += '<button class="btn btn-xs btn-primary" onclick="event.stopPropagation();openBrokerEdit(\''+l.id+'\')">Edit application</button>';
         h += '<button class="btn btn-xs btn-outline" onclick="event.stopPropagation();openReqModal(\''+l.id+'\')">Request docs</button>';
         h += '</div></td>';
       }
@@ -968,43 +1055,41 @@ else if(c==='actions-officer') {
 function bankMgrTab(tab, el) {
   document.querySelectorAll('#portal-bank-mgr .sb-i').forEach(function(i){i.classList.remove('active');});
   if(el) el.classList.add('active');
-  if(tab==='new') { T('Opening new application...'); return; }
+  var bmEl = document.getElementById('bm-loans');
+  var bkHd = bmEl ? bmEl.querySelector('.bk-hd') : null;
+  var tabsEl = bmEl ? bmEl.querySelector('.tabs') : null;
+  var body = document.getElementById('bm-body');
+  if(bkHd) bkHd.style.display='';
+  if(tabsEl) tabsEl.style.display='';
+  if(body) body.style.padding='';
   if(tab==='vato-bm') {
-    // Show VATO in the main content area
-    var bmLoans = document.getElementById('bm-loans');
-    if(bmLoans) {
-      var body = document.getElementById('bm-body');
-      // Hide the black bank header and tabs, show just the VATO tool
-      var bkHd = bmLoans.querySelector('.bk-hd');
-      var tabsEl = bmLoans.querySelector('.tabs');
-      if(bkHd) bkHd.style.display='none';
-      if(tabsEl) tabsEl.style.display='none';
-      if(body) {
-        body.style.padding='20px 24px';
-        body.innerHTML = renderVatoHtml();
-        setTimeout(function(){
-          var rb = document.getElementById('vato-run-btn');
-          if(rb) rb.onclick = runVatoInline;
-          var cb = document.getElementById('vato-clear-btn');
-          if(cb) cb.onclick = function(){ document.getElementById('vato-results-inline').innerHTML=''; };
-        }, 30);
-      }
-    }
+    if(bkHd) bkHd.style.display='none';
+    if(tabsEl) tabsEl.style.display='none';
+    if(body){ body.style.padding='20px 24px'; body.innerHTML=renderVatoHtml(); setTimeout(function(){ var rb=document.getElementById('vato-run-btn'); if(rb) rb.onclick=runVatoInline; var cb=document.getElementById('vato-clear-btn'); if(cb) cb.onclick=function(){ document.getElementById('vato-results-inline').innerHTML=''; }; },30); }
     return;
   }
-  // Restore header/tabs when switching away from VATO
-  var bmLoans2 = document.getElementById('bm-loans');
-  if(bmLoans2) {
-    var bkHd2 = bmLoans2.querySelector('.bk-hd');
-    var tabsEl2 = bmLoans2.querySelector('.tabs');
-    if(bkHd2) bkHd2.style.display='';
-    if(tabsEl2) tabsEl2.style.display='';
+  if(tab==='officers') {
+    BM_SUBTAB='officers';
+    document.querySelectorAll('#bm-tab-loans,#bm-tab-officers').forEach(function(t){t.classList.remove('active');});
+    var ot=document.getElementById('bm-tab-officers'); if(ot) ot.classList.add('active');
+  } else {
+    BM_SUBTAB='loans';
+    document.querySelectorAll('#bm-tab-loans,#bm-tab-officers').forEach(function(t){t.classList.remove('active');});
+    var lt=document.getElementById('bm-tab-loans'); if(lt) lt.classList.add('active');
   }
   renderBmBody();
 }
 
 function setBmSubTab(tab, el) {
   BM_SUBTAB = tab;
+  // Restore header/tabs in case VATO was open
+  var bmLoans = document.getElementById('bm-loans');
+  if(bmLoans) {
+    var bkHd = bmLoans.querySelector('.bk-hd');
+    var tabsEl = bmLoans.querySelector('.tabs');
+    if(bkHd) bkHd.style.display = '';
+    if(tabsEl) tabsEl.style.display = '';
+  }
   document.querySelectorAll('#bm-tab-loans,#bm-tab-officers').forEach(function(t){t.classList.remove('active');});
   if(el) el.classList.add('active');
   renderBmBody();
@@ -1022,7 +1107,7 @@ function renderBmBody() {
   var body = document.getElementById('bm-body');
   if(!body) return;
   if(BM_SUBTAB==='loans') {
-    var toolbar = '<div style="display:flex;gap:10px;margin-bottom:14px;align-items:center"><input class="fi-in" style="width:240px" placeholder="Search borrower or vessel..." oninput="bmSearch(this.value)" id="bm-search"><select class="fi-sel" style="width:160px" onchange="bmFilterStage(this.value)"><option value="">All stages</option><option>Application</option><option>App review</option><option>KYC</option><option>Doc upload</option><option>Lender submit</option><option>Credit decision</option><option>Approval</option><option>Appraisal</option><option>Loan docs</option><option>Closing</option><option>Funded</option></select><select class="fi-sel" style="width:160px" onchange="bmFilterOfficer(this.value)" id="bm-officer-filter"><option value="">All officers</option><option>Debbie Pettibone</option><option>Alicia Bryson</option><option>Scott Walter</option></select><div style="flex:1"></div><button class="btn btn-primary btn-sm" onclick="T(\'Opening new application...\')">+ New application</button></div>';
+    var toolbar = '<div style="display:flex;gap:10px;margin-bottom:14px;align-items:center"><input class="fi-in" style="width:240px" placeholder="Search borrower or vessel..." oninput="bmSearch(this.value)" id="bm-search"><select class="fi-sel" style="width:160px" onchange="bmFilterStage(this.value)"><option value="">All stages</option><option>Application</option><option>App review</option><option>KYC</option><option>Doc upload</option><option>Lender submit</option><option>Credit decision</option><option>Approval</option><option>Appraisal</option><option>Loan docs</option><option>Closing</option><option>Funded</option></select><select class="fi-sel" style="width:160px" onchange="bmFilterOfficer(this.value)" id="bm-officer-filter"><option value="">All officers</option><option>Debbie Pettibone</option><option>Alicia Bryson</option><option>Scott Walter</option></select><div style="flex:1"></div></div>';
     body.innerHTML = toolbar + loanTable(BM_FILTERED||LOANS, ['borrower','vessel','amount','stage','officer','broker','days','flags','actions-bank']);
   } else {
     renderOfficerCards(body);
@@ -1035,29 +1120,73 @@ function bmFilterStage(v){BM_FILTERED=LOANS.filter(function(l){return !v||l.stag
 function bmFilterOfficer(v){BM_FILTERED=LOANS.filter(function(l){return !v||l.officer===v;});renderBmBody();}
 
 function renderOfficerCards(body) {
-  var html = '';
+  var PERF = {
+    'dp': {avgDays:3.8, funded:8, declined:1, approvalRate:89, avgLoan:'$920,000'},
+    'ab2':{avgDays:5.1, funded:5, declined:2, approvalRate:82, avgLoan:'$1,140,000'},
+    'sw': {avgDays:4.4, funded:6, declined:1, approvalRate:88, avgLoan:'$2,150,000'},
+    'mt': {avgDays:6.2, funded:3, declined:1, approvalRate:83, avgLoan:'$680,000'}
+  };
+  var html = '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px">';
   OFFICERS.forEach(function(o) {
     var oLoans = LOANS.filter(function(l){return l.oid===o.id;});
     var vol = oLoans.reduce(function(s,l){return s+parseFloat(l.amount.replace(/[$,]/g,''));},0);
     var volStr = vol>=1000000?'$'+(vol/1000000).toFixed(1)+'M':'$'+(vol/1000).toFixed(0)+'K';
+    var p = PERF[o.id]||{avgDays:5,funded:4,declined:1,approvalRate:80,avgLoan:'$800,000'};
+    var pending = oLoans.filter(function(l){return l.si<7;}).length;
+    var inDecision = oLoans.filter(function(l){return l.decision;}).length;
+    var speedColor = p.avgDays<4?'var(--teal-d)':p.avgDays<5.5?'var(--amber)':'var(--red)';
     var open = OFFICER_OPEN[o.id] !== false;
-    html += '<div class="oc-card">';
-    html += '<div class="oc-hd" onclick="toggleOC(\''+o.id+'\')">';
-    html += '<div class="oc-av" style="background:'+o.color+'">'+ini(o.name)+'</div>';
-    html += '<div><div class="oc-name">'+o.name+'</div><div class="oc-role">'+o.role+'</div></div>';
-    html += '<div class="oc-sp"></div>';
-    html += '<div class="oc-metrics">';
-    html += '<div><div class="oc-m-lbl">Loans</div><div class="oc-m-val">'+oLoans.length+'</div></div>';
-    html += '<div><div class="oc-m-lbl">Volume</div><div class="oc-m-val" style="color:var(--teal-d)">'+volStr+'</div></div>';
+
+    html += '<div style="background:var(--surface);border-radius:var(--rl);border:1px solid var(--border);overflow:hidden">';
+
+    // Card header
+    html += '<div style="background:var(--g10);border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:12px">';
+    html += '<div style="width:44px;height:44px;border-radius:50%;background:'+o.color+';display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:15px;font-weight:700;color:white;flex-shrink:0">'+ini(o.name)+'</div>';
+    html += '<div style="flex:1"><div style="font-family:var(--fh);font-size:14px;font-weight:600">'+o.name+'</div><div style="font-size:12px;color:var(--muted)">'+o.role+'</div></div>';
+    html += '<div style="text-align:right"><div style="font-family:var(--fh);font-size:22px;font-weight:700;color:'+speedColor+'">'+p.avgDays+'d</div><div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted)">Avg turnaround</div></div>';
     html += '</div>';
-    html += '<span class="chev" style="transform:rotate('+(open?90:0)+'deg)">›</span>';
+
+    // KPI grid
+    html += '<div style="display:grid;grid-template-columns:repeat(4,1fr)">';
+    var kpis = [
+      {lbl:'Active',val:oLoans.length,color:'var(--text)'},
+      {lbl:'Pending',val:pending,color:pending>3?'var(--amber)':'var(--text)'},
+      {lbl:'Funded',val:p.funded,color:'var(--teal-d)'},
+      {lbl:'Approval',val:p.approvalRate+'%',color:p.approvalRate>=85?'var(--teal-d)':'var(--amber)'}
+    ];
+    kpis.forEach(function(k,i){
+      html += '<div style="padding:12px 14px;border-bottom:1px solid var(--border);'+(i<3?'border-right:1px solid var(--border)':'')+'">';
+      html += '<div style="font-family:var(--fh);font-size:18px;font-weight:700;color:'+k.color+'">'+k.val+'</div>';
+      html += '<div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-top:2px">'+k.lbl+'</div>';
+      html += '</div>';
+    });
     html += '</div>';
-    if(open){
-      if(oLoans.length===0){html += '<div style="padding:14px 20px;font-size:13px;color:var(--muted)">No active loans.</div>';}
-      else {html += loanTable(oLoans,['borrower','vessel','amount','stage','days','flags','actions-bank']);}
+
+    // Secondary row
+    html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--border)">';
+    html += '<div style="padding:10px 14px;border-right:1px solid var(--border)"><div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted)">Pipeline vol.</div><div style="font-family:var(--fh);font-size:13px;font-weight:600;color:var(--teal-d);margin-top:2px">'+volStr+'</div></div>';
+    html += '<div style="padding:10px 14px;border-right:1px solid var(--border)"><div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted)">Avg loan size</div><div style="font-family:var(--fh);font-size:13px;font-weight:600;margin-top:2px">'+p.avgLoan+'</div></div>';
+    html += '<div style="padding:10px 14px"><div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted)">Need decision</div><div style="font-family:var(--fh);font-size:13px;font-weight:600;color:'+(inDecision>0?'var(--amber)':'var(--muted)')+';margin-top:2px">'+(inDecision>0?inDecision+' action req':'None')+'</div></div>';
+    html += '</div>';
+
+    // Expand toggle
+    html += '<div style="padding:10px 16px;display:flex;align-items:center;cursor:pointer;user-select:none" data-oid="'+o.id+'" onclick="toggleOC(this.dataset.oid)">';
+    html += '<span style="font-size:12px;color:var(--muted)">'+oLoans.length+' active loan'+(oLoans.length!==1?'s':'')+'</span>';
+    html += '<div style="flex:1"></div>';
+    html += '<span style="font-size:12px;color:var(--muted);margin-right:4px">'+(open?'Hide loans':'View loans')+'</span>';
+    html += '<span style="font-size:16px;color:var(--g200);display:inline-block;transition:transform 0.15s;transform:rotate('+(open?90:0)+'deg)">›</span>';
+    html += '</div>';
+
+    if(open && oLoans.length>0) {
+      html += '<div style="border-top:1px solid var(--border)">';
+      html += loanTable(oLoans,['borrower','vessel','amount','stage','days','flags','actions-bank']);
+      html += '</div>';
+    } else if(open && oLoans.length===0) {
+      html += '<div style="padding:12px 16px;font-size:13px;color:var(--muted);border-top:1px solid var(--border)">No active loans.</div>';
     }
     html += '</div>';
   });
+  html += '</div>';
   body.innerHTML = html;
 }
 
@@ -1077,13 +1206,24 @@ function renderOfficerBody(tab) {
   var title = document.getElementById('officer-tab-title');
   if(!body) return;
   var myLoans = LOANS.filter(function(l){return l.oid==='dp';});
+  // Render KPI header
+  renderOfficerKpis(myLoans);
   if(tab==='loans') {
     if(title) title.textContent = 'My active loans';
     body.innerHTML = loanTable(myLoans,['borrower','vessel','amount','stage','broker','days','flags','actions-officer']);
   } else if(tab==='requests') {
     if(title) title.textContent = 'Pending document requests';
     var pending = myLoans.filter(function(l){return l.kyc||l.stip;});
-    body.innerHTML = '<div class="af af-warn" style="margin-bottom:14px">You have '+pending.length+' loans with outstanding document requests. Review and follow up with brokers or customers directly.</div>'+loanTable(pending,['borrower','vessel','amount','stage','broker','flags','actions-officer']);
+    var reqItems2 = pending.map(function(l){
+      return '<div class="sc" style="margin-bottom:10px"><div class="sc-hd"><div class="sc-title">'+l.name+' &mdash; '+l.vessel+'</div><span class="sc-sub">'+l.id+'</span></div><div class="sc-body">'+
+        DR('Bank statements','Requested by lender','Missing')+
+        DR('USCG documentation','Vessel title verification','Missing')+
+        '<div style="display:flex;gap:8px;margin-top:10px">'+
+        '<button class="btn btn-primary btn-sm" data-broker="'+l.broker+'" onclick="T(\'Request forwarded to \'+this.dataset.broker+\' at Gulf Coast Marine Finance.\',true)">Send to '+l.broker+'</button>'+
+        '<button class="btn btn-sm btn-outline" onclick="openReqModal(\''+l.id+'\')">Request more</button>'+
+        '</div></div></div>';
+    }).join('');
+    body.innerHTML = '<div class="af af-warn" style="margin-bottom:14px">You have '+pending.length+' loan'+(pending.length!==1?'s':'')+' with outstanding document requests.</div>'+reqItems2;
   } else if(tab==='closed') {
     if(title) title.textContent = 'My closed loans';
     var closed = CLOSED.filter(function(l){return l.officer==='Debbie Pettibone';});
@@ -1164,9 +1304,13 @@ function renderBrokerBody(tab) {
   if(tab==='active') {
     if(title) title.textContent = 'My active deals';
     // Extended actions for broker: view, edit, request info, send for signature, match lender
-    var h = '<div style="background:var(--surface);border-radius:var(--rl);border:1px solid var(--border);overflow:hidden"><table class="ltbl"><thead><tr><th>Borrower</th><th>Vessel</th><th>Amount</th><th>Stage</th><th>Dealer</th><th>Days</th><th>File</th><th>Actions</th></tr></thead><tbody>';
+    var h = '<div style="background:var(--surface);border-radius:var(--rl);border:1px solid var(--border);overflow:hidden"><table class="ltbl"><thead><tr><th>Borrower</th><th>Vessel</th><th>Amount</th><th>Stage</th><th>App status</th><th>File</th><th>Actions</th></tr></thead><tbody>';
     myLoans.forEach(function(l){
-      var fileScore = l.fileScore || 72;
+      var stateForScore = (APP_SIGN_STATE[l.id]||{}).state || 'draft';
+      var fileScore = stateForScore==='signed' ? 100
+        : stateForScore==='sent_for_signature' ? 88
+        : stateForScore==='submitted' ? 95
+        : (l.fileScore || 72);
       var fileColor = fileScore>=85?'var(--green)':fileScore>=65?'var(--amber)':'var(--red)';
       var readyToSend = fileScore >= 85;
       h += '<tr class="clickable" onclick="openDp(\''+ l.id +'\')">';
@@ -1174,16 +1318,28 @@ function renderBrokerBody(tab) {
       h += '<td style="font-size:13px">'+l.vessel+'</td>';
       h += '<td class="lt-amount">'+l.amount+'</td>';
       h += '<td>'+stagePill(l.stage)+'</td>';
-      h += '<td style="font-size:13px">'+l.dealer+'</td>';
-      h += '<td style="font-size:12px;color:var(--muted)">'+(l.days===0?'Today':l.days+'d ago')+'</td>';
+      var appState = (APP_SIGN_STATE[l.id]||{}).state || 'draft';
+      var appStateLabel = appState==='signed'
+        ? '<span class="pill sp-approved">&#10003; Signed &amp; ready</span>'
+        : appState==='sent_for_signature'
+        ? '<span class="pill sp-action">&#9993; Awaiting signature</span>'
+        : appState==='submitted'
+        ? '<span class="pill sp-funded">Submitted</span>'
+        : '<span class="pill sp-neutral">&#9998; In preparation</span>';
+      h += '<td>'+appStateLabel+'</td>';
       h += '<td><span style="font-family:var(--fh);font-size:12px;font-weight:700;color:'+fileColor+'">'+fileScore+'<span style="font-weight:400;color:var(--muted)">/100</span></span></td>';
-      h += '<td><div style="display:flex;gap:4px;flex-wrap:wrap">';
+      h += '<td><div style="display:flex;gap:3px;flex-wrap:wrap">';
       h += '<button class="btn btn-xs" onclick="event.stopPropagation();openDp(\''+ l.id +'\')" >View</button>';
-      h += '<button class="btn btn-xs btn-outline" onclick="event.stopPropagation();openBrokerEdit(\''+ l.id +'\')" >Edit</button>';
-      h += '<button class="btn btn-xs btn-outline" onclick="event.stopPropagation();openReqModal(\''+ l.id +'\')" >Request info</button>';
-      if(readyToSend) {
-        h += '<button class="btn btn-xs btn-primary" onclick="event.stopPropagation();sendForSignature(\''+ l.id +'\')" >Send for signature</button>';
-        h += '<button class="btn btn-xs" style="background:var(--g50);border-color:var(--g100)" onclick="event.stopPropagation();openLenderMatch(\''+ l.id +'\')" >Match lender ★</button>';
+      // State-based primary action
+      if(appState==='draft') {
+        h += '<button class="btn btn-xs btn-primary" onclick="event.stopPropagation();openBrokerEdit(\''+ l.id +'\')" >&#9998; Edit &amp; send</button>';
+      } else if(appState==='sent_for_signature') {
+        h += '<button class="btn btn-xs btn-outline" onclick="event.stopPropagation();openBrokerEdit(\''+ l.id +'\')" >Edit</button>';
+        h += '<button class="btn btn-xs" onclick="event.stopPropagation();remindToSign(\''+ l.id +'\')" >Send reminder</button>';
+      } else if(appState==='signed') {
+        h += '<button class="btn btn-xs btn-primary" onclick="event.stopPropagation();showLenderSelect(\''+ l.id +'\')" >Submit to lender</button>';
+      } else if(appState==='submitted') {
+        h += '<button class="btn btn-xs" onclick="event.stopPropagation();openDp(\''+ l.id +'\')" >View file</button>';
       }
       h += '</div></td></tr>';
     });
@@ -1192,12 +1348,61 @@ function renderBrokerBody(tab) {
 
   } else if(tab==='requests') {
     if(title) title.textContent = 'Pending document requests';
-    body.innerHTML = '<div class="af af-warn" style="margin-bottom:14px">The bank has requested documents on the following loans. Forward requests to the customer or dealer as appropriate.</div>'+
-      '<div class="sc" style="margin-bottom:10px"><div class="sc-hd"><div class="sc-title">James Kowalski — EF-0043</div><span class="sc-sub">Requested by Shore Premier Finance</span></div><div class="sc-body">'+
-      DR('Bank statements — Feb & March','Requested by lender','Missing')+
-      DR('USCG documentation','Requested by lender','Missing')+
-      '<div style="display:flex;gap:8px;margin-top:10px"><button class="btn btn-primary btn-sm" onclick="fwdToCustomer()">Forward to customer</button><button class="btn btn-sm btn-outline" onclick="T(\'Request note added\')">Add note</button></div></div></div>';
+    var reqHtml = '<div class="af af-warn" style="margin-bottom:16px">'+
+      '<strong>3 active document requests from lenders.</strong> Review and forward to the customer or dealer. All requests must be fulfilled before lenders can issue a decision.</div>';
 
+    var reqs = [
+      {
+        id:'EF-0043', name:'James Kowalski', vessel:'2020 Ferretti 550', amount:'$1,200,000',
+        lender:'Shore Premier Finance', lenderStyle:'background:var(--green-bg);color:#14532D',
+        docs:[
+          {name:'Bank statements — Feb & March',hint:'3 months required by lender',status:'Missing'},
+          {name:'USCG documentation',hint:'Vessel title verification required',status:'Missing'}
+        ]
+      },
+      {
+        id:'EF-0048', name:'Claire Moreau', vessel:'2020 Princess V58', amount:'$1,450,000',
+        lender:'Medallion Bank', lenderStyle:'background:var(--g25);color:var(--muted)',
+        docs:[
+          {name:'Insurance binder',hint:'Minimum $1.5M coverage required',status:'Missing'},
+          {name:'Proof of ownership transfer',hint:'Signed by seller and buyer',status:'Missing'},
+          {name:'Last 2 years tax returns',hint:'2022 and 2023 required',status:'Partial'}
+        ]
+      },
+      {
+        id:'EF-0045', name:'Daniel Reyes', vessel:'2018 Bertram 54', amount:'$620,000',
+        lender:'Essex Credit', lenderStyle:'background:var(--amber-bg);color:#78350F',
+        docs:[
+          {name:'Pay stubs / P&L statement',hint:'Most recent 2 years required',status:'Missing'},
+          {name:'HIN verification photo',hint:'Photo of hull identification number',status:'Required'}
+        ]
+      }
+    ];
+
+    reqs.forEach(function(req){
+      var l = LOANS.find(function(x){return x.id===req.id;})||{broker:'Alicia Bryson'};
+      reqHtml += '<div class="sc" style="margin-bottom:12px">'+
+        '<div class="sc-hd" style="display:flex;align-items:center;justify-content:space-between">'+
+          '<div>'+
+            '<div class="sc-title">'+req.name+' &nbsp;<span style="font-weight:400;color:var(--muted);font-size:12px">'+req.vessel+'</span></div>'+
+            '<div style="font-size:11px;color:var(--muted);margin-top:2px">'+req.id+' &nbsp;&middot;&nbsp; '+req.amount+'</div>'+
+          '</div>'+
+          '<div style="display:flex;align-items:center;gap:8px">'+
+            '<span style="font-size:11px;color:var(--muted);font-weight:600">From lender:</span>'+
+            '<span class="pill" style="'+req.lenderStyle+';font-size:11px">'+req.lender+'</span>'+
+          '</div>'+
+        '</div>'+
+        '<div class="sc-body">';
+      req.docs.forEach(function(d){
+        reqHtml += DR(d.name, d.hint, d.status);
+      });
+      reqHtml += '<div style="display:flex;gap:8px;margin-top:12px">'+
+        '<button class="btn btn-primary btn-sm" data-name="'+req.name+'" onclick="T(\'Request forwarded to \'+this.dataset.name+\' via email and secure portal.\',true)">Forward to customer</button>'+
+        '<button class="btn btn-sm btn-outline" onclick="T(\'Note saved.\')">Add note</button>'+
+        '<button class="btn btn-sm" onclick="openReqModal(\''+req.id+'\')">Request more docs</button>'+
+        '</div></div></div>';
+    });
+    body.innerHTML = reqHtml
   } else if(tab==='lender-match') {
     if(title) title.textContent = 'Prepare and submit to lender';
     body.innerHTML = brokerLenderMatch();
@@ -1222,11 +1427,14 @@ function renderBrokerBody(tab) {
 function openBrokerEdit(id) {
   BROKER_EDIT_LOAN = LOANS.find(function(l){return l.id===id;});
   if(!BROKER_EDIT_LOAN) return;
-  var body = document.getElementById('broker-body');
-  var title = document.getElementById('broker-tab-title');
+  // Use the correct body element based on active portal
+  var bodyId = CURRENT_PORTAL === 'broker-mgr' ? 'broker-mgr-body' : 'broker-body';
+  var titleId = CURRENT_PORTAL === 'broker-mgr' ? null : 'broker-tab-title';
+  var body = document.getElementById(bodyId);
+  var title = titleId ? document.getElementById(titleId) : null;
   if(title) title.textContent = 'Edit application — ' + BROKER_EDIT_LOAN.name;
   var l = BROKER_EDIT_LOAN;
-  body.innerHTML = '<button class="btn btn-sm" onclick="renderBrokerBody(\'active\')" style="margin-bottom:14px">← Back to deals</button>'+
+  body.innerHTML = '<button class="btn btn-sm" onclick="CURRENT_PORTAL===\'broker-mgr\'?renderBrokerMgrBody():renderBrokerBody(\'active\')" style="margin-bottom:14px">← Back to deals</button>'+
   '<div class="sc"><div class="sc-hd"><div class="sc-title">Borrower information</div><span class="sc-sub">Broker can edit before sending to lender</span></div><div class="sc-body"><div class="fg fg3" style="margin-bottom:12px">'+
   editField('First name','Marcus','ed-fname')+
   editField('Last name','Webb','ed-lname')+
@@ -1258,8 +1466,9 @@ function openBrokerEdit(id) {
   '<textarea style="width:100%;height:80px;padding:10px 12px;border-radius:var(--r);border:1px solid var(--g100);background:var(--g10);font-size:13px;font-family:var(--fb);outline:none;resize:none;line-height:1.5" placeholder="Notes visible only to you and your firm...">Self-employed business owner. Strong returns. Two years consistent income.</textarea>'+
   '</div></div>'+
   '<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px">'+
-  '<button class="btn btn-outline" onclick="renderBrokerBody(\'active\')">Cancel</button>'+
-  '<button class="btn btn-primary" onclick="saveBrokerEdit()">Save changes</button>'+
+  '<button class="btn btn-outline" onclick="CURRENT_PORTAL===\'broker-mgr\'?renderBrokerMgrBody():renderBrokerBody(\'active\')">Cancel</button>'+
+  '<button class="btn" onclick="saveBrokerEdit()">Save draft</button>'+
+  '<button class="btn btn-primary" data-lid="\'' + l.id + '\'" onclick="saveBrokerEdit(this.dataset.lid, true)">Save &amp; send for signature</button>'+
   '</div>';
 }
 
@@ -1270,9 +1479,18 @@ function editFieldSel(label, opts, selected, id) {
   var o = opts.map(function(v){return '<option'+(v===selected?' selected':'')+'>'+v+'</option>';}).join('');
   return '<div><div class="fi-lbl">'+label+'</div><select class="fi-sel" id="'+id+'">'+o+'</select></div>';
 }
-function saveBrokerEdit() {
-  T('Application updated. Changes saved to file.', true);
-  renderBrokerBody('active');
+function saveBrokerEdit(loanId, sendForSig) {
+  var id = loanId || (BROKER_EDIT_LOAN ? BROKER_EDIT_LOAN.id : null);
+  if(sendForSig && id) {
+    if(!APP_SIGN_STATE[id]) APP_SIGN_STATE[id] = {};
+    APP_SIGN_STATE[id].state = 'sent_for_signature';
+    var l = LOANS.find(function(x){return x.id===id;});
+    T('Application sent to '+(l?l.name:'borrower')+' for review and signature via email and secure portal.', true);
+  } else {
+    T('Application draft saved.', true);
+  }
+  if(CURRENT_PORTAL==='broker-mgr') renderBrokerMgrBody();
+  else renderBrokerBody('active');
 }
 
 function sendForSignature(id) {
@@ -1282,7 +1500,7 @@ function sendForSignature(id) {
   var body = document.getElementById('broker-body');
   var title = document.getElementById('broker-tab-title');
   if(title) title.textContent = 'Send for signature — ' + l.name;
-  body.innerHTML = '<button class="btn btn-sm" onclick="renderBrokerBody(\'active\')" style="margin-bottom:14px">← Back to deals</button>'+
+  body.innerHTML = '<button class="btn btn-sm" onclick="CURRENT_PORTAL===\'broker-mgr\'?renderBrokerMgrBody():renderBrokerBody(\'active\')" style="margin-bottom:14px">← Back to deals</button>'+
   '<div class="sc"><div class="sc-hd"><div class="sc-title">Review before sending</div><span class="sc-sub">Client will receive this via EasySign</span></div><div class="sc-body">'+
   '<div class="af af-ok" style="margin-bottom:14px">File completeness score: <strong>87/100</strong> — ready to send for signature.</div>'+
   '<div class="fg fg2" style="margin-bottom:14px">'+
@@ -1294,7 +1512,7 @@ function sendForSignature(id) {
   '<div class="doc-row" style="margin-bottom:6px"><div class="doc-icon"><svg width="14" height="14" viewBox="0 0 12 12" fill="#141414" opacity="0.6"><path d="M2 1h5l3 3v7H2V1z"/></svg></div><div><div class="doc-name">EasySign signature request</div><div class="doc-meta">Client signs to confirm application accuracy</div></div><div class="doc-sp"></div><span class="pill sp-neutral">Pending send</span></div>'+
   '<div class="doc-row"><div class="doc-icon"><svg width="14" height="14" viewBox="0 0 12 12" fill="#141414" opacity="0.6"><path d="M2 1h5l3 3v7H2V1z"/></svg></div><div><div class="doc-name">KYC verification flow</div><div class="doc-meta">Identity and source of funds — required before lender submission</div></div><div class="doc-sp"></div><span class="pill sp-action">Triggered on signature</span></div>'+
   '<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">'+
-  '<button class="btn btn-outline" onclick="renderBrokerBody(\'active\')">Cancel</button>'+
+  '<button class="btn btn-outline" onclick="CURRENT_PORTAL===\'broker-mgr\'?renderBrokerMgrBody():renderBrokerBody(\'active\')">Cancel</button>'+
   '<button class="btn btn-primary" onclick="confirmSendSignature(\''+ l.id +'\')">Send to client now</button>'+
   '</div></div></div>';
 }
@@ -1332,7 +1550,7 @@ function openLenderMatchInline(id, body) {
     return {lender:lndr, score:result.score, flags:result.flags, reasons:result.reasons, disqualified:result.disqualified};
   }).sort(function(a,b){return b.score-a.score;});
 
-  var html = '<button class="btn btn-sm" onclick="renderBrokerBody(\'active\')" style="margin-bottom:14px">← Back to deals</button>';
+  var html = '<button class="btn btn-sm" onclick="CURRENT_PORTAL===\'broker-mgr\'?renderBrokerMgrBody():renderBrokerBody(\'active\')" style="margin-bottom:14px">← Back to deals</button>';
 
   // Applicant summary card
   html += '<div class="sc" style="margin-bottom:14px"><div class="sc-hd"><div class="sc-title">Applicant profile — '+ l.name +'</div><span class="sc-sub">'+ l.vessel +' · '+ l.amount +'</span></div><div class="sc-body"><div class="fg fg3" style="gap:8px 14px">'+
@@ -1446,14 +1664,42 @@ function renderDealerBody(tab) {
     html += '</tbody></table></div>';
     body.innerHTML = html;
   } else if(tab==='docs') {
-    body.innerHTML = '<div class="af af-warn" style="margin-bottom:14px">The following documents have been requested from Miami Yacht Group. Upload them to keep this loan moving forward.</div>'+
-      '<div class="sc"><div class="sc-hd"><div class="sc-title">Marcus Webb — 2019 Azimut 55</div><span class="sc-sub">Requested by Gulf Coast Marine Finance</span></div><div class="sc-body">'+
-      DR('Manufacturer Statement of Origin (MSO)','Original MSO required by lender','Missing')+
-      DR('Bill of Sale','Signed by both parties','Missing')+
-      '<div style="margin-top:10px"><button class="btn btn-primary btn-sm" onclick="T(\'Upload portal opened. Drag and drop your documents.\',true)">Upload documents</button></div></div></div>'+
-      '<div class="sc"><div class="sc-hd"><div class="sc-title">Claire Moreau — 2020 Princess V58</div><span class="sc-sub">Requested by Shore Premier Finance</span></div><div class="sc-body">'+
-      DR('Proof of ownership transfer','Required before closing','Missing')+
-      '<div style="margin-top:10px"><button class="btn btn-primary btn-sm" onclick="T(\'Upload portal opened.\',true)">Upload documents</button></div></div></div>';
+    body.innerHTML =
+      '<div class="af af-warn" style="margin-bottom:16px">' +
+        '<strong>2 documents are required from Miami Yacht Group.</strong> Upload them now to keep these loans moving. ' +
+        'The lender cannot issue a decision until your documents are received.' +
+      '</div>' +
+
+      // Loan 1: Marcus Webb — MSO + Bill of Sale
+      '<div class="sc" style="margin-bottom:12px">' +
+        '<div class="sc-hd" style="display:flex;align-items:center;justify-content:space-between">' +
+          '<div>' +
+            '<div class="sc-title">Marcus Webb &nbsp;<span style="font-weight:400;color:var(--muted)">2019 Azimut 55</span></div>' +
+            '<div style="font-size:11px;color:var(--muted);margin-top:2px">EF-0041 &nbsp;&middot;&nbsp; Requested by Gulf Coast Marine Finance</div>' +
+          '</div>' +
+          '<span class="pill sp-action">2 docs missing</span>' +
+        '</div>' +
+        '<div class="sc-body">' +
+          dealerDocRow("Manufacturer Statement of Origin (MSO)", "Original MSO required by lender — must be signed and stamped", "Missing") +
+          dealerDocRow("Bill of Sale", "Signed by both buyer and seller — all pages required", "Missing") +
+          dealerDocRow("USCG Documentation", "Vessel title on file", "Uploaded") +
+        '</div>' +
+      '</div>' +
+
+      // Loan 2: Claire Moreau — Proof of ownership
+      '<div class="sc">' +
+        '<div class="sc-hd" style="display:flex;align-items:center;justify-content:space-between">' +
+          '<div>' +
+            '<div class="sc-title">Claire Moreau &nbsp;<span style="font-weight:400;color:var(--muted)">2020 Princess V58</span></div>' +
+            '<div style="font-size:11px;color:var(--muted);margin-top:2px">EF-0048 &nbsp;&middot;&nbsp; Requested by Shore Premier Finance</div>' +
+          '</div>' +
+          '<span class="pill sp-action">1 doc missing</span>' +
+        '</div>' +
+        '<div class="sc-body">' +
+          dealerDocRow("Proof of ownership transfer", "Required before closing — must show unencumbered title transfer", "Missing") +
+          dealerDocRow("Bill of Sale", "Already on file", "Uploaded") +
+        '</div>' +
+      '</div>';
   } else if(tab==='refer') {
     body.innerHTML = '<div class="sc"><div class="sc-hd"><div class="sc-title">Refer a buyer for financing</div></div><div class="sc-body"><div class="af af-info" style="margin-bottom:14px">Enter your buyer\'s details and the vessel they are purchasing. YachtWay EasyFund will match them with the right lender automatically.</div><div class="fg fg3" style="margin-bottom:12px">'+
       '<div><div class="fi-lbl">Buyer first name</div><input class="fi-in" placeholder="First name"></div>'+
@@ -1508,9 +1754,12 @@ function renderCustSteps() {
     h += '</div>';
   });
   el.innerHTML = h;
-  var nextTexts = ['Complete your application','Upload your required documents','Complete your identity verification','Your file is being reviewed — nothing needed from you right now','Awaiting lender decision','Review and sign your loan documents','Your loan is funded'];
+  var nextTexts = ['Complete and submit your application','Upload your documents and complete identity verification','Your file is with the lender — nothing needed from you right now','Review and sign your loan agreement','Your loan is funded — congratulations'];
   var nt = document.getElementById('cust-next-text');
-  if(nt) nt.textContent = nextTexts[CUST_STEP];
+  if(nt) nt.textContent = nextTexts[Math.min(CUST_STEP, nextTexts.length-1)];
+  // Update the always-visible status strip stage label
+  var sl = document.getElementById('cust-stage-label');
+  if(sl) sl.textContent = CUST_STEPS[CUST_STEP] || CUST_STEPS[CUST_STEPS.length-1];
 }
 
 function setCustTab(tab, el) {
@@ -1533,23 +1782,67 @@ function setCustTab(tab, el) {
     });
     body.innerHTML = h;
   } else if(tab==='status') {
-    body.innerHTML = '<div style="padding:20px">'+
-      '<div class="sc" style="margin-bottom:0"><div class="sc-hd"><div class="sc-title">Loan summary</div></div><div class="sc-body"><div class="fg fg2">'+
-      F('Loan amount','$485,000')+F('Vessel','2019 Azimut 55')+
-      F('Current stage',stagePill('Doc upload'))+F('Your loan officer','Alicia Bryson — Gulf Coast Marine Finance')+
-      F('Application date','April 14, 2025')+F('Expected decision','Within 2–5 business days after docs are complete')+
-      '</div></div></div>'+
-      '<div style="margin-top:14px"><div class="tl">'+
-      TL('Application submitted','Apr 14 · 9:02 AM','Your application was received. Your loan officer will review it shortly.','var(--teal)')+
-      TL('Loan officer assigned','Apr 14 · 9:31 AM','Alicia Bryson has been assigned to your file.','var(--teal)')+
-      TL('Documents requested','Apr 14 · 10:02 AM','Your loan officer has requested supporting documents. See the Documents tab.','var(--amber)')+
-      TL('Awaiting your documents','In progress','Once all documents are uploaded, your file will be submitted to the lender.','var(--g200)')+
-      '</div></div></div>';
+    var stage = CUST_STEP;
+    var stageLabels = CUST_STEPS;
+    var events = [
+      {t:'Application submitted',       m:'Apr 14, 2025 · 9:02 AM',            n:'Your application was received. Reference: #EF-2024-0041.',              done:true,  color:'var(--teal)'},
+      {t:'Loan officer assigned',        m:'Apr 14, 2025 · 9:31 AM',            n:'Alicia Bryson at Gulf Coast Marine Finance has been assigned to your file.', done:true,  color:'var(--teal)'},
+      {t:'Documents requested',          m:'Apr 14, 2025 · 10:02 AM',           n:'Upload your documents in the Documents tab above to keep your loan moving.', done:stage>1, color:'var(--amber)'},
+      {t:'File submitted to lender',     m:stage>=2?'In progress':'Pending',    n:'Once all documents are received, your file will be sent to the lender.',   done:stage>=2, color:stage>=2?'var(--teal)':'var(--g200)'},
+      {t:'Credit decision',              m:stage>=3?'Completed':'2–5 business days', n:'The lender reviews your complete file and issues an approval or decision.', done:stage>=3, color:stage>=3?'var(--teal)':'var(--g200)'},
+      {t:'Sign your loan agreement',     m:stage>=4?'Completed':'After approval', n:'You will receive your loan agreement to review and sign via EasySign.',  done:stage>=4, color:stage>=4?'var(--teal)':'var(--g200)'},
+      {t:'Funded',                       m:stage>=5?'Complete':'Final step',    n:'Funds are disbursed to the seller and your loan is active.',              done:stage>=5, color:stage>=5?'var(--teal)':'var(--g200)'}
+    ];
+    var tlRows = events.map(function(ev, i){
+      var isLast = i === events.length-1;
+      var dotBg = ev.done ? ev.color : 'white';
+      var dotBorder = ev.done ? '' : 'border:2px solid var(--g100);';
+      var titleStyle = ev.done ? 'font-weight:600;color:var(--text)' : 'font-weight:500;color:var(--muted)';
+      var doneBadge = ev.done ? ' <span style="font-size:10px;background:var(--teal-bg);color:var(--teal-d);padding:2px 7px;border-radius:4px;font-weight:500;margin-left:6px">Done</span>' : '';
+      return '<div style="display:flex;gap:14px;padding-bottom:'+(isLast?'0':'16px')+'">' +
+        '<div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">' +
+          '<div style="width:12px;height:12px;border-radius:50%;background:'+dotBg+';'+dotBorder+'flex-shrink:0;margin-top:2px"></div>' +
+          (isLast ? '' : '<div style="width:1px;flex:1;background:var(--border);min-height:20px;margin-top:3px"></div>') +
+        '</div>' +
+        '<div style="flex:1;padding-bottom:'+(isLast?'0':'4px')+'">' +
+          '<div style="font-family:var(--fh);font-size:13px;'+titleStyle+'">'+ev.t+doneBadge+'</div>' +
+          '<div style="font-size:12px;color:var(--muted);margin-top:2px">'+ev.m+'</div>' +
+          '<div style="font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5">'+ev.n+'</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+    body.innerHTML =
+      '<div style="background:var(--black);border-radius:var(--rl) var(--rl) 0 0;padding:14px 18px;display:flex;gap:24px">' +
+        '<div><div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.35);font-family:var(--fh);margin-bottom:3px">Loan amount</div>' +
+        '<div style="font-family:var(--fh);font-size:16px;font-weight:700;color:white">$485,000</div></div>' +
+        '<div><div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.35);font-family:var(--fh);margin-bottom:3px">Vessel</div>' +
+        '<div style="font-size:14px;color:rgba(255,255,255,0.8)">2019 Azimut 55</div></div>' +
+        '<div><div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.35);font-family:var(--fh);margin-bottom:3px">Your stage</div>' +
+        '<div style="font-size:14px;color:rgba(255,255,255,0.8)">' + (CUST_STEPS[CUST_STEP]||'In progress') + '</div></div>' +
+      '</div>' +
+      '<div style="padding:20px 18px">' + tlRows + '</div>';
+    // Scroll tab into view
+    var cw = document.getElementById('cust-wrap'); if(cw) { var ts = document.getElementById('cust-tab-body'); if(ts && ts.offsetTop) { cw.scrollTop = ts.offsetTop - 20; } }
   } else if(tab==='chat') {
     var msgs = CHAT_MESSAGES.map(function(m){
       return '<div class="chat-msg '+m.from+'"><div class="chat-sender">'+m.sender+'</div><div class="chat-bubble '+m.from+'">'+m.text+'</div><div class="chat-time">'+m.time+'</div></div>';
     }).join('');
-    body.innerHTML = '<div class="chat-wrap" style="min-height:340px"><div class="chat-messages" id="chat-msgs">'+msgs+'</div><div class="chat-input-row"><input class="chat-input" id="chat-in" placeholder="Type a message to your loan officer..." onkeydown="if(event.key===\'Enter\')sendCustMsg()"><button class="btn btn-primary btn-sm" onclick="sendCustMsg()">Send</button></div></div>';
+    body.innerHTML =
+      '<div style="background:var(--black);padding:13px 16px;display:flex;align-items:center;gap:10px">'+
+        '<svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="5" width="10" height="8" rx="1.5"/><path d="M5 5V3.5a2 2 0 014 0V5"/></svg>'+
+        '<div style="flex:1">'+
+          '<div style="font-family:var(--fh);font-size:12px;font-weight:600;color:white">Secure message center</div>'+
+          '<div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:1px">End-to-end encrypted &nbsp;&middot;&nbsp; Private between you and your loan officer only</div>'+
+        '</div>'+
+        '<span style="font-size:10px;font-weight:600;font-family:var(--fh);background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);padding:3px 8px;border-radius:4px;border:0.5px solid rgba(255,255,255,0.15)">256-bit TLS</span>'+
+      '</div>'+
+      '<div class="chat-wrap" style="min-height:300px">'+
+        '<div class="chat-messages" id="chat-msgs">'+msgs+'</div>'+
+        '<div class="chat-input-row">'+
+          '<input class="chat-input" id="chat-in" placeholder="Send a secure message to your loan officer..." onkeydown="if(event.key===\'Enter\')sendCustMsg()">'+
+          '<button class="btn btn-primary btn-sm" onclick="sendCustMsg()">Send</button>'+
+        '</div>'+
+      '</div>';
   }
 }
 
@@ -1578,6 +1871,7 @@ function openDp(id) {
   document.getElementById('dp-av').textContent = ini(l.name);
   document.getElementById('dp-name').textContent = l.name;
   document.getElementById('dp-meta').textContent = l.vessel+' · '+l.amount+' · '+l.id;
+
   document.getElementById('dpanel').classList.add('show');
   setDpTab('summary', document.querySelector('.dptab'));
 }
@@ -1591,20 +1885,33 @@ function setDpTab(tab, el) {
   var l = CURRENT_LOAN;
   if(!l) return;
   if(tab==='summary') {
-    body.innerHTML = '<div class="sc"><div class="sc-hd"><div class="sc-title">Loan details</div></div><div class="sc-body"><div class="fg fg2">'+
+    var decisionHtml = l.decision ?
+      '<div style="background:var(--black);border-radius:var(--rl);padding:16px 18px;margin-bottom:12px;border-left:4px solid #FDB022">'+
+        '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">'+
+          '<div style="width:8px;height:8px;border-radius:50%;background:#FDB022;flex-shrink:0"></div>'+
+          '<div style="font-family:var(--fh);font-size:14px;font-weight:700;color:white">Decision required</div>'+
+        '</div>'+
+        '<div style="font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:14px">This loan is pending a credit decision. Review the file and record your decision below.</div>'+
+        '<div style="display:flex;gap:8px">'+
+          '<button class="btn btn-success btn-sm" onclick="approveL(\''+l.id+'\')" style="height:34px;font-size:13px;padding:0 18px">Approve</button>'+
+          '<button class="btn btn-danger btn-sm" onclick="declineL(\''+l.id+'\')" style="height:34px;font-size:13px;padding:0 18px">Decline</button>'+
+          '<button class="btn btn-sm" onclick="openCO(\''+l.id+'\')" style="height:34px;font-size:13px;padding:0 18px;background:rgba(255,255,255,0.1);color:white;border-color:rgba(255,255,255,0.2)">Counter-offer</button>'+
+        '</div>'+
+      '</div>'
+      : '';
+    body.innerHTML = decisionHtml +
+      '<div class="sc"><div class="sc-hd"><div class="sc-title">Loan details</div></div><div class="sc-body"><div class="fg fg2">'+
       F('Borrower',l.name)+F('Vessel',l.vessel)+
       F('Amount','<span style="font-weight:600;color:var(--teal-d)">'+l.amount+'</span>')+F('Stage',stagePill(l.stage))+
       F('Loan officer',l.officer)+F('Broker',l.broker)+
       F('Dealer',l.dealer)+F('Days in pipeline',l.days===0?'Today':l.days+'d ago')+
       F('Submitted to', (CURRENT_PORTAL==='broker'||CURRENT_PORTAL==='broker-mgr') ? lenderSubmissionBadgeBroker(l) : lenderSubmissionBadge(l))+
       '</div></div></div>'+
-      '<div class="sc"><div class="sc-hd"><div class="sc-title">Borrower profile</div></div><div class="sc-body"><div class="fg fg2">'+
+      '<div class="sc" style="margin-top:10px"><div class="sc-hd"><div class="sc-title">Borrower profile</div></div><div class="sc-body"><div class="fg fg2">'+
       F('Employment','Business owner')+F('Annual income','$420,000')+
       F('Credit score','<span style="font-weight:600;color:var(--teal-d)">748</span>')+F('DTI','28.4%')+
-      F('Net worth','$2,100,000')+F('Co-borrower','<span id="co-borrow-display">None</span> &nbsp;<button class="btn btn-xs btn-outline" onclick="toggleCoBorrower(\'' + l.id + '\')" id="co-borrow-btn" style="height:22px;font-size:11px">Add</button>')+
-      '</div></div></div>'+
-      '<div id="co-borrower-panel" style="display:none;margin-bottom:12px"></div>'+
-      (l.decision?'<div style="background:var(--g25);border:1px solid var(--border);border-radius:var(--rl);padding:14px 16px;margin-bottom:12px"><div style="font-family:var(--fh);font-size:13px;font-weight:600;margin-bottom:10px">Decision required</div><div style="font-size:13px;color:var(--muted);margin-bottom:12px">This loan is pending a credit decision. Review the file and record your decision.</div><div style="display:flex;gap:8px"><button class="btn btn-success btn-sm" onclick="T(\'Approved: '+l.name+'\',true)">Approve</button><button class="btn btn-danger btn-sm" onclick="T(\'Declined: '+l.name+'\')">Decline</button><button class="btn btn-sm btn-outline" onclick="openCO(\''+l.id+'\')">Counter-offer</button></div></div>':'');
+      F('Net worth','$2,100,000')+F('Co-borrower', renderCoBorrowerField(l))+
+      '</div></div></div>';
   } else if(tab==='documents') {
     body.innerHTML = '<div class="sc"><div class="sc-hd"><div class="sc-title">Document checklist</div><button class="btn btn-xs btn-primary" style="margin-left:auto" onclick="openReqModal(\''+l.id+'\')">Request missing docs</button></div><div class="sc-body">'+
       BORROWER_DOCS.map(function(d){return DR(d.name,'',d.status);}).join('')+
@@ -1700,7 +2007,8 @@ function closedTable(rows) {
 // INIT
 // ═══════════════════════════════════════════════════
 window.addEventListener('DOMContentLoaded', function(){
-  setPortal('customer', document.querySelector('.rbtn.active'));
+  // Initialize customer portal as default
+  setPortalMenu('customer', 'Customer Portal', document.querySelector('.pmenu-btn.active'));
 });
 
 function fwdToCustomer(){T('Document request forwarded to Marcus Webb via email and portal',true);}
@@ -1861,24 +2169,36 @@ function declineL(id) {
 }
 
 function renderVatoHtml() {
-  return '<div class="sc"><div class="sc-hd"><div class="sc-title">Vessel search</div><span class="sc-sub">Pre-filled with sample data — edit and run</span></div><div class="sc-body"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px 16px;margin-bottom:16px">'+
+  var yearOptions = '';
+  for(var yr=2025; yr>=1990; yr--) yearOptions += '<option'+(yr===2022?' selected':'')+'>'+yr+'</option>';
+  var yearFromOptions = '';
+  for(var yf=2025; yf>=1990; yf--) yearFromOptions += '<option'+(yf===2018?' selected':'')+'>'+yf+'</option>';
+
+  return '<div class="sc"><div class="sc-hd"><div class="sc-title">Vessel search</div><span class="sc-sub">Pre-filled with sample data — edit and run</span></div><div class="sc-body">'+
+    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px 16px;margin-bottom:16px">'+
     '<div><div class="fi-lbl">Make</div><input id="vi-make" class="fi-in" value="Azimut"></div>'+
     '<div><div class="fi-lbl">Model</div><input id="vi-model" class="fi-in" value="72"></div>'+
-    '<div><div class="fi-lbl">Year</div><input id="vi-year" class="fi-in" value="2022"></div>'+
+    '<div style="display:flex;gap:6px;align-items:flex-end"><div style="flex:1"><div class="fi-lbl">Year from</div><select id="vi-year-from" class="fi-sel">'+yearFromOptions+'</select></div><div style="padding-bottom:6px;color:var(--muted);font-size:12px">to</div><div style="flex:1"><div class="fi-lbl">Year to</div><select id="vi-year" class="fi-sel">'+yearOptions+'</select></div></div>'+
     '<div><div class="fi-lbl">Length (ft)</div><input id="vi-length" class="fi-in" value="72"></div>'+
-    '<div><div class="fi-lbl">Engine hours</div><input id="vi-hours" class="fi-in" value="312"></div>'+
+    '<div><div class="fi-lbl">Engine hours (max)</div><input id="vi-hours" class="fi-in" value="312"></div>'+
     '<div><div class="fi-lbl">Hull type</div><select id="vi-hull" class="fi-sel"><option selected>Fiberglass</option><option>Aluminum</option><option>Steel</option></select></div>'+
     '<div><div class="fi-lbl">Country</div><select id="vi-country" class="fi-sel"><option selected>United States</option><option>Italy</option><option>United Kingdom</option><option>France</option><option>Australia</option></select></div>'+
-    '<div><div class="fi-lbl">State / Region</div><select id="vi-state" class="fi-sel"><option selected>Florida</option><option>California</option><option>New York</option><option>Texas</option><option>Maryland</option></select></div>'+
+    '<div><div class="fi-lbl">State / Region</div><select id="vi-state" class="fi-sel">'+
+    '<option selected>Florida</option><option>California</option><option>New York</option><option>Texas</option><option>Maryland</option>'+
+    '<option>Connecticut</option><option>Rhode Island</option><option>Washington</option><option>Michigan</option><option>National (all states)</option>'+
+    '</select></div>'+
     '<div><div class="fi-lbl">Asking price (optional)</div><input id="vi-price" class="fi-in" value="$3,450,000" placeholder="$0.00"></div>'+
-    '</div><div style="display:flex;align-items:center;gap:10px"><button id="vato-run-btn" class="btn btn-primary">Run VATO appraisal</button><button id="vato-clear-btn" class="btn">Clear</button><span id="vato-running-inline" style="font-size:13px;color:var(--muted);display:none">Running analysis...</span></div></div></div>'+
+    '</div>'+
+    '<div style="display:flex;align-items:center;gap:10px"><button id="vato-run-btn" class="btn btn-primary">Run VATO appraisal</button><button id="vato-clear-btn" class="btn">Clear</button><span id="vato-running-inline" style="font-size:13px;color:var(--muted);display:none">Running analysis...</span></div>'+
+    '</div></div>'+
     '<div id="vato-results-inline"></div>';
 }
 
 function runVatoInline() {
   var make  = (document.getElementById('vi-make')||{value:''}).value.trim();
   var model = (document.getElementById('vi-model')||{value:''}).value.trim();
-  var year  = parseInt((document.getElementById('vi-year')||{value:'2022'}).value)||2022;
+  var year     = parseInt((document.getElementById('vi-year')||{value:'2022'}).value)||2022;
+  var yearFrom = parseInt((document.getElementById('vi-year-from')||{value:'2018'}).value)||year-4;
   var length= parseInt((document.getElementById('vi-length')||{value:'55'}).value)||55;
   var hours = parseInt((document.getElementById('vi-hours')||{value:'300'}).value)||0;
   var priceRaw = ((document.getElementById('vi-price')||{value:''}).value).replace(/[$,]/g,'');
@@ -1941,10 +2261,28 @@ function runVatoInline() {
 }
 
 function generateComps(make, model, year, hours, base, count) {
-  var locs = ['Fort Lauderdale, FL','Miami, FL','Palm Beach, FL','Annapolis, MD','Newport, RI','San Diego, CA','Seattle, WA','Sarasota, FL'];
+  var stateEl = document.getElementById('vi-state');
+  var selState = stateEl ? stateEl.value : 'Florida';
+  var allLocs = {
+    'Florida':['Fort Lauderdale, FL','Miami, FL','Palm Beach, FL','Sarasota, FL','Tampa, FL','Naples, FL'],
+    'California':['San Diego, CA','Los Angeles, CA','San Francisco, CA','Newport Beach, CA'],
+    'New York':['New York, NY','Oyster Bay, NY','Southampton, NY'],
+    'Texas':['Houston, TX','Galveston, TX','Corpus Christi, TX'],
+    'Maryland':['Annapolis, MD','Baltimore, MD','Chesapeake, MD'],
+    'Connecticut':['Greenwich, CT','Westport, CT','Stonington, CT'],
+    'Rhode Island':['Newport, RI','Providence, RI'],
+    'Washington':['Seattle, WA','Bellevue, WA','Olympia, WA'],
+    'Michigan':['Traverse City, MI','Charlevoix, MI','Harbor Springs, MI'],
+    'National (all states)':['Fort Lauderdale, FL','Miami, FL','Annapolis, MD','Newport, RI','San Diego, CA','Seattle, WA','Palm Beach, FL','Houston, TX']
+  };
+  var locs = allLocs[selState] || allLocs['Florida'];
   var comps = [];
   for(var i=0;i<count;i++){
-    var yearVar = year + (Math.floor(Math.random()*3)-1);
+    var yfEl = document.getElementById('vi-year-from');
+    var yf = yfEl ? (parseInt(yfEl.value)||year-4) : (year-4);
+    var yFrom = (typeof yearFrom !== 'undefined') ? yearFrom : yf;
+    var span = Math.max(1, year - yFrom);
+    var yearVar = yFrom + Math.floor(Math.random()*(span+1));
     var hoursVar = Math.max(50, hours + Math.round((Math.random()*400)-200));
     var priceVar = Math.round((base*(0.88+Math.random()*0.26) + (hours-hoursVar)*(base*0.00003))/1000)*1000;
     comps.push({make:make,model:model,year:yearVar,location:locs[i%locs.length],hours:hoursVar,price:priceVar});
@@ -1965,6 +2303,29 @@ function estimateBasePrice(make, model, year, length) {
 // ── SEND TO LENDER FLOW ──────────────────────────────────────────────────────
 // State per loan: draft -> sent_for_signature -> signed -> submitted
 var APP_SIGN_STATE = {
+  'EF-0041': {
+    state: 'draft',
+    editedFields: {
+      'ed-first':'Marcus', 'ed-last':'Webb', 'ed-email':'marcus.webb@email.com',
+      'ed-phone':'(305) 555-0182', 'ed-employ':'Business owner', 'ed-income':'$420,000',
+      'ed-year':'2019', 'ed-make':'Azimut', 'ed-model':'55', 'ed-length':'55',
+      'ed-hours':'480', 'ed-hull':'Fiberglass', 'ed-use':'Personal use',
+      'ed-price':'$600,000', 'ed-amount':'$485,000', 'ed-down':'$115,000', 'ed-term':'180 months'
+    },
+    kyc: false, showLenderSelect: false
+  },
+  'EF-0043': {
+    state: 'sent_for_signature',
+    editedFields: {
+      'ed-first':'James', 'ed-last':'Kowalski', 'ed-email':'james.kowalski@email.com',
+      'ed-phone':'(305) 555-0294', 'ed-employ':'Business owner', 'ed-income':'$680,000',
+      'ed-year':'2020', 'ed-make':'Ferretti', 'ed-model':'550', 'ed-length':'55',
+      'ed-hours':'310', 'ed-hull':'Fiberglass', 'ed-use':'Personal use',
+      'ed-price':'$1,500,000', 'ed-amount':'$1,200,000', 'ed-down':'$300,000', 'ed-term':'180 months'
+    },
+    kyc: true, kycDate:'Apr 12, 2025', showLenderSelect: false,
+    sentDate: 'Apr 14, 2025 · 2:30 PM', sentTo: 'james.kowalski@email.com'
+  },
   'EF-0053': {
     state: 'signed',
     borrower: {
@@ -2957,74 +3318,264 @@ function sendDpDocRequest() {
   var toLabel = to.value || to.parentElement.textContent.trim();
   T('Document request sent to ' + toLabel + ' for ' + (CURRENT_LOAN?CURRENT_LOAN.name:'borrower') + '.', true);
 }
+
+function togglePortalMenu() {
+  var m = document.getElementById('portal-menu');
+  if(!m) return;
+  m.style.display = m.style.display === 'none' ? 'block' : 'none';
+}
+
+function setPortalMenu(id, label, btn) {
+  // Update label in trigger button
+  var lbl = document.getElementById('portal-menu-label');
+  if(lbl) lbl.textContent = label;
+  // Update active state in menu
+  document.querySelectorAll('.pmenu-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  // Close menu
+  var m = document.getElementById('portal-menu');
+  if(m) m.style.display = 'none';
+  // Update avatar
+  var av = document.getElementById('nav-av');
+  var name = PORTAL_NAMES[id] || '';
+  if(av) av.textContent = name.split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
+  // Switch portal
+  document.querySelectorAll('[id^="portal-"]').forEach(function(v){ v.classList.remove('active'); });
+  var p = document.getElementById('portal-' + id);
+  if(p) p.classList.add('active');
+  CURRENT_PORTAL = id;
+  closeDp();
+  if(id==='bank-mgr') renderBmBody();
+  if(id==='bank-officer') renderOfficerBody('loans');
+  if(id==='broker-mgr') renderBrokerMgrBody();
+  if(id==='broker') renderBrokerBody('active');
+  if(id==='dealer') renderDealerBody('active');
+  if(id==='customer') renderCustPortal();
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', function(e) {
+  var menu = document.getElementById('portal-menu');
+  var btn = document.getElementById('portal-menu-btn');
+  if(menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
+    menu.style.display = 'none';
+  }
+});
+
+function dealerDocRow(name, hint, status) {
+  var isUploaded = status === 'Uploaded' || status === 'Verified';
+  var isMissing = status === 'Missing' || status === 'Required';
+  var statusStyle = isUploaded
+    ? 'background:var(--green-bg);color:#14532D'
+    : isMissing
+    ? 'background:var(--red-bg);color:#991B1B'
+    : 'background:var(--g25);color:var(--muted)';
+  var action = isMissing
+    ? '<button class="btn btn-primary btn-sm" onclick="T(\'Upload portal opened for: '+name+'\',true)" style="flex-shrink:0">Upload</button>'
+    : '<button class="btn btn-xs" onclick="T(\'Viewing: '+name+'\')" style="flex-shrink:0">View</button>';
+  return '<div class="doc-row" style="align-items:center">' +
+    '<div class="doc-icon"><svg width="14" height="14" viewBox="0 0 12 12" fill="#141414" opacity="0.6"><path d="M2 1h5l3 3v7H2V1z"/></svg></div>' +
+    '<div style="flex:1;min-width:0">' +
+    '<div class="doc-name">'+name+'</div>' +
+    '<div class="doc-meta">'+hint+'</div>' +
+    '</div>' +
+    '<span class="pill" style="'+statusStyle+';flex-shrink:0;margin-right:8px">'+status+'</span>' +
+    action +
+    '</div>';
+}
+
+function renderLenderTimeline(l) {
+  if(!l) return '<div class="af af-info">No loan selected.</div>';
+  var subs = LOAN_SUBMISSIONS[l.id] || [];
+  var isBroker = CURRENT_PORTAL === 'broker' || CURRENT_PORTAL === 'broker-mgr';
+
+  // Lender decision statuses (simulated per loan)
+  var LENDER_STATUS = {
+    'EF-0043': {'Shore Premier Finance': {status:'Pending', submitted:'Apr 14', expected:'Apr 18', notes:'Awaiting credit review.'}},
+    'EF-0045': {
+      'Shore Premier Finance': {status:'Approved', submitted:'Apr 12', decision:'Apr 15', rate:'6.75%', amount:'$620,000', term:'180 mo', notes:'Conditional on USCG title receipt.'},
+      'Essex Credit':          {status:'Counter',  submitted:'Apr 12', decision:'Apr 15', rate:'7.40%', amount:'$560,000', term:'120 mo', notes:'Lower LTV offered. Borrower considering.'}
+    },
+    'EF-0046': {
+      'Shore Premier Finance': {status:'Approved',  submitted:'Apr 10', decision:'Apr 13', rate:'7.10%', amount:'$510,000', term:'180 mo', notes:'Full approval. Awaiting loan docs.'},
+      'Medallion Bank':        {status:'Declined',  submitted:'Apr 10', decision:'Apr 14', notes:'DTI exceeds maximum. Application not eligible.'},
+      'Trident Funding':       {status:'Pending',   submitted:'Apr 11', expected:'Apr 18', notes:'Still under review.'}
+    },
+    'EF-0048': {
+      'Shore Premier Finance': {status:'Pending', submitted:'Apr 13', expected:'Apr 17', notes:'VATO appraisal requested.'}
+    },
+    'EF-0049': {
+      'Shore Premier Finance': {status:'Approved', submitted:'Apr 8',  decision:'Apr 11', rate:'6.50%', amount:'$2,100,000', term:'240 mo', notes:'Full approval. Loan docs in preparation.'},
+      'Essex Credit':          {status:'Pending',  submitted:'Apr 9',  expected:'Apr 17', notes:'Awaiting internal credit committee.'}
+    },
+    'EF-0052': {
+      'Shore Premier Finance': {status:'Pending',  submitted:'Apr 11', expected:'Apr 17', notes:'Large loan — senior underwriter review.'},
+      'Trident Funding':       {status:'Declined', submitted:'Apr 11', decision:'Apr 14', notes:'Loan exceeds maximum for vessel class.'}
+    }
+  };
+
+  var statusColors = {
+    'Approved': {bg:'var(--green-bg)',  color:'#14532D',  dot:'var(--teal-d)'},
+    'Pending':  {bg:'var(--amber-bg)',  color:'#78350F',  dot:'var(--amber)'},
+    'Declined': {bg:'var(--red-bg)',    color:'#991B1B',  dot:'var(--red)'},
+    'Counter':  {bg:'var(--g25)',       color:'var(--muted)', dot:'var(--g300)'}
+  };
+
+  var html = '';
+
+  if(!subs.length) {
+    return '<div class="af af-info" style="margin:4px">This application has not been submitted to any lender yet.</div>';
+  }
+
+  // Header summary
+  var approved = 0; var pending = 0; var declined = 0;
+  subs.forEach(function(name){
+    var st = (LENDER_STATUS[l.id]||{})[name];
+    if(!st) { pending++; return; }
+    if(st.status==='Approved') approved++;
+    else if(st.status==='Declined') declined++;
+    else pending++;
+  });
+
+  html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">';
+  html += '<div style="background:var(--green-bg);border-radius:var(--r);padding:10px 12px;text-align:center"><div style="font-family:var(--fh);font-size:20px;font-weight:700;color:#14532D">'+approved+'</div><div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:#14532D">Approved</div></div>';
+  html += '<div style="background:var(--amber-bg);border-radius:var(--r);padding:10px 12px;text-align:center"><div style="font-family:var(--fh);font-size:20px;font-weight:700;color:#78350F">'+pending+'</div><div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:#78350F">Pending</div></div>';
+  html += '<div style="background:var(--red-bg);border-radius:var(--r);padding:10px 12px;text-align:center"><div style="font-family:var(--fh);font-size:20px;font-weight:700;color:#991B1B">'+declined+'</div><div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:#991B1B">Declined</div></div>';
+  html += '</div>';
+
+  // Per-lender cards
+  subs.forEach(function(name, idx) {
+    var st = (LENDER_STATUS[l.id]||{})[name] || {status:'Pending', submitted:'Apr 14', expected:'TBD', notes:'Under review.'};
+    var sc = statusColors[st.status] || statusColors['Pending'];
+
+    // Bank view: only show current bank's own entry with full detail, others anonymised
+    var isThisBank = (CURRENT_PORTAL==='bank-mgr' || CURRENT_PORTAL==='bank-officer') && name==='Shore Premier Finance';
+    var showName = isBroker || isThisBank;
+    var displayName = showName ? name : ('Lender ' + (idx+1));
+
+    html += '<div style="border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:8px">';
+
+    // Card header
+    html += '<div style="background:var(--g10);padding:11px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)">';
+    html += '<div style="width:8px;height:8px;border-radius:50%;background:'+sc.dot+';flex-shrink:0"></div>';
+    html += '<div style="font-family:var(--fh);font-size:13px;font-weight:600;flex:1">'+displayName+'</div>';
+    html += '<span class="pill" style="background:'+sc.bg+';color:'+sc.color+'">'+st.status+'</span>';
+    html += '</div>';
+
+    // Timeline row
+    html += '<div style="padding:11px 14px">';
+    html += '<div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:'+(st.notes?'8':'0')+'px">';
+    html += '<div><div class="fi-lbl">Submitted</div><div style="font-size:13px">'+st.submitted+'</div></div>';
+    if(st.decision) {
+      html += '<div><div class="fi-lbl">Decision date</div><div style="font-size:13px">'+st.decision+'</div></div>';
+    } else if(st.expected) {
+      html += '<div><div class="fi-lbl">Expected by</div><div style="font-size:13px;color:var(--amber)">'+st.expected+'</div></div>';
+    }
+    if(st.rate)   html += '<div><div class="fi-lbl">Offered rate</div><div style="font-family:var(--fh);font-size:13px;font-weight:600;color:var(--teal-d)">'+st.rate+'</div></div>';
+    if(st.amount) html += '<div><div class="fi-lbl">Approved amount</div><div style="font-family:var(--fh);font-size:13px;font-weight:600">'+st.amount+'</div></div>';
+    if(st.term)   html += '<div><div class="fi-lbl">Term</div><div style="font-size:13px">'+st.term+'</div></div>';
+    html += '</div>';
+    if(st.notes) html += '<div style="font-size:12px;color:var(--muted);line-height:1.5;padding-top:6px;border-top:1px solid var(--border)">'+st.notes+'</div>';
+
+    // Bank sees warning if multiple lenders
+    if(!isBroker && subs.length > 1 && isThisBank) {
+      html += '<div class="af af-warn" style="margin-top:8px;margin-bottom:0">This application was also submitted to '+(subs.length-1)+' other lender'+(subs.length>1?'s':'')+'. You are in a competitive review.</div>';
+    }
+
+    html += '</div></div>';
+  });
+
+  // Action buttons for broker
+  if(isBroker && approved > 0) {
+    html += '<div class="af af-ok" style="margin-top:4px">At least one lender has approved. You can now proceed to loan agreement and EasySign.</div>';
+  }
+
+  return html;
+}
+
+function showPendingDecisions() {
+  // Switch to loans subtab
+  BM_SUBTAB = 'loans';
+  document.querySelectorAll('#bm-tab-loans,#bm-tab-officers').forEach(function(t){t.classList.remove('active');});
+  var lt = document.getElementById('bm-tab-loans');
+  if(lt) lt.classList.add('active');
+
+  // Restore header/tabs in case VATO was open
+  var bmEl = document.getElementById('bm-loans');
+  if(bmEl) {
+    var bkHd = bmEl.querySelector('.bk-hd');
+    var tabsEl = bmEl.querySelector('.tabs');
+    if(bkHd) bkHd.style.display = '';
+    if(tabsEl) tabsEl.style.display = '';
+    var body = document.getElementById('bm-body');
+    if(body) body.style.padding = '';
+  }
+
+  // Filter to only loans with pending decisions
+  BM_FILTERED = LOANS.filter(function(l){ return l.decision === true; });
+
+  // Show a banner + filtered table
+  var body2 = document.getElementById('bm-body');
+  if(!body2) return;
+
+  var toolbar = '<div style="display:flex;gap:10px;margin-bottom:14px;align-items:center">' +
+    '<div class="af af-warn" style="flex:1;margin-bottom:0">Showing loans with pending credit decisions. Your action is required on each.</div>' +
+    '<button class="btn btn-sm" onclick="BM_FILTERED=null;renderBmBody()">Clear filter</button>' +
+    '</div>';
+
+  body2.innerHTML = toolbar + loanTable(BM_FILTERED, ['borrower','vessel','amount','stage','officer','broker','days','flags','actions-bank']);
+
+  // Highlight active pipeline KPI subtitle
+  T('Showing ' + BM_FILTERED.length + ' loans pending your decision.');
+}
+
+function dealerGoToDocs() {
+  // Activate the My documents sidebar item
+  document.querySelectorAll('#portal-dealer .sb-i').forEach(function(i){i.classList.remove('active');});
+  var docItem = document.querySelector('#portal-dealer .sb-i[onclick*="docs"]');
+  if(docItem) docItem.classList.add('active');
+  renderDealerBody('docs');
+}
+
+function renderOfficerKpis(myLoans) {
+  var kpiEl = document.getElementById('officer-kpis');
+  if(!kpiEl) return;
+  var vol = myLoans.reduce(function(s,l){return s+parseFloat(l.amount.replace(/[$,]/g,''));},0);
+  var volStr = vol>=1000000 ? '$'+(vol/1000000).toFixed(1)+'M' : '$'+(vol/1000).toFixed(0)+'K';
+  var pending = myLoans.filter(function(l){return l.decision;}).length;
+  var funded = 8;
+  var avgDays = 3.8;
+  var speedColor = avgDays < 4 ? 'var(--teal)' : '#FDB022';
+  var kpis = [
+    {lbl:'My active loans', val:myLoans.length, sub:'my book', color:'white', underline:true, onclick:"showOfficerTab('loans',null)"},
+    {lbl:'My pipeline', val:volStr, sub:'total volume', color:'white'},
+    {lbl:'Pending decisions', val:pending, sub:pending>0?'action required':'all clear',
+     color:pending>0?'#FDB022':'var(--teal)', onclick:pending>0?"showOfficerPendingDecisions()":''},
+    {lbl:'Funded this month', val:funded, sub:'loans closed', color:'var(--teal)'},
+    {lbl:'Avg turnaround', val:avgDays+'d', sub:'-0.4 vs last mo.', color:speedColor}
+  ];
+  kpiEl.innerHTML = kpis.map(function(k){
+    var click = k.onclick ? 'onclick="'+k.onclick+'" style="cursor:pointer"' : '';
+    var ul = k.underline ? 'text-decoration:underline;text-decoration-color:rgba(255,255,255,0.3);text-underline-offset:3px;' : '';
+    return '<div class="bkpi" '+click+'>'+
+      '<div class="bkpi-lbl">'+k.lbl+'</div>'+
+      '<div class="bkpi-val" style="color:'+(k.color||'white')+';'+ul+'">'+k.val+'</div>'+
+      '<div class="bkpi-sub" style="color:'+(k.color||'rgba(255,255,255,0.4)')+'">'+k.sub+'</div>'+
+      '</div>';
+  }).join('');
+}
+
+function showOfficerPendingDecisions() {
+  var body = document.getElementById('officer-body');
+  var title = document.getElementById('officer-tab-title');
+  if(!body) return;
+  var myLoans = LOANS.filter(function(l){return l.oid==='dp';});
+  var pending = myLoans.filter(function(l){return l.decision;});
+  if(title) title.textContent = 'Decisions required';
+  body.innerHTML = '<div class="af af-warn" style="margin-bottom:12px">'+
+    pending.length+' loan'+(pending.length!==1?'s':'')+' pending your credit decision.</div>'+
+    loanTable(pending,['borrower','vessel','amount','stage','broker','days','flags','actions-bank']);
+}
 </script>
-
-<!-- DOCUMENT VIEWER -->
-<div class="docviewer-overlay" id="docviewer">
-  <div class="docviewer-box">
-    <div class="docviewer-hd">
-      <div>
-        <div class="docviewer-title" id="dv-title">Document</div>
-        <div class="docviewer-meta" id="dv-meta"></div>
-      </div>
-      <div class="docviewer-sp"></div>
-      <button class="btn btn-sm" style="background:rgba(255,255,255,0.1);color:white;border-color:rgba(255,255,255,0.2)" onclick="downloadDoc()">Download</button>
-      <button class="docviewer-close" onclick="closeDocViewer()">×</button>
-    </div>
-    <div class="docviewer-body" id="dv-body"></div>
-    <div class="docviewer-footer">
-      <span class="docviewer-footer-note">This document is confidential. Do not share outside of authorised parties. Viewing is logged.</span>
-      <div style="flex:1"></div>
-      <button class="btn btn-sm" onclick="closeDocViewer()">Close</button>
-    </div>
-  </div>
-</div>
-
-
-<!-- CO-BORROWER MODAL -->
-<div class="overlay" id="cb-modal">
-  <div class="modal" style="width:500px">
-    <div class="modal-hd">
-      <div class="modal-title" id="cb-modal-title">Add co-borrower</div>
-      <button class="modal-close" onclick="document.getElementById('cb-modal').classList.remove('show')">×</button>
-    </div>
-    <div class="modal-body">
-      <input type="hidden" id="cb-loan-id">
-      <div style="font-family:var(--fh);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:10px">Co-borrower details</div>
-      <div class="fg fg2" style="margin-bottom:12px">
-        <div><div class="fi-lbl">First name</div><input id="cb-first" class="fi-in" placeholder="First name"></div>
-        <div><div class="fi-lbl">Last name</div><input id="cb-last" class="fi-in" placeholder="Last name"></div>
-        <div><div class="fi-lbl">Email</div><input id="cb-email" class="fi-in" type="email" placeholder="Email address"></div>
-        <div><div class="fi-lbl">Phone</div><input id="cb-phone" class="fi-in" placeholder="(305) 000-0000"></div>
-        <div><div class="fi-lbl">Date of birth</div><input id="cb-dob" class="fi-in" type="date"></div>
-        <div><div class="fi-lbl">Relationship to borrower</div>
-          <select id="cb-rel" class="fi-sel">
-            <option>Spouse</option>
-            <option>Partner</option>
-            <option>Business partner</option>
-            <option>Parent</option>
-            <option>Sibling</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div><div class="fi-lbl">Annual income</div><input id="cb-income" class="fi-in" placeholder="$0.00"></div>
-        <div><div class="fi-lbl">Employment status</div>
-          <select id="cb-employment" class="fi-sel">
-            <option>Employed</option>
-            <option>Self-employed</option>
-            <option>Retired</option>
-            <option>Business owner</option>
-          </select>
-        </div>
-      </div>
-      <div class="af af-info" style="margin-bottom:14px">Adding a co-borrower will trigger a new KYC verification for this individual. The borrower will be notified by email.</div>
-      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--border)">
-        <button class="btn" onclick="document.getElementById('cb-modal').classList.remove('show')">Cancel</button>
-        <button class="btn btn-primary" onclick="saveCoBorrower()">Save co-borrower</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
