@@ -509,10 +509,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
         <div class="sb-ic"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M3 1h6l3 3v9H3V1z" opacity="0.4"/><path d="M9 1v3h3"/><rect x="5" y="7" width="5" height="1.2"/><rect x="5" y="9" width="3.5" height="1.2"/></svg></div>
         Doc requests <span class="sb-badge warn">2</span>
       </div>
-      <div class="sb-i" onclick="showBrokerTab('lender-match',this)">
-        <div class="sb-ic"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><rect x="1" y="5" width="13" height="9" rx="1" opacity="0.4"/><rect x="3" y="3" width="9" height="2" rx="1" opacity="0.6"/><rect x="5.5" y="1" width="4" height="2" rx="1"/></svg></div>
-        Send to lender
-      </div>
+
     </div>
     <div class="sb-div"></div>
     <div class="sb-s">
@@ -636,11 +633,36 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);font-size:14px
 
 <!-- DOC REQUEST MODAL -->
 <div class="overlay" id="req-modal">
-  <div class="modal" style="width:460px">
+  <div class="modal" style="width:520px">
     <div class="modal-hd"><div class="modal-title" id="req-modal-title">Request documents</div><button class="modal-close" onclick="closeReqModal()">×</button></div>
     <div class="modal-body">
       <div style="font-family:var(--fh);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:10px">Select documents to request</div>
       <div class="req-check-list" id="req-check-list"></div>
+
+      <div style="margin-bottom:14px">
+        <div style="font-family:var(--fh);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:8px">Additional documents</div>
+        <div id="req-custom-docs"></div>
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <select id="req-custom-select" class="fi-sel" style="flex:1;height:33px">
+            <option value="">— Select a document to add —</option>
+            <option>Insurance binder</option>
+            <option>USCG documentation / State title</option>
+            <option>Proof of ownership transfer</option>
+            <option>HIN verification photo</option>
+            <option>Signed purchase agreement</option>
+            <option>Survey report</option>
+            <option>Engine service records</option>
+            <option>Registration certificate</option>
+            <option>Lien release letter</option>
+            <option>Corporate resolution (if LLC/Corp buyer)</option>
+            <option>Trust certification</option>
+            <option>Other (specify below)</option>
+          </select>
+          <button class="btn btn-sm" onclick="addCustomReqDoc()" style="flex-shrink:0">+ Add</button>
+        </div>
+        <input id="req-custom-other" class="fi-in" placeholder="Describe the document..." style="display:none;margin-top:6px;width:100%">
+      </div>
+
       <div style="margin-bottom:14px">
         <div style="font-family:var(--fh);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px">Note to recipient</div>
         <textarea id="req-note" style="width:100%;height:80px;padding:10px 12px;border-radius:var(--r);border:1px solid var(--g100);background:var(--g10);font-size:13px;font-family:var(--fb);outline:none;resize:none;line-height:1.5" placeholder="Optional note..."></textarea>
@@ -763,7 +785,7 @@ var LENDERS = [
   {id:'sp', name:'Shore Premier Finance', minLoan:100000, maxLoan:20000000, minCredit:680, maxDTI:45, maxLTV:80, rateRange:'6.25–7.80%', avgDays:4.2, vesselTypes:['Personal','Charter'], terms:[120,180,240], notes:'Preferred for high-value loans. Fastest turnaround.'},
   {id:'ec', name:'Essex Credit', minLoan:50000, maxLoan:5000000, minCredit:660, maxDTI:43, maxLTV:80, rateRange:'6.99–8.50%', avgDays:5.8, vesselTypes:['Personal'], terms:[120,180,240], notes:'Good fallback for mid-range loans under $5M.'},
   {id:'mb', name:'Medallion Bank', minLoan:75000, maxLoan:7500000, minCredit:650, maxDTI:48, maxLTV:85, rateRange:'7.25–9.00%', avgDays:6.1, vesselTypes:['Personal','Charter','Commercial'], terms:[120,180,240], notes:'Higher LTV tolerance. Good for charter vessels.'},
-  {id:'tf', name:'Trident Funding', minLoan:100000, maxLoan:10000000, minCredit:700, maxDTI:42, maxLTV:80, rateRange:'6.50–8.25%', avgDays:5.0, vesselTypes:['Personal','Charter'], terms:[120,180,240], notes:'Competitive rates for well-qualified borrowers.'},
+  {id:'ub', name:'US Bank', minLoan:100000, maxLoan:10000000, minCredit:700, maxDTI:42, maxLTV:80, rateRange:'6.50–8.25%', avgDays:5.0, vesselTypes:['Personal','Charter'], terms:[120,180,240], notes:'Competitive rates for well-qualified borrowers.'},
   {id:'ls', name:'LightStream', minLoan:5000, maxLoan:100000, minCredit:640, maxDTI:50, maxLTV:null, rateRange:'7.99–10.49%', avgDays:2.1, vesselTypes:['Personal'], terms:[24,48,60,84], notes:'Unsecured. Good for small loans under $100K. Fastest approval.'}
 ];
 
@@ -835,13 +857,13 @@ var LOAN_SUBMISSIONS = {
   'EF-0043': ['Shore Premier Finance'],
   'EF-0044': [],
   'EF-0045': ['Shore Premier Finance', 'Essex Credit'],
-  'EF-0046': ['Shore Premier Finance', 'Medallion Bank', 'Trident Funding'],
+  'EF-0046': ['Shore Premier Finance', 'Medallion Bank', 'US Bank'],
   'EF-0047': ['Shore Premier Finance'],
   'EF-0048': ['Shore Premier Finance'],
   'EF-0049': ['Shore Premier Finance', 'Essex Credit'],
   'EF-0050': ['Shore Premier Finance'],
   'EF-0051': ['Shore Premier Finance'],
-  'EF-0052': ['Shore Premier Finance', 'Trident Funding'],
+  'EF-0052': ['Shore Premier Finance', 'US Bank'],
   'EF-0053': []
 };
 
@@ -1219,8 +1241,8 @@ function renderOfficerBody(tab) {
         DR('Bank statements','Requested by lender','Missing')+
         DR('USCG documentation','Vessel title verification','Missing')+
         '<div style="display:flex;gap:8px;margin-top:10px">'+
-        '<button class="btn btn-primary btn-sm" data-broker="'+l.broker+'" onclick="T(\'Request forwarded to \'+this.dataset.broker+\' at Gulf Coast Marine Finance.\',true)">Send to '+l.broker+'</button>'+
-        '<button class="btn btn-sm btn-outline" onclick="openReqModal(\''+l.id+'\')">Request more</button>'+
+        '<button class="btn btn-primary btn-sm" data-broker="'+l.broker+'" onclick="T(\'Request forwarded to \'+this.dataset.broker+\' at Gulf Coast Marine Finance.\',true)">Send to '+l.broker+' &middot; Gulf Coast Marine Finance</button>'+
+        '<button class="btn btn-sm btn-outline" onclick="openReqModal(\''+l.id+'\')">Request more docs</button>'+
         '</div></div></div>';
     }).join('');
     body.innerHTML = '<div class="af af-warn" style="margin-bottom:14px">You have '+pending.length+' loan'+(pending.length!==1?'s':'')+' with outstanding document requests.</div>'+reqItems2;
@@ -1260,7 +1282,11 @@ function renderBrokerMgrBody() {
   var body = document.getElementById('broker-mgr-body');
   if(!body) return;
   if(BM2_SUBTAB==='loans') {
-    body.innerHTML = loanTable(LOANS,['borrower','vessel','amount','stage','officer','broker','dealer','days','flags','actions-broker']);
+    var allLoans = LOANS.slice().sort(function(a,b){
+      var so = {signed:0,submitted:1,sent_for_signature:2,draft:3};
+      return (so[(APP_SIGN_STATE[a.id]||{}).state||'draft']||3) - (so[(APP_SIGN_STATE[b.id]||{}).state||'draft']||3);
+    });
+    body.innerHTML = renderBrokerDealsTable(allLoans);
   } else {
     var html = '';
     BROKERS.forEach(function(b) {
@@ -1303,49 +1329,12 @@ function renderBrokerBody(tab) {
 
   if(tab==='active') {
     if(title) title.textContent = 'My active deals';
-    // Extended actions for broker: view, edit, request info, send for signature, match lender
-    var h = '<div style="background:var(--surface);border-radius:var(--rl);border:1px solid var(--border);overflow:hidden"><table class="ltbl"><thead><tr><th>Borrower</th><th>Vessel</th><th>Amount</th><th>Stage</th><th>App status</th><th>File</th><th>Actions</th></tr></thead><tbody>';
-    myLoans.forEach(function(l){
-      var stateForScore = (APP_SIGN_STATE[l.id]||{}).state || 'draft';
-      var fileScore = stateForScore==='signed' ? 100
-        : stateForScore==='sent_for_signature' ? 88
-        : stateForScore==='submitted' ? 95
-        : (l.fileScore || 72);
-      var fileColor = fileScore>=85?'var(--green)':fileScore>=65?'var(--amber)':'var(--red)';
-      var readyToSend = fileScore >= 85;
-      h += '<tr class="clickable" onclick="openDp(\''+ l.id +'\')">';
-      h += '<td><div class="lt-name">'+l.name+'</div><div class="lt-sub">'+l.id+'</div></td>';
-      h += '<td style="font-size:13px">'+l.vessel+'</td>';
-      h += '<td class="lt-amount">'+l.amount+'</td>';
-      h += '<td>'+stagePill(l.stage)+'</td>';
-      var appState = (APP_SIGN_STATE[l.id]||{}).state || 'draft';
-      var appStateLabel = appState==='signed'
-        ? '<span class="pill sp-approved">&#10003; Signed &amp; ready</span>'
-        : appState==='sent_for_signature'
-        ? '<span class="pill sp-action">&#9993; Awaiting signature</span>'
-        : appState==='submitted'
-        ? '<span class="pill sp-funded">Submitted</span>'
-        : '<span class="pill sp-neutral">&#9998; In preparation</span>';
-      h += '<td>'+appStateLabel+'</td>';
-      h += '<td><span style="font-family:var(--fh);font-size:12px;font-weight:700;color:'+fileColor+'">'+fileScore+'<span style="font-weight:400;color:var(--muted)">/100</span></span></td>';
-      h += '<td><div style="display:flex;gap:3px;flex-wrap:wrap">';
-      h += '<button class="btn btn-xs" onclick="event.stopPropagation();openDp(\''+ l.id +'\')" >View</button>';
-      // State-based primary action
-      if(appState==='draft') {
-        h += '<button class="btn btn-xs btn-primary" onclick="event.stopPropagation();openBrokerEdit(\''+ l.id +'\')" >&#9998; Edit &amp; send</button>';
-      } else if(appState==='sent_for_signature') {
-        h += '<button class="btn btn-xs btn-outline" onclick="event.stopPropagation();openBrokerEdit(\''+ l.id +'\')" >Edit</button>';
-        h += '<button class="btn btn-xs" onclick="event.stopPropagation();remindToSign(\''+ l.id +'\')" >Send reminder</button>';
-      } else if(appState==='signed') {
-        h += '<button class="btn btn-xs btn-primary" onclick="event.stopPropagation();showLenderSelect(\''+ l.id +'\')" >Submit to lender</button>';
-      } else if(appState==='submitted') {
-        h += '<button class="btn btn-xs" onclick="event.stopPropagation();openDp(\''+ l.id +'\')" >View file</button>';
-      }
-      h += '</div></td></tr>';
+    var myLoans = LOANS.filter(function(l){ return l.boid==='ab'; });
+    myLoans = myLoans.slice().sort(function(a,b){
+      var so = {signed:0,submitted:1,sent_for_signature:2,draft:3};
+      return (so[(APP_SIGN_STATE[a.id]||{}).state||'draft']||3) - (so[(APP_SIGN_STATE[b.id]||{}).state||'draft']||3);
     });
-    h += '</tbody></table></div>';
-    body.innerHTML = h;
-
+    body.innerHTML = renderBrokerDealsTable(myLoans)
   } else if(tab==='requests') {
     if(title) title.textContent = 'Pending document requests';
     var reqHtml = '<div class="af af-warn" style="margin-bottom:16px">'+
@@ -1397,7 +1386,7 @@ function renderBrokerBody(tab) {
         reqHtml += DR(d.name, d.hint, d.status);
       });
       reqHtml += '<div style="display:flex;gap:8px;margin-top:12px">'+
-        '<button class="btn btn-primary btn-sm" data-name="'+req.name+'" onclick="T(\'Request forwarded to \'+this.dataset.name+\' via email and secure portal.\',true)">Forward to customer</button>'+
+        '<button class="btn btn-primary btn-sm" data-name="'+req.name+'" onclick="T(\'Request forwarded to \'+this.dataset.name+\' via email and secure portal.\',true)">Forward to '+req.name+'</button>'+
         '<button class="btn btn-sm btn-outline" onclick="T(\'Note saved.\')">Add note</button>'+
         '<button class="btn btn-sm" onclick="openReqModal(\''+req.id+'\')">Request more docs</button>'+
         '</div></div></div>';
@@ -1950,6 +1939,17 @@ function openReqModal(id) {
   var l = CURRENT_LOAN;
   if(!l) return;
   document.getElementById('req-modal-title').textContent = 'Request documents — '+l.name;
+  // Clear custom docs from previous open
+  var customContainer = document.getElementById('req-custom-docs');
+  if(customContainer) customContainer.innerHTML = '';
+  var customSel = document.getElementById('req-custom-select');
+  if(customSel) customSel.value = '';
+  var customOther = document.getElementById('req-custom-other');
+  if(customOther) { customOther.value = ''; customOther.style.display = 'none'; }
+  // Reset recipient selection
+  document.querySelectorAll('input[name="req-to"]').forEach(function(r){ r.checked = false; });
+  var err = document.getElementById('req-to-error');
+  if(err) err.style.display = 'none';
   var list = BORROWER_DOCS.filter(function(d){return d.status!=='Verified';}).map(function(d){
     return '<div class="req-check"><input type="checkbox" id="rmc_'+d.name.slice(0,8).replace(/\s/g,'_')+'" checked style="accent-color:var(--black);width:15px;height:15px"><label for="rmc_'+d.name.slice(0,8).replace(/\s/g,'_')+'" style="font-size:13px;cursor:pointer">'+d.name+' <span style="color:var(--amber);font-weight:600">('+d.status+')</span></label></div>';
   }).join('');
@@ -2563,7 +2563,7 @@ function loadBrokerApp(loanId) {
       {name:'Shore Premier Finance',rate:'6.25–7.80%',turn:'4.2 days',max:'$20,000,000',method:'Direct'},
       {name:'Essex Credit',rate:'6.99–8.50%',turn:'5.8 days',max:'$5,000,000',method:'Email'},
       {name:'Medallion Bank',rate:'7.25–9.00%',turn:'6.1 days',max:'$7,500,000',method:'Portal'},
-      {name:'Trident Funding',rate:'6.50–8.25%',turn:'5.0 days',max:'$10,000,000',method:'Direct'}
+      {name:'US Bank',rate:'6.50–8.25%',turn:'5.0 days',max:'$10,000,000',method:'Direct'}
     ];
     var alreadySent = LOAN_SUBMISSIONS[loanId] || [];
     lenderHtml = '<div class="sc" style="margin-top:12px">'+
@@ -3193,7 +3193,12 @@ function renderDpVato(l) {
       flags +
       '</div></div>';
   } else {
-    html += '<div class="af af-info" style="margin-bottom:14px">No VATO report has been submitted by the broker for this vessel yet.</div>';
+    html += '<div style="background:var(--amber-bg);border-left:3px solid var(--amber);border-radius:var(--r);padding:12px 14px;margin-bottom:16px">'+
+      '<div style="font-family:var(--fh);font-size:12px;font-weight:600;color:#78350F;margin-bottom:4px">Broker VATO not yet submitted</div>'+
+      '<div style="font-size:12px;color:#92400E;line-height:1.5">The lending broker has not yet submitted a vessel appraisal for this file. '+
+      'Each broker is required to submit a VATO before this loan can proceed to credit decision. '+
+      'You can run your own independent analysis below while awaiting the broker submission.</div>'+
+    '</div>';
   }
 
   // Independent analysis section
@@ -3204,7 +3209,7 @@ function renderDpVato(l) {
   var length = vato ? vato.length : 55;
   var price  = l ? l.amount : '';
 
-  html += '<div class="sc"><div class="sc-hd"><div class="sc-title">Run independent VATO analysis</div><span class="sc-sub">Override or verify broker valuation</span></div><div class="sc-body">' +
+  html += '<div class="sc"><div class="sc-hd"><div class="sc-title">Run independent VATO analysis</div><span class="sc-sub">Lender\'s own appraisal — independent of broker submission</span></div><div class="sc-body">' +
     '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px">' +
     '<div><div class="fi-lbl">Make</div><input id="dp-vi-make" class="fi-in" value="' + make + '"></div>' +
     '<div><div class="fi-lbl">Model</div><input id="dp-vi-model" class="fi-in" value="' + model + '"></div>' +
@@ -3399,7 +3404,7 @@ function renderLenderTimeline(l) {
     'EF-0046': {
       'Shore Premier Finance': {status:'Approved',  submitted:'Apr 10', decision:'Apr 13', rate:'7.10%', amount:'$510,000', term:'180 mo', notes:'Full approval. Awaiting loan docs.'},
       'Medallion Bank':        {status:'Declined',  submitted:'Apr 10', decision:'Apr 14', notes:'DTI exceeds maximum. Application not eligible.'},
-      'Trident Funding':       {status:'Pending',   submitted:'Apr 11', expected:'Apr 18', notes:'Still under review.'}
+      'US Bank':       {status:'Pending',   submitted:'Apr 11', expected:'Apr 18', notes:'Still under review.'}
     },
     'EF-0048': {
       'Shore Premier Finance': {status:'Pending', submitted:'Apr 13', expected:'Apr 17', notes:'VATO appraisal requested.'}
@@ -3410,7 +3415,7 @@ function renderLenderTimeline(l) {
     },
     'EF-0052': {
       'Shore Premier Finance': {status:'Pending',  submitted:'Apr 11', expected:'Apr 17', notes:'Large loan — senior underwriter review.'},
-      'Trident Funding':       {status:'Declined', submitted:'Apr 11', decision:'Apr 14', notes:'Loan exceeds maximum for vessel class.'}
+      'US Bank':       {status:'Declined', submitted:'Apr 11', decision:'Apr 14', notes:'Loan exceeds maximum for vessel class.'}
     }
   };
 
@@ -3575,6 +3580,184 @@ function showOfficerPendingDecisions() {
   body.innerHTML = '<div class="af af-warn" style="margin-bottom:12px">'+
     pending.length+' loan'+(pending.length!==1?'s':'')+' pending your credit decision.</div>'+
     loanTable(pending,['borrower','vessel','amount','stage','broker','days','flags','actions-bank']);
+}
+
+function toggleInlineLenders(loanId) {
+  var row = document.getElementById('lender-row-' + loanId);
+  if(!row) return;
+  var isOpen = row.style.display !== 'none';
+  // Close all other open pickers first
+  document.querySelectorAll('[id^="lender-row-"]').forEach(function(r){ r.style.display='none'; });
+  document.querySelectorAll('[id^="btn-lender-"]').forEach(function(b){
+    if(b) { var lid = b.id.replace('btn-lender-',''); var subs2 = LOAN_SUBMISSIONS[lid]||[]; b.textContent = subs2.length>0?'+ Add lender':'Send to lender'; }
+  });
+  if(!isOpen) {
+    row.style.display = 'table-row';
+    var btn = document.getElementById('btn-lender-'+loanId);
+    if(btn) btn.textContent = 'Cancel';
+  }
+}
+
+function submitInlineLenders(loanId) {
+  var checked = Array.prototype.slice.call(document.querySelectorAll('.il-cb-'+loanId+':checked:not(:disabled)'));
+  if(!checked.length) { T('Select at least one lender.'); return; }
+  var l = LOANS.find(function(x){ return x.id===loanId; });
+  if(!LOAN_SUBMISSIONS[loanId]) LOAN_SUBMISSIONS[loanId] = [];
+  var newOnes = [];
+  checked.forEach(function(cb){
+    if(LOAN_SUBMISSIONS[loanId].indexOf(cb.value) < 0) {
+      LOAN_SUBMISSIONS[loanId].push(cb.value);
+      newOnes.push(cb.value);
+    }
+  });
+  if(!newOnes.length) { T('Already submitted to all selected lenders.'); return; }
+  if(l) { l.stage='Lender submit'; l.si=5; }
+  if(APP_SIGN_STATE[loanId]) APP_SIGN_STATE[loanId].state = 'submitted';
+  T('\u2713 Submitted to: '+newOnes.join(', ')+'. Total lenders: '+LOAN_SUBMISSIONS[loanId].length+'.', true);
+  renderBrokerBody('active');
+}
+
+function addCustomReqDoc() {
+  var sel = document.getElementById('req-custom-select');
+  var otherInput = document.getElementById('req-custom-other');
+  var container = document.getElementById('req-custom-docs');
+  if(!sel || !container) return;
+
+  var val = sel.value;
+  if(!val) { T('Select a document type first.'); return; }
+
+  var docName = val === 'Other (specify below)'
+    ? (otherInput ? otherInput.value.trim() : '')
+    : val;
+
+  if(!docName) { T('Please describe the document.'); return; }
+
+  // Check not already added
+  var existing = container.querySelectorAll('.req-custom-item');
+  for(var i=0; i<existing.length; i++){
+    if(existing[i].dataset.name === docName) { T('Already added: ' + docName); return; }
+  }
+
+  // Add chip
+  var chip = document.createElement('div');
+  chip.className = 'req-custom-item req-check';
+  chip.dataset.name = docName;
+  chip.style.cssText = 'display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--g10);margin-bottom:5px';
+  chip.innerHTML = '<input type="checkbox" checked style="accent-color:var(--black);width:14px;height:14px">'+
+    '<label style="font-size:13px;flex:1">'+docName+'</label>'+
+    '<button onclick="this.parentElement.remove()" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:16px;line-height:1;padding:0">&times;</button>';
+  container.appendChild(chip);
+
+  // Reset
+  sel.value = '';
+  if(otherInput) { otherInput.value = ''; otherInput.style.display = 'none'; }
+  T(docName + ' added to request.', true);
+}
+
+// Show/hide "Other" text input
+document.addEventListener('change', function(e) {
+  if(e.target && e.target.id === 'req-custom-select') {
+    var other = document.getElementById('req-custom-other');
+    if(other) other.style.display = e.target.value === 'Other (specify below)' ? 'block' : 'none';
+  }
+});
+
+
+function renderBrokerDealsTable(loans) {
+  var rows = loans.map(function(l){
+    var stateForScore = (APP_SIGN_STATE[l.id]||{}).state || 'draft';
+    var fileScore = stateForScore==='signed' ? 100 : stateForScore==='sent_for_signature' ? 88 : stateForScore==='submitted' ? 95 : (l.fileScore||72);
+    var fileColor = fileScore>=85?'var(--green)':fileScore>=65?'var(--amber)':'var(--red)';
+    var appState = stateForScore;
+    var subs = LOAN_SUBMISSIONS[l.id] || [];
+
+    var appStateLabel = appState==='signed'
+      ? '<span class="pill sp-approved">&#10003; Signed &amp; ready</span>'
+      : appState==='sent_for_signature'
+      ? '<span class="pill sp-action">&#9993; Awaiting signature</span>'
+      : appState==='submitted'
+      ? '<span class="pill sp-funded">Submitted</span>'
+      : '<span class="pill sp-neutral">&#9998; In preparation</span>';
+
+    var subBadge = subs.length>0 ? ' <span style="font-size:10px;color:var(--muted)">('+subs.length+' lender'+(subs.length!==1?'s':'')+' submitted)</span>' : '';
+
+    var actions = '<div style="display:flex;gap:3px;flex-wrap:nowrap">';
+    actions += '<button class="btn btn-xs" onclick="event.stopPropagation();openDp(\''+l.id+'\')">View</button>';
+    if(appState==='draft') {
+      actions += '<button class="btn btn-xs btn-primary" onclick="event.stopPropagation();openBrokerEdit(\''+l.id+'\')">&#9998; Edit &amp; send</button>';
+    } else if(appState==='sent_for_signature') {
+      actions += '<button class="btn btn-xs btn-outline" onclick="event.stopPropagation();openBrokerEdit(\''+l.id+'\')">Edit</button>';
+      actions += '<button class="btn btn-xs" onclick="event.stopPropagation();remindToSign(\''+l.id+'\')">Remind</button>';
+    } else if(appState==='signed' || appState==='submitted') {
+      actions += '<button class="btn btn-xs btn-primary" onclick="event.stopPropagation();toggleInlineLenders(\''+l.id+'\')" id="btn-lender-'+l.id+'">'+(subs.length>0?'+ Add lender':'Send to lender')+'</button>';
+    }
+    actions += '</div>';
+
+    // Lender match data
+    var bScore = 748;
+    var bAmount = parseFloat(l.amount.replace(/[$,]/g,''));
+    var lenderData = [
+      {name:'Shore Premier Finance', minCredit:680, maxLoan:20000000, rate:'6.25–7.80%', turn:'4.2d', specialty:'High-value personal use'},
+      {name:'Essex Credit',          minCredit:660, maxLoan:5000000,  rate:'6.99–8.50%', turn:'5.8d', specialty:'Mid-range, flexible DTI'},
+      {name:'Medallion Bank',        minCredit:650, maxLoan:7500000,  rate:'7.25–9.00%', turn:'6.1d', specialty:'Charter & commercial'},
+      {name:'US Bank',       minCredit:700, maxLoan:10000000, rate:'6.50–8.25%', turn:'5.0d', specialty:'Competitive well-qualified'}
+    ];
+    var lenderTable = '<table style="width:100%;border-collapse:collapse;font-size:12px">'+
+      '<thead><tr style="border-bottom:1px solid var(--border)">'+
+      '<th style="padding:5px 7px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;color:var(--muted);font-family:var(--fh)"></th>'+
+      '<th style="padding:5px 7px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;color:var(--muted);font-family:var(--fh)">Lender</th>'+
+      '<th style="padding:5px 7px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;color:var(--muted);font-family:var(--fh)">Rate</th>'+
+      '<th style="padding:5px 7px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;color:var(--muted);font-family:var(--fh)">Turn</th>'+
+      '<th style="padding:5px 7px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;color:var(--muted);font-family:var(--fh)">Match</th>'+
+      '<th style="padding:5px 7px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;color:var(--muted);font-family:var(--fh)">Status</th>'+
+      '</tr></thead><tbody>';
+    lenderData.forEach(function(lr){
+      var sent = subs.indexOf(lr.name)>=0;
+      var sc = 0;
+      if(bScore>=lr.minCredit+60) sc+=38; else if(bScore>=lr.minCredit+20) sc+=25; else sc+=10;
+      if(bAmount<=lr.maxLoan*0.5) sc+=35; else if(bAmount<=lr.maxLoan*0.8) sc+=22; else sc+=8;
+      sc = Math.min(sc+18, 99);
+      var mc = sc>=80?'var(--green)':sc>=60?'var(--amber)':'var(--red)';
+      var ml = sc>=80?'Strong fit':sc>=60?'Good fit':'Review';
+      lenderTable += '<tr style="border-bottom:1px solid var(--border)'+(sent?';background:var(--g25)':'')+'">'+
+        '<td style="padding:7px 7px"><input type="checkbox" class="il-cb-'+l.id+'" value="'+lr.name+'" '+(sent?'disabled checked':'')+' style="accent-color:var(--black);width:14px;height:14px;cursor:pointer"></td>'+
+        '<td style="padding:7px 7px"><div style="font-weight:600">'+(sent?'<s>':'')+lr.name+(sent?'</s>':'')+'</div><div style="font-size:11px;color:var(--muted)">'+lr.specialty+'</div></td>'+
+        '<td style="padding:7px 7px;font-family:var(--fh)">'+lr.rate+'</td>'+
+        '<td style="padding:7px 7px;color:var(--muted)">'+lr.turn+'</td>'+
+        '<td style="padding:7px 7px"><span style="font-weight:700;color:'+mc+'">'+sc+'%</span><div style="font-size:10px;color:'+mc+'">'+ml+'</div></td>'+
+        '<td style="padding:7px 7px">'+(sent?'<span style="color:var(--teal-d);font-weight:600">&#10003; Sent</span>':'<span style="color:var(--muted)">Not sent</span>')+'</td>'+
+        '</tr>';
+    });
+    lenderTable += '</tbody></table>';
+
+    var mainRow = '<tr id="tr-'+l.id+'" class="clickable" onclick="openDp(\''+l.id+'\')">'+
+      '<td><div class="lt-name">'+l.name+'</div><div class="lt-sub">'+l.id+'</div></td>'+
+      '<td style="font-size:12px">'+l.vessel+'</td>'+
+      '<td class="lt-amount">'+l.amount+'</td>'+
+      '<td>'+stagePill(l.stage)+'</td>'+
+      '<td>'+appStateLabel+subBadge+'</td>'+
+      '<td><span style="font-family:var(--fh);font-size:12px;font-weight:700;color:'+fileColor+'">'+fileScore+'<span style="font-weight:400;color:var(--muted)">/100</span></span></td>'+
+      '<td>'+actions+'</td>'+
+      '</tr>';
+
+    var lenderRow = '<tr id="lender-row-'+l.id+'" style="display:none">'+
+      '<td colspan="7" style="padding:12px 16px;background:var(--g10);border-bottom:2px solid var(--black)">'+
+        '<div style="font-family:var(--fh);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:10px">Select lenders for '+l.name+'</div>'+
+        lenderTable+
+        '<div style="display:flex;gap:8px;align-items:center;margin-top:10px">'+
+        '<button class="btn btn-primary btn-sm" data-lid="'+l.id+'" onclick="submitInlineLenders(this.dataset.lid)">Submit to selected</button>'+
+        '<button class="btn btn-sm" onclick="toggleInlineLenders(\''+l.id+'\')">Cancel</button>'+
+        (subs.length>0?'<span style="font-size:12px;color:var(--muted)">Already sent to: '+subs.join(', ')+'</span>':'')+
+        '</div>'+
+      '</td></tr>';
+
+    return mainRow + lenderRow;
+  }).join('');
+
+  return '<div style="background:var(--surface);border-radius:var(--rl);border:1px solid var(--border);overflow:hidden">'+
+    '<table class="ltbl"><thead><tr>'+
+    '<th>Borrower</th><th>Vessel</th><th>Amount</th><th>Stage</th><th>App status</th><th>File</th><th>Actions</th>'+
+    '</tr></thead><tbody>'+rows+'</tbody></table></div>';
 }
 </script>
 </body>
